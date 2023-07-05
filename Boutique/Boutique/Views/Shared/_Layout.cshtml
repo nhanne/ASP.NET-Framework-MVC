@@ -1,0 +1,65 @@
+﻿@using Boutique.Models;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhân Boutique</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/mystyle.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/responsive.css">
+</head>
+
+<body>
+
+    @{
+    BoutiqueEntities _db = new BoutiqueEntities();
+    var dsCate = from s in _db.Categories select s;
+    ViewBag.dsCate = dsCate.ToList();
+   
+    }
+
+    <!--=================================================== NAVBAR============================================================ -->
+    <nav id="navbar" class="container">
+        <a href="#" class="navbar-brand">boutique</a>
+        <button id="mobile-menu"><i class="far fa-align-justify"></i></button>
+        <ul id="navbar-center">
+            <li><a class="nav-link active" href="index.html">home</a></li>
+            <li class="nav-dropdown">
+                <a href="@Url.Action("Store","Home")">store</a>
+                <ul class="dropdown-menu">
+                    @foreach (var Cate in ViewBag.dsCate)
+                                        {
+                    <li><a class="dropdown-item" href="#">@Cate.Name</a></li>
+                                        }
+                </ul>
+            </li>
+            <li><a class="nav-link" href="contact.html">contact</a></li>
+            <li><a class="nav-link" href="#about">about</a></li>
+        </ul>
+        <ul id="navbar-right">
+            <li>
+                <button type="button" onclick="navSearch()" class="nav-search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <form class="dropdown-search" id="dropdown-search">
+                    <input type="text" id="search-box" placeholder="Bạn đang tìm gì đó ? ">
+                    <button class="btnsearch">tìm kiếm</button>
+                </form>
+            </li>
+            <li><a class="nav-icon" href=""><i class="far fa-shopping-bag "></i></a></li>
+            <li><a class="nav-icon" href="@Url.Action("Login","Account")"><i class="far fa-user "></i></a></li>
+        </ul>
+    </nav>
+
+
+    @RenderBody()
+
+
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/myscript.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+</body>
+</html>

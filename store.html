@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOP</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="assets/base.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/responsive.css">
+
+
+
+</head>
+
+<body>
+    <!--=================================================== LOADER============================================================ -->
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+    <!--=================================================== BACKTOP ============================================================ -->
+    <div id="backtop">
+        <i class="fal fa-arrow-to-top"></i>
+    </div>
+    <!--=================================================== NAVBAR============================================================ -->
+
+    <nav id="navbar" class="container">
+        <a href="#" class="navbar-brand">boutique</a>
+        <button id="mobile-menu"><i class="far fa-align-justify"></i></button>
+        <ul id="navbar-center">
+            <li><a class="nav-link active" href="index.html">home</a></li>
+            <li class="nav-dropdown">
+                <a href="store.html">store</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Sweater</a></li>
+                    <li><a class="dropdown-item" href="#">Jacket</a></li>
+                    <li><a class="dropdown-item" href="#">Pants</a></li>
+                    <li><a class="dropdown-item" href="#">Tee</a></li>
+                    <li><a class="dropdown-item" href="#">Flannel</a></li>
+                    <li><a class="dropdown-item" href="#">Backpack</a></li>
+                    <li><a class="dropdown-item" href="#">Caps</a></li>
+                </ul>
+            </li>
+            <li><a class="nav-link" href="contact.html">contact</a></li>
+            <li><a class="nav-link" href="#about">about</a></li>
+        </ul>
+        <ul id="navbar-right">
+            <li>
+                <button type="button" onclick="navSearch()" class="nav-search"><i
+                            class="fas fa-search"></i></button>
+                <form class="dropdown-search" id="dropdown-search">
+                    <input type="text" id="search-box" placeholder="Bạn đang tìm gì đó ? ">
+                    <button class="btnsearch">tìm kiếm</button>
+                </form>
+            </li>
+            <li><a class="nav-icon" href=""><i class="far fa-shopping-bag "></i></a></li>
+            <li><a class="nav-icon" href="login.html"><i class="far fa-user "></i></a></li>
+        </ul>
+    </nav>
+
+    <!--=================================================== BODY ============================================================ -->
+    <section id="main" class="container">
+
+        <div class="grid app__content">
+            <div class="store__heading ">
+                <div class="home-filter">
+                      <div class="home-filter__page">
+                        <span class="home-filter__page-num">
+                            <a href="index.html" class="myactionlink">Home</a> /
+                            <span class="home-filter__page-current">Store</span> 
+                        </span>
+                    </div>
+                    <span class="home-filter__label">Sắp xếp theo</span>
+                 
+                    <div class="select-input">
+                        <span class="select-input__label">Giá</span>
+                        <i class="fas fa-solid fa-caret-down"></i>
+                        <ul class="select-input__list">
+                            <li class="select-input__item">
+                                <a href="/?sort=new" class="select-input__link">Mới nhất</a>
+                            </li>
+                            <li class="select-input__item">
+                                <a href="/?sort=hot" class="select-input__link">Bán chạy</a>
+                            </li>
+                            <li class="select-input__item">
+                                <a href="/?sort=selling" class="select-input__link">Khuyến mãi</a>
+                            </li>
+                            <li class="select-input__item">
+                                <a href="/?sort=asc" class="select-input__link">Giá: thấp đến cao</a>
+                            </li>
+                            <li class="select-input__item">
+                                <a href="/?sort=desc" class="select-input__link">Giá: cao đến thấp</a>
+                            </li>
+                        </ul>
+                    </div>
+                  
+                </div>
+            </div>
+
+            <div class="grid__row store__body">
+                <div class="grid__column-2">
+                    <nav class="category">
+                        <ul class="category-list">
+                            <li class="category-item" id="ctg">
+                                <a href="#" class="category-item__link">Tee</a>
+                            </li>
+                            <li class="category-item" id="ctg">
+                                <a href="#" class="category-item__link">Shoes</a>
+                            </li> 
+                            <li class="category-item" id="ctg">
+                                <a href="#" class="category-item__link">Jacket</a>
+                            </li>
+                            <li class="category-item" id="ctg">
+                                <a href="#" class="category-item__link">Backpack</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                
+                <div class="grid__column-10" id="release">
+                    <ul id="products" class="row">
+                        <li>
+                            <div class="product-item">
+                                <div class="product-top">
+                                    <a href="" class="product-thumb"><img src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/13-Long-sleeve-300x298.jpg"></a>
+                                    <a href="product.html" class="buynow">xem ngay</a>
+                                </div>
+                                <div class="product-info">
+                                    <a href="" class="product-cat">Sweater</a>
+                                    <a href="" class="product-name">13 Long Sleeve</a>
+                                    <div class="product-price">
+                                       <span class="product--costPrice">550.000 <span class="product--currentPrice">₫</span> </span> 
+                                       <span class="product--unitPrice">500.000 <span class="product--currentPrice">₫</span></span> 
+                                    </div>
+                                    <div class="store-product__sale-off">
+                                        <span class="store-product__sale-off-percent">10 %</span>
+                                        <span class="store-product__sale-off-label">Sale</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-item">
+                                <div class="product-top">
+                                    <a href="" class="product-thumb"><img src="https://havefunwiththehomies.com/wp-content/uploads/2021/11/shoes-black5-300x300.jpg"></a>
+                                    <a href="" class="buynow">mua ngay</a>
+                                </div>
+                                <div class="product-info">
+                                    <a href="" class="product-cat">Shoes</a>
+                                    <a href="" class="product-name">Black Signature Shoes</a>
+                                    <div class="product-price">890.000 ₫</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-item">
+                                <div class="product-top">
+                                    <a href="" class="product-thumb"><img src="https://havefunwiththehomies.com/wp-content/uploads/2021/11/shoes-white-300x300.jpg"></a>
+                                    <a href="" class="buynow">mua ngay</a>
+        
+                                </div>
+                                <div class="product-info">
+                                    <a href="" class="product-cat">Sweater</a>
+                                    <a href="" class="product-name">13 Long Sleeve</a>
+                                    <div class="product-price">500.000 ₫</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-item">
+                                <div class="product-top">
+                                    <a href="" class="product-thumb"><img src="https://havefunwiththehomies.com/wp-content/uploads/2021/11/lifes-a-beach-sweater-300x300.jpg"></a>
+                                    <a href="" class="buynow">mua ngay</a>
+        
+                                </div>
+                                <div class="product-info">
+                                    <a href="" class="product-cat">Sweater</a>
+                                    <a href="" class="product-name">13 Long Sleeve</a>
+                                    <div class="product-price">500.000 ₫</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-item">
+                                <div class="product-top">
+                                    <a href="" class="product-thumb"><img src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/holiday-jk-2020-300x300.jpg"></a>
+                                    <a href="" class="buynow">mua ngay</a>
+        
+                                </div>
+                                <div class="product-info">
+                                    <a href="" class="product-cat">Sweater</a>
+                                    <a href="" class="product-name">13 Long Sleeve</a>
+                                    <div class="product-price">500.000 ₫</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-item">
+                                <div class="product-top">
+                                    <a href="" class="product-thumb"><img src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/4x4_1-300x300.png"></a>
+                                    <a href="" class="buynow">mua ngay</a>
+        
+                                </div>
+                                <div class="product-info">
+                                    <a href="" class="product-cat">Sweater</a>
+                                    <a href="" class="product-name">13 Long Sleeve</a>
+                                    <div class="product-price">500.000 ₫</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-item">
+                                <div class="product-top">
+                                    <a href="" class="product-thumb"><img src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/13-Long-sleeve-300x298.jpg"></a>
+                                    <a href="" class="buynow">mua ngay</a>
+        
+                                </div>
+                                <div class="product-info">
+                                    <a href="" class="product-cat">Sweater</a>
+                                    <a href="" class="product-name">13 Long Sleeve</a>
+                                    <div class="product-price">500.000 ₫</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="product-item">
+                                <div class="product-top">
+                                    <a href="" class="product-thumb"><img src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/bw-300x300.jpg"></a>
+                                    <a href="" class="buynow">mua ngay</a>
+        
+                                </div>
+                                <div class="product-info">
+                                    <a href="" class="product-cat">Sweater</a>
+                                    <a href="" class="product-name">13 Long Sleeve</a>
+                                    <div class="product-price">500.000 ₫</div>
+                                </div>
+                            </div>
+                        </li>
+        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!--=================================================== FOOTER============================================================ -->
+    <footer id="footer" class="container">
+    </footer>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="assets/javascript.js"></script>
+</body>
+
+</html>

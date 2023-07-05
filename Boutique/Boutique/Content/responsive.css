@@ -1,0 +1,76 @@
+/*=========================== PC ==============================*/
+
+@media (min-width: 1024px) {}
+
+
+/*=========================== TABLET ==============================*/
+
+@media (min-width: 740px) and (max-width: 1023px) {}
+
+
+/*=========================== MOBILE ==============================*/
+
+@media (max-width: 740px) {
+    .container {
+        padding: 0 20px;
+    }
+    /*=========================== NAVBAR ==============================*/
+    #navbar {
+        display: block;
+        padding: 12px 20px;
+        overflow: hidden;
+    }
+    #navbar button {
+        display: inline-block;
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        font-size: 1.25rem;
+        padding: .25rem .75rem;
+        border-radius: .25rem;
+        transition: box-shadow .15s
+    }
+    #navbar-right button.nav-search {
+        position: static;
+        width: 100%;
+    }
+    #navbar-right button.btnsearch {
+        position: static;
+    }
+    ul#navbar-center,
+    ul#navbar-right {
+        display: block;
+        text-align: center;
+    }
+    ul#navbar-center a,
+    ul#navbar-right a {
+        display: block;
+    }
+    #navbar .dropdown-menu,
+    #navbar .dropdown-search {
+        position: static;
+        background-color: transparent;
+    }
+    #navbar-right .dropdown-search input {
+        width: 60%;
+    }
+    /*=========================== BANNER ==============================*/
+    #banner #logo{
+        display:block;
+        width: 100vw;
+    }
+    #slideshow {
+        display:block;
+        width: 100vw;
+    }
+        /*=========================== MAIN ==============================*/
+    #about.row {
+        display: block;
+    }
+    #about .colum {
+        padding: 20px;
+    }
+    #products li {
+        flex-basis: 50%;
+    }
+}

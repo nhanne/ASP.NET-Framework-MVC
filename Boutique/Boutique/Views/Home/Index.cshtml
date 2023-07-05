@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+
+}
+<!--=================================================== LOADER============================================================ -->
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+<!--=================================================== BACKTOP ============================================================ -->
+<div id="backtop">
+    <i class="fal fa-arrow-to-top"></i>
+</div>
+
+<!--=================================================== BANNER ============================================================ -->
+
+<div id="banner">
+    <div id="logo"></div>
+    <div id="slideshow">
+    </div>
+
+</div>
+
+<!--=================================================== MAIN ============================================================ -->
+
+<section id="main" class="container">
+    <div id="about" class="row">
+        <div class="colum colum-item1">
+            <a href="/Images/main1.jpg" target="_blank"><img src="~/Images/main1.jpg"></a>
+        </div>
+        <div class="colum colum-item2">
+            <h2>ABOUT US</h2>
+            The main objective of a fashion website is to keep the viewer in the site long enough for them to see the latest collection. Some fashion websites have interactive elements and try to transform the visit into a sensory experience for the user. In this
+            post we have compiled 50 of the best fashion websites you can find on the Internet right now.
+            <ul class="social_media">
+                <li style="--i:#5599ff;--j: #51dcff;">
+                    <span class="icon"><i class="fab fa-facebook"></i></span>
+                    <a href="https://www.facebook.com/ttnhan12" class="titulo">Facebook</a>
+                </li>
+                <li style="--i:#a955ff;--j: #ea51ff;">
+                    <span class="icon"><i class="fab fa-instagram"></i></span>
+                    <a href="https://www.instagram.com/tnhannn___/" class="titulo">Instagram</a>
+                </li>
+                <li style="--i:#7455ff;--j: #a251ff;">
+                    <span class="icon"><i class="fab fa-linkedin"></i></span>
+                    <span class="titulo">Linkedin</span>
+                </li>
+            </ul>
+        </div>
+        <div class="colum colum-item3">
+            <a href="/Images/main2.jpg" target="_blank"><img src="~/Images/main2.jpg"></a>
+        </div>
+    </div>
+
+
+    <div id="release">
+        <div id="headline">
+            <h3>NEW RELEASE</h3>
+        </div>
+        <ul id="products" class="row">
+            @foreach (var product in ViewBag.dsProduct)
+            {
+                <li class="product-item">
+                    <div class="product-top">
+                        <a href="" class="product-thumb"><img src="/Images/sp/@Url.Content(@product.Picture)"></a>
+                        <a href="#" class="buynow">xem ngay</a>
+                    </div>
+                    <div class="product-info">
+                        <a href="" class="product-cat"> @product.Category.Name</a>
+                        <a href="" class="product-name">@product.Name</a>
+                        <div class="product-price">
+                            <span class="product--costPrice">@string.Format("{0:#,0}", product.costPrice) <span class="product--currentPrice">₫</span> </span>
+                            <span class="product--unitPrice">@string.Format("{0:#,0}", product.unitPrice) <span class="product--currentPrice">₫</span></span>
+                        </div>
+                        <div class="store-product__sale-off">
+                            <span class="store-product__sale-off-percent">@product.Sale %</span>
+                            <span class="store-product__sale-off-label">Sale</span>
+                        </div>
+                    </div>
+            </li>
+        }
+        </ul>
+    </div>
+</section>
+<!--=================================================== TOATS============================================================ -->
+<div id="toast">
+    <div class="toast toast--success">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-body">
+            <h3 class="toast-title">SUCCESS</h3>
+            <p class="toast-msg">đã đăng ký thành công</p>
+        </div>
+        <div class="toast-close">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
+
+</div>
+
+
+<!--=================================================== FOOTER============================================================ -->
+<footer id="footer" class="container">
+</footer>
+
