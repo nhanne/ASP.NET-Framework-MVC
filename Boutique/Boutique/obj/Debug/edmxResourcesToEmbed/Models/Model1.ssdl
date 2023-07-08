@@ -19,8 +19,8 @@
     <Property Name="Avatar" Type="nvarchar(max)" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
     <Property Name="DateOfBirth" Type="date" />
-    <Property Name="CMT" Type="char" MaxLength="1" />
-    <Property Name="Phone" Type="char" MaxLength="1" />
+    <Property Name="CMT" Type="char" MaxLength="12" />
+    <Property Name="Phone" Type="char" MaxLength="10" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
@@ -66,6 +66,7 @@
     <Property Name="Quantity" Type="int" />
     <Property Name="Sold" Type="int" />
     <Property Name="Sale" Type="int" />
+    <Property Name="stockInDate" Type="date" />
   </EntityType>
   <EntityType Name="Staff">
     <Key>
@@ -91,7 +92,7 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
-  <Association Name="FK__Order__CustomerI__2D27B809">
+  <Association Name="FK__Order__CustomerI__4BAC3F29">
     <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
     <End Role="Order" Type="Self.Order" Multiplicity="*" />
     <ReferentialConstraint>
@@ -103,7 +104,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Order__Status__2E1BDC42">
+  <Association Name="FK__Order__Status__4CA06362">
     <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
     <End Role="Order" Type="Self.Order" Multiplicity="*" />
     <ReferentialConstraint>
@@ -115,7 +116,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderDeta__Order__30F848ED">
+  <Association Name="FK__OrderDeta__Order__4F7CD00D">
     <End Role="Order" Type="Self.Order" Multiplicity="1" />
     <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -127,7 +128,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderDeta__Produ__31EC6D26">
+  <Association Name="FK__OrderDeta__Produ__5070F446">
     <End Role="Product" Type="Self.Product" Multiplicity="1" />
     <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -160,19 +161,19 @@
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Order__CustomerI__2D27B809" Association="Self.FK__Order__CustomerI__2D27B809">
+    <AssociationSet Name="FK__Order__CustomerI__4BAC3F29" Association="Self.FK__Order__CustomerI__4BAC3F29">
       <End Role="Customer" EntitySet="Customer" />
       <End Role="Order" EntitySet="Order" />
     </AssociationSet>
-    <AssociationSet Name="FK__Order__Status__2E1BDC42" Association="Self.FK__Order__Status__2E1BDC42">
+    <AssociationSet Name="FK__Order__Status__4CA06362" Association="Self.FK__Order__Status__4CA06362">
       <End Role="OrderStatus" EntitySet="OrderStatus" />
       <End Role="Order" EntitySet="Order" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderDeta__Order__30F848ED" Association="Self.FK__OrderDeta__Order__30F848ED">
+    <AssociationSet Name="FK__OrderDeta__Order__4F7CD00D" Association="Self.FK__OrderDeta__Order__4F7CD00D">
       <End Role="Order" EntitySet="Order" />
       <End Role="OrderDetail" EntitySet="OrderDetail" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderDeta__Produ__31EC6D26" Association="Self.FK__OrderDeta__Produ__31EC6D26">
+    <AssociationSet Name="FK__OrderDeta__Produ__5070F446" Association="Self.FK__OrderDeta__Produ__5070F446">
       <End Role="Product" EntitySet="Product" />
       <End Role="OrderDetail" EntitySet="OrderDetail" />
     </AssociationSet>

@@ -30,6 +30,7 @@ namespace Boutique.Models
         public Nullable<int> Quantity { get; set; }
         public Nullable<int> Sold { get; set; }
         public Nullable<int> Sale { get; set; }
+        public Nullable<System.DateTime> stockInDate { get; set; }
     
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

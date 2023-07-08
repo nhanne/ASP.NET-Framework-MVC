@@ -1,8 +1,178 @@
-﻿
+﻿@using PagedList.Mvc;
+@using PagedList;
+
 @{
     ViewBag.Title = "Store";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var cate = ViewBag.Cate;
+    var pageIndex = ViewBag.CurrentPage;
+    var sort = ViewBag.Sort;
+    var currentSort = ViewBag.currentSort;
+    var search = ViewBag.Search;
+    var totalPages = ViewBag.TotalPages;
+    List<Boutique.Models.Product> dsProduct = ViewBag.dsProduct as List<Boutique.Models.Product>;
+
 }
 
-<h2>Store</h2>
+<section id="main" class="container">
 
+    <div class="grid app__content">
+        <div class="store__heading ">
+            <div class="home-filter">
+                <div class="home-filter__page">
+                    <span class="home-filter__page-num">
+                        <a href="@Url.Action("Index", "Home")" class="myactionlink">Home</a>/
+                        <a href="@Url.Action("Store", "Home")" class="myactionlink">Store</a>/
+                        @ViewBag.Cate
+                    </span>
+                </div>
+                <span class="home-filter__label">Sắp xếp theo</span>
+
+                <div class="select-input">
+                    <span class="select-input__label">  @(ViewBag.Sort != null ? ViewBag.currentSort : "Mặc định")</span>
+                    <i class="fas fa-solid fa-caret-down"></i>
+                    <ul class="select-input__list">
+                        <li class="select-input__item">
+                            <a href="@Url.Action("Store", "Home")" class="select-input__link">Mặc định</a>
+                        </li>
+                        <li class="select-input__item">
+                            <a href="@Url.Action("Store", "Home", new {sort = "new", category = cate, search = search})" class="select-input__link">Mới nhất</a>
+                        </li>
+                        <li class="select-input__item">
+                            <a href="@Url.Action("Store", "Home", new {sort = "hot", category = cate, search = search})" class="select-input__link">Bán chạy</a>
+                        </li>
+                        <li class="select-input__item">
+                            <a href="@Url.Action("Store", "Home", new {sort = "sale", category = cate, search = search})" class="select-input__link">Khuyến mãi</a>
+                        </li>
+                        <li class="select-input__item">
+                            <a href="@Url.Action("Store", "Home", new {sort = "asc", category = cate, search = search})" class="select-input__link">Giá: thấp đến cao</a>
+                        </li>
+                        <li class="select-input__item">
+                            <a href="@Url.Action("Store", "Home", new {sort = "desc", category = cate, search = search})" class="select-input__link">Giá: cao đến thấp</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="grid__row store__body">
+            <div class="grid__column-2">
+                <nav class="category">
+                    <ul class="category-list">
+                        <li class="category-item" id="ctg">
+                            <a href="@Url.Action("Store","Home")" class="category-item__link">NEW Stuff</a>
+                        </li>
+                        @foreach (var item in ViewBag.dsCate)
+                        {
+                            <li class="category-item" id="ctg">
+                                <a href="@Url.Action("Store","Home", new {category = @item.Name})" class="category-item__link">@item.Name</a>
+                            </li>
+
+                        }
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="grid__column-10" id="release">
+
+                @if (totalPages == 0)
+                {
+                    <span style="display:block;padding: 12px 16px">Không tìm thấy sản phẩm <span style="font-weight:bold; font-size: 2rem"> @ViewBag.search</span>.</span>
+                }
+
+                <ul id="products" class="row">
+
+                    @foreach (var product in ViewBag.dsProduct)
+                    {
+                        <li class="product-item">
+                            <div class="product-top">
+                                <a href="" class="product-thumb"><img src="/Images/sp/@Url.Content(@product.Picture)"></a>
+                                <a href="#" class="buynow">xem ngay</a>
+                                @if (product.Quantity == 0)
+                                {
+                                    <span class="sold">out of stock</span>
+                                }
+                            </div>
+                            <div class="product-info">
+                                <a href="" class="product-cat"> @product.Category.Name</a>
+                                <a href="" class="product-name">@product.Name</a>
+                                <div class="product-price">
+                                    @if (product.costPrice > product.unitPrice)
+                                    {
+                                        <span class="product--costPrice">@string.Format("{0:#,0}", product.costPrice) <span class="product--currentPrice">₫</span> </span>
+                                        <span class="product--unitPrice">@string.Format("{0:#,0}", product.unitPrice) <span class="product--currentPrice">₫</span></span>
+                                    }
+                                    else
+                                    {
+                                        <span> </span>
+                                        <span class="product--unitPrice">@string.Format("{0:#,0}", product.unitPrice) <span class="product--currentPrice">₫</span></span>
+                                    }
+                                </div>
+                                @if (product.Sale > 0)
+                                {
+                                    <div class="store-product__sale-off">
+                                        <span class="store-product__sale-off-percent">@product.Sale %</span>
+                                        <span class="store-product__sale-off-label">Sale</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="store-product__sale-off">
+                                        <span class="store-product__sale-off-percent">Deal</span>
+                                        <span class="store-product__sale-off-label">Hot</span>
+                                    </div>
+                                }
+                            <button class="detail__operation-addCart btn btn-order" type="button" title="Order" id="openModal" onclick="addToCart('@product.Id', '@Request.Url.ToString()')">
+                                Thêm vào giỏ hàng
+                            </button>
+                            </div>
+                        </li>
+                    }
+                </ul>
+                @* Tạo liên kết các trang *@
+                @if (totalPages > 1)
+                {
+                    <div class="MenuTrang pagination">
+                        @Html.PagedListPager((IPagedList<Boutique.Models.Product>)ViewBag.dsProduct, page => Url.Action("Store", new { sort = sort, pageIndex = page }),
+                            new PagedListRenderOptions()
+                            {
+                                LiElementClasses = new[] { "paginate_button page-item page-link" },
+                                UlElementClasses = new[] { "pagination" }
+                            })
+                    </div>
+                }
+
+               
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function addToCart(productId, url) {
+        $.ajax({
+            url: '@Url.Action("addtoCart", "Cart")',
+            type: 'POST',
+            data: { IdProduct: productId, strURL: url },
+            success: function (data) {
+                // Xử lý kết quả trả về từ server
+                document.getElementsByClassName("toast-close")[0].addEventListener("click", function () {
+                    window.location.href = data;
+                });
+                // Hiển thị popup
+                $('.header-search__cart-list').hide();
+                $('#toast').show();
+                setTimeout(function () {
+                    window.location.href = data;
+                }, 5000);
+
+            },
+            error: function (error) {
+                // Xử lý lỗi nếu có
+            }
+        });
+    }
+
+</script>

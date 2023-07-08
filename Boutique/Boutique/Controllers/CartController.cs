@@ -32,6 +32,7 @@ namespace Boutique.Controllers
         }
 
         // Thêm sản phẩm vào giỏ hàng
+        [HttpPost]
         public ActionResult addtoCart(int IdProduct, string strURL)
         {
             // Lấy ra session giỏ hàng
@@ -42,13 +43,13 @@ namespace Boutique.Controllers
             {
                 product = new Cart(IdProduct);
                 listCart.Add(product);
-                return Redirect(strURL);
             }
             else
             {
                 product.Quantity++;
-                return Redirect(strURL);
             }
+            ViewBag.noti = "Đã thêm sản phẩm vào giỏ hàng";
+            return Content(strURL);
         }
         // Tính tổng số lượng sản phẩm
         public int totalQuantity()
@@ -88,6 +89,19 @@ namespace Boutique.Controllers
             if (listCart.Count == 0)
             {
                 return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index");
+        }
+        // Cập nhật giỏ hàng
+        public ActionResult UpdateCart(int IdProduct, FormCollection f)
+        {
+            // Lấy giỏ hàng từ session
+            List<Cart> listCart = getCart();
+            // Kiểm tra sản phẩm có trong giỏ hàng hay không
+            Cart product = listCart.SingleOrDefault(n => n.IdProduct == IdProduct);
+            if (product != null)
+            {
+                product.Quantity = int.Parse(f["quantity"].ToString());
             }
             return RedirectToAction("Index");
         }

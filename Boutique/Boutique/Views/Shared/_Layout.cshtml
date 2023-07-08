@@ -5,19 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhân Boutique</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Images/logo.png">
+    <title>Boutique - @ViewBag.title</title>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <link rel="stylesheet" type="text/css" href="~/Content/mystyle.css">
     <link rel="stylesheet" type="text/css" href="~/Content/responsive.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/base.css">
+
+    @{ 
+        List<Cart> list = (List<Cart>)Session["Cart"] as List<Cart>;
+    }
 </head>
 
 <body>
 
     @{
-    BoutiqueEntities _db = new BoutiqueEntities();
-    var dsCate = from s in _db.Categories select s;
-    ViewBag.dsCate = dsCate.ToList();
-   
+        BoutiqueEntities _db = new BoutiqueEntities();
+        var dsCate = from s in _db.Categories select s;
+        ViewBag.dsCate = dsCate.ToList();
+
     }
 
     <!--=================================================== NAVBAR============================================================ -->
@@ -25,41 +31,97 @@
         <a href="#" class="navbar-brand">boutique</a>
         <button id="mobile-menu"><i class="far fa-align-justify"></i></button>
         <ul id="navbar-center">
-            <li><a class="nav-link active" href="index.html">home</a></li>
-            <li class="nav-dropdown">
-                <a href="@Url.Action("Store","Home")">store</a>
-                <ul class="dropdown-menu">
-                    @foreach (var Cate in ViewBag.dsCate)
-                                        {
-                    <li><a class="dropdown-item" href="#">@Cate.Name</a></li>
-                                        }
-                </ul>
-            </li>
+            <li><a class="nav-link" href="@Url.Action("Index","Home")">home</a></li>
+            <li><a class="nav-link" href="@Url.Action("Store","Home")">store</a></li>
             <li><a class="nav-link" href="contact.html">contact</a></li>
-            <li><a class="nav-link" href="#about">about</a></li>
         </ul>
         <ul id="navbar-right">
             <li>
                 <button type="button" onclick="navSearch()" class="nav-search">
                     <i class="fas fa-search"></i>
                 </button>
-                <form class="dropdown-search" id="dropdown-search">
-                    <input type="text" id="search-box" placeholder="Bạn đang tìm gì đó ? ">
-                    <button class="btnsearch">tìm kiếm</button>
-                </form>
+                @using (Html.BeginForm("Store", "Home", FormMethod.Get, new { @class = "dropdown-search", @id = "dropdown-search" }))
+                {
+                    @Html.TextBox("search", null, new { @id = "search-box", @placeholder = "Nhập tên sản phẩm  " })
+                    <button class="btnsearch" onclick="location.href='@Url.Action("Store", "Home")'">
+                        Tìm kiếm
+                    </button>
+                }
             </li>
-            <li><a class="nav-icon" href=""><i class="far fa-shopping-bag "></i></a></li>
+            <li>
+                <a class="nav-icon header-search__cart" href="@Url.Action("Index","Cart")">
+                    <i class="far fa-shopping-bag "></i>
+                    @if (list != null)
+                    {
+                        if (list.Count == 0)
+                        {
+                            <div class="header-search__cart-list header-search__cart-list--no-card">
+                                <div class="header-search__cart-list-no-cart-msg">Chưa có sản phẩm</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="header-search__cart-list">
+                                <h4 class="header__cart-heading">Sản phẩm đã thêm</h4>
+                                <ul class="header__cart-list-item">
+                                    <!-- cart-item -->
+                                    @foreach (var item in list)
+                                    {
+                                        <li class="header__cart-item">
+                                            <img src="~/Images/sp/@Url.Content(item.Picture)" alt="SP" class="header__cart-img">
+                                            <div class="header__cart-item-info">
+                                                <div class="header__cart-item-head">
+                                                    <h5 class="header__cart-item-name">@item.ProductName</h5>
+
+                                                </div>
+                                                <div class="header__cart-item-body">
+                                                    <div class="header__cart-item-price-wrap">
+                                                        <span class="header__cart-item-price">@string.Format("{0:#,0}", item.unitPrice) vnđ</span>
+                                                        <span class="header__cart-item-multiply">x</span>
+                                                        <span class="header__cart-item-qty">@item.Quantity</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                                <div style="display:flex; align-items:center;justify-content:center">
+                                    <button class="btn btn--primary header__cart-view-cart" style="display:block; border: 1px solid black"
+                                            onclick="location.href='@Url.Action("Index", "Cart")'">
+                                        Xem giỏ hàng
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    }
+                </a>
+            </li>
             <li><a class="nav-icon" href="@Url.Action("Login","Account")"><i class="far fa-user "></i></a></li>
         </ul>
     </nav>
 
+    <!--=================================================== TOATS============================================================ -->
+    <div id="toast">
+        <div class="toast toast--success">
+            <div class="toast-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="toast-body">
+                <h3 class="toast-title">SUCCESS</h3>
+                <p class="toast-msg">đã thêm sản phẩm vào giỏ hàng.</p>
+            </div>
+            <div class="toast-close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
 
+    </div>
     @RenderBody()
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script src="~/Scripts/myscript.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

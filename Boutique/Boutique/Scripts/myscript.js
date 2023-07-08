@@ -1,4 +1,4 @@
-// ===========================  navbar-collapse =========================== 
+﻿// ===========================  navbar-collapse =========================== 
 var navbar = document.getElementById('navbar');
 var mobileMenu = document.getElementById('mobile-menu');
 var navbarHeight = navbar.clientHeight;
@@ -40,4 +40,6 @@ $(document).ready(function() {
         }, 1000);
     });
 
+   
 });
+

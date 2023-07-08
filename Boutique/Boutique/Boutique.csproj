@@ -229,12 +229,14 @@
     <Content Include="Areas\Admin\Assets\vendor\select2\select2.js" />
     <Content Include="Areas\Admin\Assets\vendor\select2\select2.min.css" />
     <Content Include="Areas\Admin\Assets\vendor\select2\select2.min.js" />
+    <Content Include="Content\base.css" />
     <Content Include="Content\login\bootstrap.min.css" />
     <Content Include="Content\login\bootstrap.min.js" />
     <Content Include="Content\login\jquery.min.js" />
     <Content Include="Content\login\main.js" />
     <Content Include="Content\login\style.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\responsive.css" />
     <Content Include="Images\anh1.jpg" />
     <Content Include="Images\anh2.jpg" />
     <Content Include="Images\anh3.jpg" />
@@ -245,6 +247,7 @@
     <Content Include="Images\main1.jpg" />
     <Content Include="Images\main2.jpg" />
     <Content Include="Images\nhan.png" />
+    <Content Include="Images\sp\sp08.jpg" />
     <Content Include="Images\sp\sp01.jpg" />
     <Content Include="Images\sp\sp02.jpg" />
     <Content Include="Images\sp\sp03.jpg" />
@@ -252,6 +255,7 @@
     <Content Include="Images\sp\sp05.jpg" />
     <Content Include="Images\sp\sp06.jpg" />
     <Content Include="Images\sp\sp07.jpg" />
+    <Content Include="Images\sp\sp09.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -263,7 +267,6 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\myscript.js" />
-    <Content Include="Content\responsive.css" />
     <Content Include="Content\mystyle.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

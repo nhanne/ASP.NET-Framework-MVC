@@ -48,8 +48,7 @@
         </ul>
         <ul id="navbar-right">
             <li>
-                <button type="button" onclick="navSearch()" class="nav-search"><i
-                            class="fas fa-search"></i></button>
+                <button type="button" onclick="navSearch()" class="nav-search"><i class="fas fa-search"></i></button>
                 <form class="dropdown-search" id="dropdown-search">
                     <input type="text" id="search-box" placeholder="Bạn đang tìm gì đó ? ">
                     <button class="btnsearch">tìm kiếm</button>
@@ -66,10 +65,10 @@
         <div class="grid app__content">
             <div class="store__heading ">
                 <div class="home-filter">
-                      <div class="home-filter__page">
+                    <div class="home-filter__page">
                         <span class="home-filter__page-num">
                             <a href="index.html" class="myactionlink">Home</a> /
-                            <span class="home-filter__page-current">Store</span> 
+                            <span class="home-filter__page-current">Store</span>
                         </span>
                     </div>
                     <span class="home-filter__label">Sắp xếp theo</span>
@@ -90,7 +89,7 @@
                             </li>
                         </ul>
                     </div>
-                  
+
                 </div>
             </div>
 
@@ -107,14 +106,140 @@
                         </ul>
                     </nav>
                 </div>
-                
+
                 <div class="grid__column-10" id="release">
-                  
+                    <div class="grid__row detail">
+                        <div class="grid__column-6 detail__picture">
+                            <img src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/13-Long-sleeve-300x298.jpg"
+                                alt="product">
+                        </div>
+                        <div class="gird__column-6 detail__info">
+                            <div class="detail__info-heading">Home/Shop/</div>
+                            <h1 class="detail__info-name">420 Long sleeve</h1>
+                            <h2 class="detail__info-price">500.000đ</h2>
+                            <div class="detail__info-size">
+                                <span class="detail__info-size-label">Size</span>
+                                <ul class="detail__info-size-list">
+                                    <li class="detail__info-size-item">M</li>
+                                    <li class="detail__info-size-item">L</li>
+                                    <li class="detail__info-size-item">XL</li>
+                                </ul>
+                            </div>
+                            <div class="detail__info-button">
+                                <div class="detail__info-button-qty">
+                                    <button class="detail__info-button-qty--l" type="submit"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+
+                                    <input min="1" name="quantity" value="@item.Quantity" type="number"
+                                        class="detail__info-button-qty--input" />
+
+                                    <button class="detail__info-button-qty--r" type="submit"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <button class="btn btn--primary detail__info-button-addtoCart" type="submit" onclick="">
+                                    Thêm vào giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+    <style>
+        .detail {}
 
+        .detail__picture img {
+            width: 100%;
+        }
+
+        .detail__info {}
+
+        .detail__info-heading {
+            color: rgba(102, 102, 102, .7);
+            font-weight: 400;
+            text-transform: uppercase;
+            margin: 8px 0
+        }
+
+        .detail__info-name {
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.3;
+            color: #555;
+            width: 100%;
+            margin: 8px 0
+        }
+        .detail__info-price{
+            font-size: 1.7rem;
+            margin: 8px 0
+        }
+        .detail__info-size{
+            margin: 8px 0
+        }
+        .detail__info-size-label{
+            font-weight: bold;
+        }
+        .detail__info-size-list{
+            display: flex;
+        }
+        .detail__info-size-item{
+            margin: 4px 4px 4px 0;
+            color: #555;
+            padding: 4px;
+            border-radius: 2px;
+            border: 1px solid #555;
+            width: 25px;
+            text-align: center;
+        }
+        .detail__info-button {
+            display: flex;
+            align-items: center;
+            margin: 8px 0
+        }
+
+        .detail__info-button-qty {
+            width: 100%;
+        }
+
+        .detail__info-button-qty--input {
+            max-width: 5rem;
+            width: 5rem;
+            height: 30px;
+            text-align: center;
+            border-radius: 0 !important;
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+            font-size: 1em;
+        }
+
+        .detail__info-button-qty--l,
+        .detail__info-button-qty--r {
+            overflow: hidden;
+            position: relative;
+            height: 30px;
+            background-color: #f9f9f9;
+            text-shadow: 1px 1px 1px #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            text-transform: none;
+            padding: 4px;
+        }
+
+        .detail__info-button-addtoCart {
+            opacity: 0.8;
+            margin-left: 10px;
+        }
+
+        .detail__info-button-addtoCart:hover {
+            opacity: 1;
+        }
+    </style>
 
     <!--=================================================== FOOTER============================================================ -->
     <footer id="footer" class="container">

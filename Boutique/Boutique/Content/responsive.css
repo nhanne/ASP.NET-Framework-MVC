@@ -14,63 +14,93 @@
     .container {
         padding: 0 20px;
     }
+
     /*=========================== NAVBAR ==============================*/
     #navbar {
         display: block;
-        padding: 12px 20px;
+        padding: 20px 20px;
         overflow: hidden;
     }
+
     #navbar button {
         display: inline-block;
         position: absolute;
-        top: 5px;
+        /* top: 5px; */
         right: 10px;
         font-size: 1.25rem;
         padding: .25rem .75rem;
         border-radius: .25rem;
         transition: box-shadow .15s
     }
+
     #navbar-right button.nav-search {
         position: static;
         width: 100%;
     }
+
     #navbar-right button.btnsearch {
         position: static;
     }
+
     ul#navbar-center,
     ul#navbar-right {
         display: block;
         text-align: center;
     }
+
     ul#navbar-center a,
     ul#navbar-right a {
         display: block;
     }
+
     #navbar .dropdown-menu,
     #navbar .dropdown-search {
         position: static;
         background-color: transparent;
     }
+
     #navbar-right .dropdown-search input {
         width: 60%;
     }
+
     /*=========================== BANNER ==============================*/
-    #banner #logo{
-        display:block;
-        width: 100vw;
+    #main #about .colum-item1 {
+        transform: none;
     }
-    #slideshow {
-        display:block;
-        width: 100vw;
+    #main #about .colum-item3 {
+        transform: none;
     }
-        /*=========================== MAIN ==============================*/
+    /*=========================== MAIN ==============================*/
     #about.row {
         display: block;
     }
+
     #about .colum {
         padding: 20px;
     }
+
     #products li {
         flex-basis: 50%;
+    }
+
+    /*=========================== STORE ==============================*/
+    .home-filter{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .home-filter__label, .home-filter__page-num{
+        display: none;
+    }
+    .home-filter__btn{
+        /* margin: auto; */
+    }
+    .select-input{
+        width: 100%;
+    }
+    .store__body .grid__column-2{
+        display: none;
+    }
+    .store__body .grid__column-10{
+        width: 100%;
     }
 }

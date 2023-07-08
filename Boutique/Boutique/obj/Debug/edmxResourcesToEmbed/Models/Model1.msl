@@ -60,6 +60,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="BoutiqueModel.Product">
         <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="stockInDate" ColumnName="stockInDate" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
           <ScalarProperty Name="Picture" ColumnName="Picture" />

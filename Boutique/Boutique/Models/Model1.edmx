@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BoutiqueModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BoutiqueModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Id" />
@@ -24,8 +24,8 @@
           <Property Name="Avatar" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar" MaxLength="250" />
           <Property Name="DateOfBirth" Type="date" />
-          <Property Name="CMT" Type="char" MaxLength="1" />
-          <Property Name="Phone" Type="char" MaxLength="1" />
+          <Property Name="CMT" Type="char" MaxLength="12" />
+          <Property Name="Phone" Type="char" MaxLength="10" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -71,6 +71,7 @@
           <Property Name="Quantity" Type="int" />
           <Property Name="Sold" Type="int" />
           <Property Name="Sale" Type="int" />
+          <Property Name="stockInDate" Type="date" />
         </EntityType>
         <EntityType Name="Staff">
           <Key>
@@ -96,7 +97,7 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <Association Name="FK__Order__CustomerI__2D27B809">
+        <Association Name="FK__Order__CustomerI__4BAC3F29">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -108,7 +109,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Order__Status__2E1BDC42">
+        <Association Name="FK__Order__Status__4CA06362">
           <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -120,7 +121,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Order__30F848ED">
+        <Association Name="FK__OrderDeta__Order__4F7CD00D">
           <End Role="Order" Type="Self.Order" Multiplicity="1" />
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -132,7 +133,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Produ__31EC6D26">
+        <Association Name="FK__OrderDeta__Produ__5070F446">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -165,19 +166,19 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Order__CustomerI__2D27B809" Association="Self.FK__Order__CustomerI__2D27B809">
+          <AssociationSet Name="FK__Order__CustomerI__4BAC3F29" Association="Self.FK__Order__CustomerI__4BAC3F29">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__Order__Status__2E1BDC42" Association="Self.FK__Order__Status__2E1BDC42">
+          <AssociationSet Name="FK__Order__Status__4CA06362" Association="Self.FK__Order__Status__4CA06362">
             <End Role="OrderStatus" EntitySet="OrderStatus" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Order__30F848ED" Association="Self.FK__OrderDeta__Order__30F848ED">
+          <AssociationSet Name="FK__OrderDeta__Order__4F7CD00D" Association="Self.FK__OrderDeta__Order__4F7CD00D">
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Produ__31EC6D26" Association="Self.FK__OrderDeta__Produ__31EC6D26">
+          <AssociationSet Name="FK__OrderDeta__Produ__5070F446" Association="Self.FK__OrderDeta__Produ__5070F446">
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
@@ -186,8 +187,7 @@
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BoutiqueModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -211,8 +211,8 @@
           <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
-          <Property Name="CMT" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Phone" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CMT" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Orders" Relationship="Self.FK__Order__CustomerI__2D27B809" FromRole="Customer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Order">
@@ -267,6 +267,7 @@
           <Property Name="Sale" Type="Int32" />
           <NavigationProperty Name="Category" Relationship="Self.FK__Product__Categor__267ABA7A" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Produ__31EC6D26" FromRole="Product" ToRole="OrderDetail" />
+          <Property Name="stockInDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Staff">
           <Key>
@@ -447,6 +448,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="BoutiqueModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="stockInDate" ColumnName="stockInDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Picture" ColumnName="Picture" />

@@ -20,8 +20,8 @@
     <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
-    <Property Name="CMT" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-    <Property Name="Phone" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="CMT" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
     <NavigationProperty Name="Orders" Relationship="Self.FK__Order__CustomerI__2D27B809" FromRole="Customer" ToRole="Order" />
   </EntityType>
   <EntityType Name="Order">
@@ -76,6 +76,7 @@
     <Property Name="Sale" Type="Int32" />
     <NavigationProperty Name="Category" Relationship="Self.FK__Product__Categor__267ABA7A" FromRole="Product" ToRole="Category" />
     <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Produ__31EC6D26" FromRole="Product" ToRole="OrderDetail" />
+    <Property Name="stockInDate" Type="DateTime" Precision="0" />
   </EntityType>
   <EntityType Name="Staff">
     <Key>
