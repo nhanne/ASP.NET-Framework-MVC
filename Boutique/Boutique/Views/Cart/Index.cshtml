@@ -60,15 +60,6 @@
                                             </div>
                                             }
                                         }
-
-
-                                            <div class="pt-5">
-                                                <h6 class="mb-0">
-                                                    <a href="@Url.Action("Index","Home")" class="text-body">
-                                                        <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
-                                                    </a>
-                                                </h6>
-                                            </div>
                                         </div>
                                 </div>
                                 <div class="col-lg-4 bg-grey">
@@ -110,9 +101,12 @@
 
 
                                         </div>
-
+                                          <button type="button" class="btn btn-light btn-block btn-lg"
+                                                    data-mdb-ripple-color="dark" onclick="location.href='@Url.Action("Index","Home")'">
+                                                Quay về
+                                            </button>
                                         <button type="button" class="btn btn-dark btn-block btn-lg"
-                                                data-mdb-ripple-color="dark">
+                                                data-mdb-ripple-color="dark" onclick="location.href='@Url.Action("CheckOut", "Cart")'">
                                             Đặt hàng
                                         </button>
 
@@ -126,7 +120,7 @@
         </div>
     </div>
 </section>
-</body>
+
 
 
 <style>

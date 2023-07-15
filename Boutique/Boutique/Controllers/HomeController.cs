@@ -14,7 +14,7 @@ namespace Boutique.Controllers
         public ActionResult Index()
         {
             var dsProduct = from p in _db.Products select p;
-            ViewBag.dsProduct = dsProduct.OrderByDescending(p=>p.stockInDate).Take(8).ToList();
+            ViewBag.dsProduct = dsProduct.OrderByDescending(p=>p.stockInDate).Take(4).ToList();
             return View();
         }
         public ActionResult Store(string sort,string category, string search, int pageIndex = 1)
@@ -34,9 +34,9 @@ namespace Boutique.Controllers
             }
             
             query = Sort(sort, query);
+            // Phân trang
             var products = query.ToList();
             ViewBag.dsProduct = products.ToPagedList(pageIndex, 8);
-            // Phân trang
             var totalPages = (int)Math.Ceiling((double)query.Count() / 8);
             ViewBag.CurrentPage = pageIndex;
             ViewBag.TotalPages = totalPages;

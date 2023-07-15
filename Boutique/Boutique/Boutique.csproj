@@ -125,6 +125,12 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.5.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.5.0\lib\net452\xunit.core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -173,10 +179,16 @@
     <Compile Include="Models\OrderDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OrderStatu.cs">
+    <Compile Include="Models\OrderStatus.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product_Sizes.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sizes.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Staff.cs">
@@ -247,6 +259,12 @@
     <Content Include="Images\main1.jpg" />
     <Content Include="Images\main2.jpg" />
     <Content Include="Images\nhan.png" />
+    <Content Include="Images\slideshow\1.jpg" />
+    <Content Include="Images\slideshow\2.jpg" />
+    <Content Include="Images\slideshow\3.jpg" />
+    <Content Include="Images\slideshow\4.jpg" />
+    <Content Include="Images\slideshow\5.jpg" />
+    <Content Include="Images\slideshow\6.jpg" />
     <Content Include="Images\sp\sp08.jpg" />
     <Content Include="Images\sp\sp01.jpg" />
     <Content Include="Images\sp\sp02.jpg" />
@@ -268,10 +286,6 @@
     </Content>
     <Content Include="Scripts\myscript.js" />
     <Content Include="Content\mystyle.css" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -327,17 +341,19 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\Store.cshtml" />
+    <Content Include="Views\Account\layout_login.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\edit.cshtml" />
+    <Content Include="Views\Account\Partial_Account.cshtml" />
+    <Content Include="Views\Cart\CheckOut.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="fonts\" />
+    <Folder Include="Images\customer\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />

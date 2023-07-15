@@ -4,20 +4,30 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6178b6cfa9f144659dc36e3b46b89ffe" Name="Diagram1" ZoomLevel="75">
-        <EntityTypeShape EntityType="BoutiqueModel.Category" Width="1.5" PointX="9.625" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BoutiqueModel.Customer" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BoutiqueModel.Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BoutiqueModel.OrderDetail" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BoutiqueModel.OrderStatu" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="BoutiqueModel.Product" Width="1.5" PointX="6.25" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="BoutiqueModel.Staff" Width="1.5" PointX="11.875" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BoutiqueModel.sysdiagram" Width="1.5" PointX="3.625" PointY="5.75" IsExpanded="true" />
+      <Diagram DiagramId="6178b6cfa9f144659dc36e3b46b89ffe" Name="Diagram1" ZoomLevel="133">
+        <EntityTypeShape EntityType="BoutiqueModel.Category" Width="1.5" PointX="11.375" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Customer" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Order" Width="1.5" PointX="4.625" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.OrderDetail" Width="1.5" PointX="8.125" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.OrderStatus" Width="1.5" PointX="4.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Product" Width="1.5" PointX="11.375" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Staff" Width="1.5" PointX="4.5" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.sysdiagram" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
         <AssociationConnector Association="BoutiqueModel.FK__Product__Categor__267ABA7A" ManuallyRouted="false" />
-        <AssociationConnector Association="BoutiqueModel.FK__Order__CustomerI__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__Order__CustomerI__2D27B809" ManuallyRouted="false" ></AssociationConnector>
         <AssociationConnector Association="BoutiqueModel.FK__Order__Status__2E1BDC42" ManuallyRouted="false" />
-        <AssociationConnector Association="BoutiqueModel.FK__OrderDeta__Order__30F848ED" ManuallyRouted="false" />
-        <AssociationConnector Association="BoutiqueModel.FK__OrderDeta__Produ__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__OrderDeta__Order__30F848ED" ManuallyRouted="true" >
+          <ConnectorPoint PointX="6.125" PointY="5.0392045222525486" />
+          <ConnectorPoint PointX="6.5" PointY="5.0392045222525486" />
+          <ConnectorPoint PointX="6.5" PointY="5.0314534602617407" />
+          <ConnectorPoint PointX="8.125" PointY="5.0314534602617407" />
+        </AssociationConnector>
+        <AssociationConnector Association="BoutiqueModel.FK__OrderDeta__Produ__31EC6D26" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="BoutiqueModel.Sizes" Width="1.5" PointX="14.125" PointY="1.75" />
+        <EntityTypeShape EntityType="BoutiqueModel.Product_Sizes" Width="1.5" PointX="14.125" PointY="4.625" />
+        <AssociationConnector Association="BoutiqueModel.FK__Product_S__Produ__04E4BC85" />
+        <AssociationConnector Association="BoutiqueModel.FK__Product_S__SizeI__05D8E0BE" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

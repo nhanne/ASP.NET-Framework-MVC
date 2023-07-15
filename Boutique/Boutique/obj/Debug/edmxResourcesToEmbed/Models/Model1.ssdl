@@ -18,9 +18,8 @@
     <Property Name="Password" Type="varchar" MaxLength="50" />
     <Property Name="Avatar" Type="nvarchar(max)" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
-    <Property Name="DateOfBirth" Type="date" />
-    <Property Name="CMT" Type="char" MaxLength="12" />
     <Property Name="Phone" Type="char" MaxLength="10" />
+    <Property Name="Member" Type="bit" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
@@ -28,13 +27,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CustomerId" Type="int" />
-    <Property Name="Status" Type="nvarchar" MaxLength="1" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
     <Property Name="Payment" Type="bit" />
     <Property Name="OrdTime" Type="date" />
     <Property Name="DeliTime" Type="date" />
     <Property Name="TotalPrice" Type="float" />
     <Property Name="TotalQuantity" Type="int" />
+    <Property Name="Note" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="OrderDetail">
     <Key>
@@ -50,7 +50,7 @@
     <Key>
       <PropertyRef Name="Status" />
     </Key>
-    <Property Name="Status" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -67,6 +67,23 @@
     <Property Name="Sold" Type="int" />
     <Property Name="Sale" Type="int" />
     <Property Name="stockInDate" Type="date" />
+  </EntityType>
+  <EntityType Name="Product_Sizes">
+    <Key>
+      <PropertyRef Name="ProductId" />
+      <PropertyRef Name="SizeId" />
+    </Key>
+    <Property Name="ProductId" Type="int" Nullable="false" />
+    <Property Name="SizeId" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" />
+  </EntityType>
+  <EntityType Name="Sizes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="10" />
+    <Property Name="Ghichu" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Staff">
     <Key>
@@ -104,7 +121,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Order__Status__4CA06362">
+  <Association Name="FK__Order__Status__02FC7413">
     <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
     <End Role="Order" Type="Self.Order" Multiplicity="*" />
     <ReferentialConstraint>
@@ -152,6 +169,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Product_S__Produ__04E4BC85">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Product_Sizes" Type="Self.Product_Sizes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product_Sizes">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Product_S__SizeI__05D8E0BE">
+    <End Role="Sizes" Type="Self.Sizes" Multiplicity="1" />
+    <End Role="Product_Sizes" Type="Self.Product_Sizes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sizes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product_Sizes">
+        <PropertyRef Name="SizeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="BoutiqueModelStoreContainer">
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -159,13 +200,15 @@
     <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product_Sizes" EntityType="Self.Product_Sizes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sizes" EntityType="Self.Sizes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__Order__CustomerI__4BAC3F29" Association="Self.FK__Order__CustomerI__4BAC3F29">
       <End Role="Customer" EntitySet="Customer" />
       <End Role="Order" EntitySet="Order" />
     </AssociationSet>
-    <AssociationSet Name="FK__Order__Status__4CA06362" Association="Self.FK__Order__Status__4CA06362">
+    <AssociationSet Name="FK__Order__Status__02FC7413" Association="Self.FK__Order__Status__02FC7413">
       <End Role="OrderStatus" EntitySet="OrderStatus" />
       <End Role="Order" EntitySet="Order" />
     </AssociationSet>
@@ -180,6 +223,14 @@
     <AssociationSet Name="FK__Product__Categor__267ABA7A" Association="Self.FK__Product__Categor__267ABA7A">
       <End Role="Category" EntitySet="Category" />
       <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Product_S__Produ__04E4BC85" Association="Self.FK__Product_S__Produ__04E4BC85">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Product_Sizes" EntitySet="Product_Sizes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Product_S__SizeI__05D8E0BE" Association="Self.FK__Product_S__SizeI__05D8E0BE">
+      <End Role="Sizes" EntitySet="Sizes" />
+      <End Role="Product_Sizes" EntitySet="Product_Sizes" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

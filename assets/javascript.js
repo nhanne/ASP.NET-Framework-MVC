@@ -2,7 +2,8 @@
 var navbar = document.getElementById('navbar');
 var mobileMenu = document.getElementById('mobile-menu');
 var navbarHeight = navbar.clientHeight;
-mobileMenu.onclick = function() {
+var searchNav = document.getElementById('navSearch');
+mobileMenu.onclick = function () {
     var isClosed = navbar.clientHeight === navbarHeight;
     if (isClosed) {
         navbar.style.height = 'auto';
@@ -23,8 +24,8 @@ window.onscroll = () => {
 }
 
 
-$(document).ready(function() {
-    $(window).scroll(function() {
+$(document).ready(function () {
+    $(window).scroll(function () {
         if ($(this).scrollTop()) {
             $('#navbar').addClass('sticky');
             $('#backtop').fadeIn();
@@ -34,10 +35,17 @@ $(document).ready(function() {
             $('#backtop').fadeOut();
         }
     });
-    $('#backtop').click(function() {
+    $('#backtop').click(function () {
         $('html,body').animate({
             scrollTop: 0
         }, 1000);
     });
+    let about = document.getElementById('about--content');
+    let logo = document.getElementById('logo');
+    let content1= document.getElementById('content1');
+    window.addEventListener('scroll', function () {
+        let value = window.scrollY;
+        content1.style.left = value * 5.25 + 'px'
+    }, 1000)
 
 });

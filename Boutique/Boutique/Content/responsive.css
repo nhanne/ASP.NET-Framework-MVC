@@ -62,7 +62,9 @@
     #navbar-right .dropdown-search input {
         width: 60%;
     }
-
+    .header-search__cart:hover .header-search__cart-list{
+        display: none
+    }
     /*=========================== BANNER ==============================*/
     #main #about .colum-item1 {
         transform: none;

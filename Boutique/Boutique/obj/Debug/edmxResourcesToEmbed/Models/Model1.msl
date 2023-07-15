@@ -13,14 +13,13 @@
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="BoutiqueModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="Member" ColumnName="Member" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="FullName" ColumnName="FullName" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Avatar" ColumnName="Avatar" />
           <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-          <ScalarProperty Name="CMT" ColumnName="CMT" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -28,6 +27,7 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="BoutiqueModel.Order">
         <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
@@ -50,8 +50,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="OrderStatus">
-      <EntityTypeMapping TypeName="BoutiqueModel.OrderStatu">
+    <EntitySetMapping Name="OrderStatus1">
+      <EntityTypeMapping TypeName="BoutiqueModel.OrderStatus">
         <MappingFragment StoreEntitySet="OrderStatus">
           <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
@@ -97,6 +97,24 @@
           <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
           <ScalarProperty Name="version" ColumnName="version" />
           <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sizes1">
+      <EntityTypeMapping TypeName="BoutiqueModel.Sizes">
+        <MappingFragment StoreEntitySet="Sizes">
+          <ScalarProperty Name="Ghichu" ColumnName="Ghichu" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product_Sizes">
+      <EntityTypeMapping TypeName="BoutiqueModel.Product_Sizes">
+        <MappingFragment StoreEntitySet="Product_Sizes">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="SizeId" ColumnName="SizeId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

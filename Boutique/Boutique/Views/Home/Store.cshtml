@@ -88,7 +88,9 @@
                         <li class="product-item">
                             <div class="product-top">
                                 <a href="" class="product-thumb"><img src="/Images/sp/@Url.Content(@product.Picture)"></a>
-                                <a href="#" class="buynow">xem ngay</a>
+                                <a class="buynow" type="button" title="Order" id="openModal" onclick="addToCart('@product.Id', '@Request.Url.ToString()')">
+                                    Thêm vào giỏ hàng
+                                </a>
                                 @if (product.Quantity == 0)
                                 {
                                     <span class="sold">out of stock</span>
@@ -123,9 +125,7 @@
                                         <span class="store-product__sale-off-label">Hot</span>
                                     </div>
                                 }
-                            <button class="detail__operation-addCart btn btn-order" type="button" title="Order" id="openModal" onclick="addToCart('@product.Id', '@Request.Url.ToString()')">
-                                Thêm vào giỏ hàng
-                            </button>
+                        
                             </div>
                         </li>
                     }

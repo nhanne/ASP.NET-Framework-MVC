@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
 using System.Web.Mvc;
 
 namespace Boutique.Controllers
 {
     public class CartController : Controller
     {
+        BoutiqueEntities _db = new BoutiqueEntities();
         // GET: Cart
         public ActionResult Index()
         {
             List<Cart> listCart = getCart();
-            ViewBag.totalPrice = TongTien();
-            ViewBag.totalQuantity = totalQuantity();
             return View(listCart);
         }
 
@@ -28,6 +27,8 @@ namespace Boutique.Controllers
                 Session["Cart"] = listCart;
 
             }
+            ViewBag.totalPrice = TongTien();
+            ViewBag.totalQuantity = totalQuantity();
             return listCart;
         }
 
@@ -104,6 +105,76 @@ namespace Boutique.Controllers
                 product.Quantity = int.Parse(f["quantity"].ToString());
             }
             return RedirectToAction("Index");
+        }
+        public ActionResult CheckOut()
+        {
+            List<Cart> listCart = getCart();
+            if (Session["Cart"] == null || listCart.Count == 0)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Cart = listCart;
+            Customer model = (Customer)Session["Taikhoan"];
+            if(model == null)
+            {
+                model = new Customer();
+            }
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult CheckOut(Customer model,FormCollection f)
+        {
+            getCart();
+            var products = _db.Products.ToList();
+            var address = f["address"];
+            var note = f["note"];
+            var check = _db.Customers.FirstOrDefault(s => s.Email.Equals(model.Email));
+            ModelState.Remove("Password");
+            if (ModelState.IsValid) 
+            {
+                if (check == null)
+                {
+                    Customer customer = new Customer();
+                    customer.Password = "Nhan123?";
+                    customer.FullName = model.FullName;
+                    customer.Phone = model.Phone;
+                    customer.Email = model.Email;
+                    customer.Member = false;
+                    _db.Customers.Add(customer);
+                    _db.SaveChanges();
+                }
+                Customer cus = _db.Customers.SingleOrDefault(s => s.Email.Equals(model.Email));
+                Order order = new Order();
+                order.CustomerId = cus.Id;
+                order.OrdTime = DateTime.Now;
+                order.DeliTime = order.OrdTime.Value.AddDays(3);
+                order.Status = "Chưa giao hàng";
+                order.Payment = false;
+                order.Address = address.ToString();
+                order.TotalPrice = TongTien();
+                order.TotalQuantity = totalQuantity();
+                order.Note = note.ToString();
+                _db.Orders.Add(order);
+                _db.SaveChanges();
+                List<Cart> listCart = getCart();
+                foreach (var item in listCart)
+                {
+                    OrderDetail detailOrd = new OrderDetail();
+                    detailOrd.OrderId = order.Id;
+                    detailOrd.ProductId = item.IdProduct;
+                    detailOrd.Quantity = item.Quantity;
+                    detailOrd.unitPrice = item.unitPrice;
+                    _db.OrderDetails.Add(detailOrd);
+                }
+                _db.SaveChanges();
+                Session["Cart"] = null;
+                return RedirectToAction("confirmOrder", "Cart");
+            }
+            return View(model);
+        }
+        public ActionResult confirmOrder()
+        {
+            return View();
         }
     }
 }

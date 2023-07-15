@@ -1,0 +1,216 @@
+﻿@model Boutique.Models.Customer
+@{
+    ViewBag.title = "Đặt hàng";
+    Layout = "~/Views/Shared/Layout_BS5.cshtml";
+    List<Boutique.Models.Cart> listCart = (List<Boutique.Models.Cart>)Session["Cart"] as List<Boutique.Models.Cart>;
+}
+
+<section class="h-100 h-custom" style="background-color: #838383;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div>
+                <div class="col-12">
+                    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-6">
+                                    <div class="p-5">
+                                        <div class="d-flex justify-content-between align-items-center mb-5">
+                                            <h3 class="fw-bold mb-0 text-black">Thông tin đơn hàng</h3>
+                                            <h6 class="mb-0 text-muted">@ViewBag.totalQuantity sản phẩm</h6>
+                                        </div>
+                                        @foreach (var item in listCart)
+                                        {
+                                            <hr class="my-4">
+                                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                                    <img src="~/Images/sp/@Url.Content(item.Picture)"
+                                                         class="img-fluid rounded-3" alt="Cotton T-shirt">
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <h6 class="text-black mb-0">@item.ProductName - M</h6>
+                                                </div>
+
+                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+
+                                                    <input id="form1" min="1" name="quantity" value="@item.Quantity" type="number"
+                                                           class="form-control form-control-sm" disabled style="text-align:center" />
+
+                                                </div>
+                                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                    <h6 class="mb-0">@string.Format("{0:#,0}", item.totalPrice) ₫</h6>
+                                                </div>
+                                            </div>
+                                        }
+                                        <hr class="my-4">
+                                        <div class="pt-5">
+                                            <h6 class="mb-0">
+                                                <h3 class="text-body">
+                                                    Tổng tiền: @string.Format("{0:#,0}", ViewBag.totalPrice) ₫
+                                                </h3>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 bg-grey">
+                                    <div class="p-5">
+                                        <h3 class="fw-bold mb-5 mt-2 pt-1">Thông tin khách hàng</h3>
+                                        <hr class="my-4">
+                                        @using (Html.BeginForm("CheckOut", "Cart", FormMethod.Post, new { enctype = "multipart/form-data" , @onsubmit = "myFunction();", @id = "myForm" }))
+                                        {
+                                            @Html.ValidationSummary(true)
+                                            <div class="row mb-5">
+                                                <div class="col-md-6">
+                                                    <label class="form-label" for="FullName">Full name</label>
+                                                    @Html.TextBoxFor(m => m.FullName, "", new { @id = "full_name", @class = "form-control", @placeholder = "Họ tên của bạn" })
+                                                    @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "validate" })
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label" for="email">Email</label>
+                                                    @Html.TextBoxFor(m => m.Email, "", new { @id = "email", @class = "form-control", @placeholder = "Email của bạn" })
+                                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "validate" })
+                                                </div>
+                                            </div>
+                                            <div class="row g-5">
+                                                <div class="col-md-6">
+                                                    <label class="form-label" for="street">Street Address</label>
+                                                    <input type="text" placeholder="Số nhà và tên đường" class="form-control" id="street" name="street" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label" for="phone_number">Phone number</label>
+                                                    @Html.TextBoxFor(m => m.Phone, "", new { @id = "phone", @class = "form-control", @placeholder = "Số điện thoại của bạn" })
+                                                    @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "validate" })
+
+                                                </div>
+                                                
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label class="form-label" for="city">City</label>
+                                                            <select class="form-select" name="city" id="city" aria-label=".form-select-sm" required>
+                                                                <option value="" selected>Chọn tỉnh thành</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label" for="district">District</label>
+                                                            <select class="form-select" name="district" id="district" aria-label=".form-select-sm" required>
+                                                                <option value="" selected>Chọn quận huyện</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label" for="ward">Ward</label>
+                                                            <select class="form-select" name="ward" id="ward" aria-label=".form-select-sm" required>
+                                                                <option value="" selected>Chọn phường xã</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12">
+                                                                <input  type="hidden" name="address" id="address"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label" for="note">Order notes (optional)</label>
+                                                    <textarea class="form-control" placeholder="Something..." style="height: 100px" name="note" maxlength="200" required> </textarea>
+                                                </div>
+                                            </div>
+
+
+                                            <hr class="my-4">
+
+
+                                            <button type="button" class="btn btn-light btn-block btn-lg"
+                                                    data-mdb-ripple-color="dark" onclick="location.href='@Url.Action("Index","Cart")'">
+                                                Quay về
+                                            </button>
+
+                                            @*<button type="submit" class="btn btn-dark btn-block btn-lg"
+                                                    data-mdb-ripple-color="dark" onclick="location.href='@Url.Action("CheckOut", "Cart")'">
+                                                Place order
+                                            </button>*@
+                                            <button class="btn btn-dark btn-block btn-lg submit" id="submit"
+                                                     type="submit" title="Order">
+                                                Place order
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .validate {
+        color: red;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+   
+    var citis = document.getElementById("city");
+    var districts = document.getElementById("district");
+    var wards = document.getElementById("ward");
+    var selectedCity, selectedDistrict, selectedWard, street, address;
+    var Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const x of data) {
+            citis.options[citis.options.length] = new Option(x.Name, x.Id);
+        }
+        citis.onchange = function () {
+
+            district.length = 1;
+            ward.length = 1;
+            if (this.value != "") {
+                const result = data.filter(n => n.Id === this.value);
+                for (const k of result[0].Districts) {
+                    district.options[district.options.length] = new Option(k.Name, k.Id);
+                }
+
+            }
+        };
+        district.onchange = function () {
+            ward.length = 1;
+            const dataCity = data.filter((n) => n.Id === citis.value);
+            if (this.value != "") {
+                const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+                for (const w of dataWards) {
+                    wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                }
+            }
+
+        };
+        ward.onchange = function () {
+         
+        }
+    }
+
+
+    function myFunction() {
+        var streets = document.getElementById("street").value;
+        selectedCity = citis.options[citis.selectedIndex].textContent;
+        selectedDistrict = districts.options[districts.selectedIndex].textContent;
+        selectedWard = wards.options[wards.selectedIndex].textContent;
+        document.getElementById("address").value = "";
+        address = streets + " " + selectedWard + ", " + selectedDistrict + ", " + selectedCity;
+        document.getElementById("address").value = address;
+        // Thực hiện các xử lý tùy chỉnh trên trình duyệt
+        console.log(address);
+    }
+
+
+
+</script>

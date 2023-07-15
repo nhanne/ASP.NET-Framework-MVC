@@ -172,3 +172,7 @@ C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\obj\Debug\Boutique.csproj
 C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\obj\Debug\Boutique.csproj.CopyComplete
 C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\obj\Debug\Boutique.dll
 C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\obj\Debug\Boutique.pdb
+C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.abstractions.dll
+C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.core.dll
+C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.abstractions.xml
+C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.core.xml

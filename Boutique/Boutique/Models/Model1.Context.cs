@@ -29,9 +29,11 @@ namespace Boutique.Models
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-        public virtual DbSet<OrderStatu> OrderStatus { get; set; }
+        public virtual DbSet<OrderStatus> OrderStatus1 { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Staff> Staffs { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Sizes> Sizes1 { get; set; }
+        public virtual DbSet<Product_Sizes> Product_Sizes { get; set; }
     }
 }

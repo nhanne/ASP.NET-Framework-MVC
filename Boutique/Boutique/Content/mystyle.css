@@ -10,13 +10,14 @@ body {
     font-family: 'Open Sans', sans-serif;
     background-color: #ffffff;
     color: var(--color-text);
+    overflow-x: hidden
 }
 
 :root {
     --color-text: rgb(0, 0, 0);
-    --color-textnavbar: rgb(0, 0, 0);
+    --color-textnavbar: var(--primary-color);
     --color-textdropdown: rgb(12, 11, 11);
-    --color-bgsticky: rgb(255, 255, 255);
+    --color-bgsticky: rgb(55, 55, 55);
     --color-bgdropdown: rgb(255, 255, 255);
 }
 
@@ -44,15 +45,17 @@ a {
 .row {
     display: flex;
 }
-
+.body{
+    margin-top: var(--navbar-height)
+}
 /*=========================== LOADER ==============================*/
 /*=========================== BACKTOP ==============================*/
 
 #backtop {
     width: 30px;
     height: 30px;
-    background: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
+    background: linear-gradient(45deg, #000000, transparent);
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -74,27 +77,29 @@ a {
     top: 0;
     left: 0;
     right: 0;
-    height: 45px;
+    height: 55px;
     z-index: 1;
     transition: all 0.5s ease-in-out;
-    font-size: 17px
+    font-size: 17px;
 }
 
     #navbar.sticky {
         background-color: var(--color-bgsticky);
     }
-
-    #navbar .navbar-brand {
-        color: var(--color-textnavbar) !important;
+        #navbar.sticky .navbar-brand, #navbar.sticky button, #navbar.sticky a {
+            color: white !important
+        }
+        #navbar .navbar-brand {
+        color: var(--color-textnavbar) ;
         font-family: 'Licorice', cursive;
         font-weight: bold;
-        font-size: 20px;
+        font-size: 30px;
         letter-spacing: 1.5px;
     }
 
     #navbar button {
         display: none;
-        color: var(--color-textnavbar) !important;
+        color: var(--color-textnavbar) ;
         background-color: transparent;
         outline: none;
         border: none;
@@ -194,10 +199,6 @@ ul#navbar-right {
     position: relative;
     height: 100vh;
     width: 100%;
-    background-image: linear-gradient(0,rgb(162 162 162 / 50%), rgb(79 72 72 / 50%)), url(/image/banner.jpg);
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 #slideshow {
@@ -263,30 +264,259 @@ ul#navbar-right {
 #main img {
     width: 100%;
 }
+/*social_media*/
+ul.social_media {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    right: 0;
+    left:0;
+    top:100px;
+    margin: 0 auto;
+    padding: 10px
+}
+
+    ul.social_media li {
+        position: relative;
+        list-style: none;
+        width: 60px;
+        height: 60px;
+        border-radius: 60px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 10px 25px rgba(0, 0,0, 0.1);
+        transition: 0.5s;
+        background-image: linear-gradient(0, rgb(0 0 0 / 10%), rgb(0 0 0 / 10%));
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+        ul.social_media li:hover {
+            width: 180px;
+            box-shadow: 0 10px 25px rgba (0,0,0,0);
+        }
+
+        ul.social_media li::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50px;
+            background: linear-gradient(45deg, var(--i),var(--j));
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        ul.social_media li:hover::before {
+            opacity: 1;
+        }
+
+        ul.social_media li::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            height: 100%;
+            border-radius: 60px;
+            background: linear-gradient(45deg, var(--i),var(--j));
+            opacity: 0;
+            transition: 0.5s;
+            z-index: -1;
+            filter: blur(15px);
+        }
+
+        ul.social_media li:hover::after {
+            opacity: 0.5;
+        }
+
+        ul.social_media li i {
+            color: white;
+            font-size: 1.75rem !important;
+            transition: 0.5s;
+            transition-delay: 0.25s;
+        }
+
+        ul.social_media li:hover i {
+            transform: scale(0);
+            font-size: 1.75rem;
+            transition-delay: 0.25s;
+        }
+
+        ul.social_media li span {
+            position: absolute;
+        }
+
+        ul.social_media li .titulo {
+            color: #fff;
+            font-size: 1.1em !important;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transform: scale(0);
+            transition: 0.5s;
+            transition-delay: 0s;
+        }
+
+        ul.social_media li:hover .titulo {
+            transform: scale(1);
+            transition-delay: 0.25s;
+        }
 
 /* about  */
 
-#main #about {
-    padding: 50px 0;
+.about {
+    height: 100vh;
+    position: relative;
 }
 
-    #main #about .colum {
-        flex: 1;
-        padding: 0 16px;
+.about__container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    padding: 50px;
+    background-color: #f5f5f5;
+    box-shadow: 0 30px 50px #dbdbdb;
+}
+
+#slide {
+    width: max-content;
+    margin-top: 50px;
+}
+
+.item {
+    width: 200px;
+    height: 300px;
+    background-position: 50% 50%;
+    display: inline-block;
+    transition: 0.5s;
+    background-size: cover;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    transform: translate(0, -50%);
+    border-radius: 20px;
+    box-shadow: 0 30px 50px #505050;
+}
+
+    .item:nth-child(1),
+    .item:nth-child(2) {
+        left: 0;
+        top: 0;
+        transform: translate(0, 0);
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: none;
     }
 
-    #main #about .colum-item1 {
-        transform: rotate3d(0, 3, 1, 344deg)
+    .item:nth-child(3) {
+        left: 50%;
     }
 
-    #main #about .colum-item2 {
-        text-align: center;
-        line-height: 1.8rem;
+    .item:nth-child(4) {
+        left: calc(50% + 220px);
     }
 
-    #main #about .colum-item3 {
-        transform: rotate3d(0, 3, 1, 18deg)
+    .item:nth-child(5) {
+        left: calc(50% + 440px);
     }
+
+    .item:nth-child(n+6) {
+        left: calc(50% + 660px);
+        opacity: 0;
+    }
+
+    .item .content {
+        position: absolute;
+        top: 50%;
+        left: 100px;
+        width: 300px;
+        text-align: left;
+        padding: 20px;
+        border-radius: 20px;
+        color: #eee;
+        transform: translate(0, -50%);
+        display: none;
+        font-family: system-ui;
+        background-image: linear-gradient(0, rgb(0 0 0 / 10%), rgb(0 0 0 / 10%));
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .item:nth-child(2) .content {
+        display: block;
+        z-index: 11111;
+    }
+
+    .item .name {
+        font-size: 40px;
+        font-weight: bold;
+        line-height: 4rem;
+        opacity: 0;
+        animation: showcontent 1s ease-in-out 1 forwards
+    }
+
+    .item .des {
+        margin: 20px 0;
+        opacity: 0;
+        animation: showcontent 1s ease-in-out 0.3s 1 forwards
+    }
+
+    .item button {
+        padding: 10px 40px;
+        border: none;
+        border-radius: 50px;
+        opacity: 0;
+        background-color: rgb(0 0 0);
+        color: white;
+        font-size: 2rem;
+        font-weight:600;
+        animation: showcontent 1s ease-in-out 0.6s 1 forwards
+    }
+
+@keyframes showcontent {
+    from {
+        opacity: 0;
+        transform: translate(0, 100px);
+        filter: blur(33px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+        filter: blur(0);
+    }
+}
+
+.buttons {
+    position: absolute;
+    bottom: 30px;
+    right:0;
+    left:0;
+    margin: 0 auto;
+    z-index: 222222;
+    text-align: center;
+    width: 100%;
+}
+
+    .buttons button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 1px solid #555;
+        transition: 0.5s;
+        background-image: linear-gradient(0, rgb(0 0 0 / 10%), rgb(0 0 0 / 10%));
+        background-color: rgba(0, 0, 0, 0.4);
+        color: white
+    }
+
+        .buttons button:hover {
+            background-color: #bac383;
+        }
+
+
 
 /* release */
 
@@ -344,6 +574,7 @@ ul#navbar-right {
         bottom: -50px;
         transition: 0.25s ease-in-out;
         opacity: 0.8;
+        cursor:pointer;
     }
 
 #products li:hover .product-top a.buynow {
@@ -732,96 +963,6 @@ ul#navbar-right {
 .select-input__list {
     z-index: 1;
 }
-/*social_media*/
-ul.social_media {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-}
-
-    ul.social_media li {
-        position: relative;
-        list-style: none;
-        width: 60px;
-        height: 60px;
-        border-radius: 60px;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        box-shadow: 0 10px 25px rgba(0, 0,0, 0.1);
-        transition: 0.5s;
-    }
-
-        ul.social_media li:hover {
-            width: 180px;
-            box-shadow: 0 10px 25px rgba (0,0,0,0);
-        }
-
-        ul.social_media li::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 50px;
-            background: linear-gradient(45deg, var(--i),var(--j));
-            opacity: 0;
-            transition: 0.5s;
-        }
-
-        ul.social_media li:hover::before {
-            opacity: 1;
-        }
-
-        ul.social_media li::after {
-            content: "";
-            position: absolute;
-            top: 10px;
-            width: 100%;
-            height: 100%;
-            border-radius: 60px;
-            background: linear-gradient(45deg, var(--i),var(--j));
-            opacity: 0;
-            transition: 0.5s;
-            z-index: -1;
-            filter: blur(15px);
-        }
-
-        ul.social_media li:hover::after {
-            opacity: 0.5;
-        }
-
-        ul.social_media li i {
-            color: #777;
-            font-size: 1.75rem !important;
-            transition: 0.5s;
-            transition-delay: 0.25s;
-        }
-
-        ul.social_media li:hover i {
-            transform: scale(0);
-            font-size: 1.75rem;
-            transition-delay: 0.25s;
-        }
-
-        ul.social_media li span {
-            position: absolute;
-        }
-
-        ul.social_media li .titulo {
-            color: #fff;
-            font-size: 1.1em !important;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            transform: scale(0);
-            transition: 0.5s;
-            transition-delay: 0s;
-        }
-
-        ul.social_media li:hover .titulo {
-            transform: scale(1);
-            transition-delay: 0.25s;
-        }
 
 /* Cart layout */
 
