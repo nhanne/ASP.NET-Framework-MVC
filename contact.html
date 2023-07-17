@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOP</title>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/responsive.css">
+    <link rel="stylesheet" href="assets/base.css">
+
+</head>
+
+<body>
+    <!--=================================================== LOADER============================================================ -->
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+    <!--=================================================== BACKTOP ============================================================ -->
+    <div id="backtop">
+        <i class="fal fa-arrow-to-top"></i>
+    </div>
+    <!--=================================================== NAVBAR============================================================ -->
+
+    <nav id="navbar" class="container">
+        <a href="#" class="navbar-brand">boutique</a>
+        <button id="mobile-menu"><i class="far fa-align-justify"></i></button>
+        <ul id="navbar-center">
+            <li><a class="nav-link active" href="index.html">home</a></li>
+            <li class="nav-dropdown">
+                <a href="store.html">store</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Sweater</a></li>
+                    <li><a class="dropdown-item" href="#">Jacket</a></li>
+                    <li><a class="dropdown-item" href="#">Pants</a></li>
+                    <li><a class="dropdown-item" href="#">Tee</a></li>
+                    <li><a class="dropdown-item" href="#">Flannel</a></li>
+                    <li><a class="dropdown-item" href="#">Backpack</a></li>
+                    <li><a class="dropdown-item" href="#">Caps</a></li>
+                </ul>
+            </li>
+            <li><a class="nav-link" href="contact.html">contact</a></li>
+            <li><a class="nav-link" href="#about">about</a></li>
+        </ul>
+        <ul id="navbar-right">
+            <li>
+                <button type="button" onclick="navSearch()" class="nav-search"><i class="fas fa-search"></i></button>
+                <form class="dropdown-search" id="dropdown-search">
+                    <input type="text" id="search-box" placeholder="Bạn đang tìm gì đó ? ">
+                    <button class="btnsearch">tìm kiếm</button>
+                </form>
+            </li>
+            <li><a class="nav-icon" href=""><i class="far fa-shopping-bag "></i></a></li>
+            <li><a class="nav-icon" href="login.html"><i class="far fa-user "></i></a></li>
+        </ul>
+    </nav>
+    <div class="map" style="margin-top: 50px;">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125393.6451602728!2d106.60322640733366!3d10.845600764987344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752edb765b5c25%3A0x9a3519bdad5a85a3!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBOZ2_huqFpIG5n4buvIC0gVGluIGjhu41jIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCAoSFVGTElUKQ!5e0!3m2!1svi!2s!4v1689495906622!5m2!1svi!2s"
+            height="500" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    </div>
+    <!--=================================================== BODY ============================================================ -->
+    <section id="main" class="contact spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact__text">
+                        <div class="section-title">
+                            <span>Information</span>
+                            <h2>Contact Us</h2>
+                            <p>Như bạn có thể mong đợi về một công ty bắt đầu với tư cách là nhà thầu nội thất cao cấp, chúng tôi rất chú ý.</p>
+                        </div>
+                        <ul>
+                            <li>
+                                <h4>Thành Phố Hồ Chí Minh</h4>
+                                <p> 828 Sư Vạn Hạnh, phường 12, Quận 10. <br />+84 092632421</p>
+                            </li>
+                            <li>
+                                <h4>Thành Phố Hà Nội</h4>
+                                <p>723 Thăng Long, Quận Ba Đình. <br />+84 858032268</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact__form">
+                        <form action="#">
+                            <div class="grid__row">
+                                <div class="grid__column-6">
+                                    <input type="text" placeholder="Name">
+                                </div>
+                                <div class="grid__column-6">
+                                    <input type="text" placeholder="Email">
+                                </div>
+                                <div class="grid__column-12">
+                                    <textarea placeholder="Message"></textarea>
+                                    <button type="submit" class="site-btn">Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--=================================================== FOOTER============================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="grid__row">
+                <div class="grid__column-2-4">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="#"><img src="assets/image/footer-logo.png" alt=""></a>
+                        </div>
+                        <p style="line-height: 25px;">Khách hàng là trung tâm của mô hình kinh doanh độc đáo của chúng tôi, bao gồm cả thiết kế.</p>
+                        <a href="#"><img src="assets/image/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="grid__column-2-4"></div>
+                
+                <div class="grid__column-2-4">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Sweater</a></li>
+                            <li><a href="#">Shoes</a></li>
+                            <li><a href="#">Backpack</a></li>
+                            <li><a href="#">Caps</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid__column-2-4">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Store</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="grid__row">
+                <div class="grid__column-12" style="text-align: center;">
+                    <div class="footer__copyright__text">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <p>Copyright ©
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>2020
+                            All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        </p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .map {
+            height: 500px;
+        }
+
+        .map iframe {
+            width: 100%;
+        }
+
+        /*---------------------
+        Contact
+        -----------------------*/
+        .contact {
+            margin: 50px 0;
+            line-height: 25px;
+        }
+
+        .contact__text .section-title {
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .contact__text .section-title h2 {
+            font-size: 48px;
+            margin-bottom: 18px;
+        }
+
+        .contact__text .section-title p {
+            color: #707070;
+            line-height: 26px;
+            margin-bottom: 0;
+        }
+
+        .contact__text ul li {
+            list-style: none;
+            margin-bottom: 26px;
+        }
+
+        .contact__text ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact__text ul li h4 {
+            color: #111111;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .contact__text ul li p {
+            line-height: 27px;
+            margin-bottom: 0;
+        }
+
+        .contact__form input {
+            height: 50px;
+            width: 100%;
+            border: 1px solid #e1e1e1;
+            padding-left: 20px;
+            font-size: 15px;
+            color: #b7b7b7;
+            margin-bottom: 30px;
+        }
+
+        .contact__form input::-webkit-input-placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form input::-moz-placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form input:-ms-input-placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form input::-ms-input-placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form input::placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form textarea {
+            height: 150px;
+            width: 100%;
+            border: 1px solid #e1e1e1;
+            padding-left: 20px;
+            padding-top: 12px;
+            font-size: 15px;
+            color: #b7b7b7;
+            margin-bottom: 24px;
+            resize: none;
+        }
+
+        .contact__form textarea::-webkit-input-placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form textarea::-moz-placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form textarea:-ms-input-placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form textarea::-ms-input-placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form textarea::placeholder {
+            color: #b7b7b7;
+        }
+
+        .contact__form button {
+            letter-spacing: 4px;
+            padding: 14px 35px;
+        }
+
+        .site-btn {
+            font-size: 14px;
+            color: #ffffff;
+            background: #111111;
+            font-weight: 700;
+            border: none;
+            text-transform: uppercase;
+            display: inline-block;
+            padding: 14px 30px;
+        }
+
+        .section-title span {
+            color: #e53637;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /*---------------------
+  Footer
+-----------------------*/
+
+        .footer {
+            background: #111111;
+            padding-top: 70px;
+        }
+
+        .footer__about {
+            margin-bottom: 30px;
+        }
+
+        .footer__about .footer__logo {
+            margin-bottom: 30px;
+        }
+
+        .footer__about .footer__logo a {
+            display: inline-block;
+        }
+
+        .footer__about p {
+            color: #b7b7b7;
+            margin-bottom: 30px;
+        }
+
+        .footer__widget {
+            margin-bottom: 30px;
+        }
+
+        .footer__widget h6 {
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .footer__widget ul li {
+            line-height: 36px;
+            list-style: none;
+        }
+
+        .footer__widget ul li a {
+            color: #b7b7b7;
+            font-size: 15px;
+        }
+
+        .footer__widget .footer__newslatter p {
+            color: #b7b7b7;
+        }
+
+        .footer__widget .footer__newslatter form {
+            position: relative;
+        }
+
+        .footer__widget .footer__newslatter form input {
+            width: 100%;
+            font-size: 15px;
+            color: #3d3d3d;
+            background: transparent;
+            border: none;
+            padding: 15px 0;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .footer__widget .footer__newslatter form input::-webkit-input-placeholder {
+            color: #3d3d3d;
+        }
+
+        .footer__widget .footer__newslatter form input::-moz-placeholder {
+            color: #3d3d3d;
+        }
+
+        .footer__widget .footer__newslatter form input:-ms-input-placeholder {
+            color: #3d3d3d;
+        }
+
+        .footer__widget .footer__newslatter form input::-ms-input-placeholder {
+            color: #3d3d3d;
+        }
+
+        .footer__widget .footer__newslatter form input::placeholder {
+            color: #3d3d3d;
+        }
+
+        .footer__widget .footer__newslatter form button {
+            color: #b7b7b7;
+            font-size: 16px;
+            position: absolute;
+            right: 5px;
+            top: 0;
+            height: 100%;
+            background: transparent;
+            border: none;
+        }
+
+        .footer__copyright__text {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        .footer__copyright__text p {
+            color: #b7b7b7;
+            margin-bottom: 0;
+        }
+
+        .footer__copyright__text p i {
+            color: #e53637;
+        }
+
+        .footer__copyright__text p a {
+            color: #e53637;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="assets/javascript.js"></script>
+</body>
+
+</html>

@@ -24,7 +24,7 @@
                                         @foreach (var item in Model)
                                         {
                                             <hr class="my-4">
-                                            using (Html.BeginForm("UpdateCart", "Cart", new { @IdProduct = item.IdProduct }))
+                                            using (Html.BeginForm("UpdateCart", "Cart", new { @IdProduct = item.IdProduct, @IdColor = item.IdColor, @IdSize = item.IdSize }))
                                             {
                                             <div class="row mb-4 d-flex justify-content-between align-items-center">
                                                 <div class="col-md-2 col-lg-2 col-xl-2">
@@ -33,7 +33,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-lg-3 col-xl-3">
                                                     <h6 class="text-muted">@item.Brand</h6>
-                                                    <h6 class="text-black mb-0">@item.ProductName - M</h6>
+                                                    <h6 class="text-black mb-0">@item.ProductName -@item.Color - @item.Size </h6>
                                                     <h6 class="text-black mb-0">@string.Format("{0:#,0}", item.unitPrice) ₫</h6>
                                                 </div>
 
@@ -55,7 +55,7 @@
                                                     <h6 class="mb-0">@string.Format("{0:#,0}", item.totalPrice) ₫</h6>
                                                 </div>
                                                 <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                    <a href="@Url.Action("deletefromCart","Cart", new { @Idproduct = item.IdProduct })" class="text-muted"><i class="fas fa-times"></i></a>
+                                                    <a href="@Url.Action("deletefromCart","Cart", new { @Idproduct = item.IdProduct, @IdColor = item.IdColor, @IdSize = item.IdSize})" class="text-muted"><i class="fas fa-times"></i></a>
                                                 </div>
                                             </div>
                                             }

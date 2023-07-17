@@ -66,6 +66,11 @@ html {
     padding-right: 5px;
     width: 83.3334%;
 }
+.grid__column-12 {
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+}
 .grid__column-2-4 {
     padding-left: 5px;
     padding-right: 5px;

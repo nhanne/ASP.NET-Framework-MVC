@@ -21,7 +21,7 @@
                         <div class="row element-button">
                             <div class="col-sm-2">
                                 <a class="btn btn-add btn-sm" href="@Url.Action("Index","Category")">
-                                    <i class="fas fa-folder-plus"></i> Xem danh mục
+                                    <i class="fas fa-folder"></i> Danh sách danh mục
                                 </a>
                             </div>
                         </div>
@@ -31,11 +31,7 @@
                                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                             </div>
-                            <div class="form-group  col-md-4">
-                                <label class="control-label">Số lượng</label>
-                                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-                            </div>
+                           
                             <div class="form-group col-md-4">
                                 <label for="exampleSelect1" class="control-label">Danh mục</label>
                                 @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })

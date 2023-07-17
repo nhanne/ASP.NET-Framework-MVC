@@ -17,8 +17,7 @@ namespace Boutique.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.OrderDetails = new HashSet<OrderDetail>();
-            this.Product_Sizes = new HashSet<Product_Sizes>();
+            this.Stocks = new HashSet<Stock>();
         }
     
         public int Id { get; set; }
@@ -28,15 +27,12 @@ namespace Boutique.Models
         public string Code { get; set; }
         public Nullable<double> costPrice { get; set; }
         public Nullable<double> unitPrice { get; set; }
-        public Nullable<int> Quantity { get; set; }
         public Nullable<int> Sold { get; set; }
         public Nullable<int> Sale { get; set; }
         public Nullable<System.DateTime> stockInDate { get; set; }
     
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product_Sizes> Product_Sizes { get; set; }
+        public virtual ICollection<Stock> Stocks { get; set; }
     }
 }

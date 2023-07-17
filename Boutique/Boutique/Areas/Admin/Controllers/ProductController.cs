@@ -41,7 +41,7 @@ namespace Boutique.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(HttpPostedFileBase file, [Bind(Include = "CategoryId,Name," +
-            "costPrice,Quantity,Sale")] Product product)
+            "costPrice,Sale")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -62,9 +62,10 @@ namespace Boutique.Areas.Admin.Controllers
                 product.Picture = anh;
                 Random prCode = new Random();
                 product.Code = prCode.Next(72000000,79000000).ToString();
-                product.unitPrice = (product.Sale != null) ? (product.unitPrice = (product.costPrice - (product.costPrice * product.Sale) / 100)) : (product.unitPrice = product.costPrice);               
+                product.unitPrice = (product.Sale != null) ? (product.unitPrice = (product.costPrice - (product.costPrice * product.Sale) / 100)) : (product.unitPrice = product.costPrice);                       
                 _db.Products.Add(product);
                 _db.SaveChanges();
+               
                 return RedirectToAction("Index");
             }
             ViewBag.CategoryId = new SelectList(_db.Categories, "Id", "Name", product.CategoryId);
@@ -73,7 +74,7 @@ namespace Boutique.Areas.Admin.Controllers
 
         public ActionResult Edit(int Id)
         {
-            if (Id == null)
+            if (Id.ToString() == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -112,7 +113,6 @@ namespace Boutique.Areas.Admin.Controllers
                 pr.Code = product.Code;
                 pr.costPrice = product.costPrice;
                 pr.unitPrice = (product.Sale != null) ? (product.unitPrice = (product.costPrice - (product.costPrice * product.Sale) / 100)) : (product.unitPrice = product.costPrice);
-                pr.Quantity = product.Quantity;
                 pr.Sold = product.Sold;
                 pr.Sale = product.Sale;
                 _db.Entry(pr).State = EntityState.Modified;
@@ -122,5 +122,53 @@ namespace Boutique.Areas.Admin.Controllers
             ViewBag.CatalogId = new SelectList(_db.Categories, "Id", "Name", pr.CategoryId);
             return View(product);
         }
+        public ActionResult PhanLoaiSP(int Id)
+        {
+            var stock = _db.Stocks.Where(p => p.ProductId == Id);
+            if (stock == null)
+            {
+                return RedirectToAction("AddPhanLoai", "Product", new { Id = Id });
+            }
+            ViewBag.id = Id;
+            ViewBag.stock = stock.ToList();
+            return View();
+        }
+        public ActionResult AddPhanLoai(int Id)
+        {
+            Stock model = _db.Stocks.FirstOrDefault(p => p.ProductId == Id);
+            if (model == null)
+            {
+                model = new Stock{ProductId = Id};
+            }
+            ViewBag.id = Id;
+            ViewBag.ColorId = new SelectList(_db.Colors, "Id", "Name");
+            ViewBag.SizeId = new SelectList(_db.Sizes, "Id", "Name");
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPhanLoai(Stock model)
+        {
+            ViewBag.ColorId = new SelectList(_db.Colors, "Id", "Name", model.ColorId);
+            ViewBag.SizeId = new SelectList(_db.Sizes, "Id", "Name", model.SizeId);
+            if (ModelState.IsValid)
+            {
+                Stock stock = _db.Stocks.FirstOrDefault(p=> p.ProductId == model.ProductId && p.ColorId == model.ColorId && p.SizeId == model.SizeId);
+                if(stock != null)
+                {
+                    ViewBag.error = "Phân loại hàng này đã tồn tại, vui lòng kiểm tra lại.";
+                    return View(model);
+                }
+                else
+                {
+                    _db.Stocks.Add(model);
+                    _db.SaveChanges();
+                    return RedirectToAction("PhanLoaiSP", new { Id = model.ProductId });
+                }
+                
+            }
+            return View(model);
+        }
+
     }
 }

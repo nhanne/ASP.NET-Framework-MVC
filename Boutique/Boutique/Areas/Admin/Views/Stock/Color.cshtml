@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "Color";
+    ViewBag.headTitle = "Danh sách mã màu";
+    Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
+}
+
+
+<p>
+    @Html.ActionLink("Thêm mã màu", "newColor", "Stock", new { @class = "myactionlink" })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Thứ tự
+            </th>
+            <th>
+                Màu sắc
+            </th>
+            <th>
+                Ghi chú
+            </th>
+            <th>
+                Chức năng
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in ViewBag.colors)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.Ghichu</td>
+            <td>
+
+                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" id="delete-btn"
+                        onclick="location.href='@Url.Action("Delete", "Category",new { id = item.Id })'">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
+                        onclick="location.href='@Url.Action("Edit", "Category",new { id = item.Id })'">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>
+

@@ -1,0 +1,250 @@
+﻿@model Boutique.Models.Product
+
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <!--=================================================== BODY ============================================================ -->
+    <section id="main" class="container">
+
+        <div class="grid app__content">
+            <div class="store__heading ">
+                <div class="home-filter">
+                    <div class="home-filter__page">
+                        <span class="home-filter__page-num">
+                            <a href="@Url.Action("Index", "Home")" class="myactionlink">Home</a>/
+                            <a href="@Url.Action("Store", "Home")" class="myactionlink">Store</a>/
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="grid__row store__body">
+                <div class="grid__column-2">
+                    <nav class="category">
+                        <ul class="category-list">
+                            <li class="category-item" id="ctg">
+                                <a href="@Url.Action("Store","Home")" class="category-item__link">NEW Stuff</a>
+                            </li>
+                            @foreach (var item in ViewBag.dsCate)
+                            {
+                                <li class="category-item" id="ctg">
+                                    <a href="@Url.Action("Store","Home", new {category = @item.Name})" class="category-item__link">@item.Name</a>
+                                </li>
+
+                            }
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="grid__column-10" id="release">
+                    <div class="grid__row detail">
+                        <div class="grid__column-6 detail__picture">
+                            <img src="/Images/sp/@Url.Content(Model.Picture)"
+                                 alt="product">
+                        </div>
+                        <div class="grid__column-6 detail__info">
+                            <div class="detail__info-heading">@Model.Category.Name</div>
+                            <h1 class="detail__info-name">@Model.Name</h1>
+                            <div class="detail__info-price">
+                                <span class="detail__info-price--cost">
+                                    @string.Format("{0:#,0}", Model.costPrice)
+                                    <span class="detail__info-price--symbol">đ</span>
+                                </span>
+                                <span class="detail__info-price--unit">
+                                    @string.Format("{0:#,0}", Model.unitPrice)
+                                    <span class="detail__info-price--symbol">đ</span>
+                                </span>
+                            </div>
+                            <div class="detail__info-size">
+                                <span class="detail__info-size-label">Size</span>
+                                <ul class="detail__info-size-list">
+                                    @foreach (var size in ViewBag.size)
+                                    {
+                                        <li class="detail__info-size-item">
+                                            <input type="radio" name="Size" value="@size.Id" id="@size.Id" />
+                                            <label for="@size.Id">@size.Name</label>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                            <div class="detail__info-color">
+                                <span class="detail__info-color-label">Color</span>
+                                <ul class="detail__info-color-list">
+                                    @foreach (var color in ViewBag.color)
+                                    {
+                                        <li class="detail__info-color-item">
+                                            <input type="radio" name="Color" value="@color.Id" id="@color.Id" />
+                                            <label for="@color.Id">@color.Name</label>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                          
+
+                            <button class="btn btn--primary detail__info-button-addtoCart" type="submit" onclick="addToCart()">
+                                Thêm vào giỏ hàng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .grid__column-6{
+            flex: 1;
+            padding: 30px;
+        }
+        .detail {
+        }
+
+        .detail__picture img {
+            width: 100%;
+        }
+
+        .detail__info {
+            position: relative;
+        }
+
+        .detail__info-heading {
+            color: rgba(102, 102, 102, .7);
+            font-weight: 400;
+            text-transform: uppercase;
+            margin: 8px 0;
+        }
+
+        .detail__info-name {
+            font-weight: 700;
+            font-size: 3rem;
+            line-height: 1.3;
+            color: #555;
+            width: 100%;
+            margin: 8px 0;
+        }
+
+        .detail__info-price {
+            font-size: 2.2rem;
+            margin: 20px 0
+        }
+
+        .detail__info-price--symbol {
+            font-size: .75em;
+            position: absolute;
+            top: 0;
+            font-size: 1.2rem;
+        }
+
+        .detail__info-price--cost {
+            white-space: nowrap;
+            color: #111;
+            font-weight: 700;
+            opacity: .6;
+            text-decoration: line-through;
+            position: relative;
+        }
+
+        .detail__info-price--unit {
+            white-space: nowrap;
+            color: #111;
+            font-weight: 700;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .detail__info-size, .detail__info-color {
+            margin: 20px 0
+        }
+
+        .detail__info-size-label, .detail__info-color-label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .detail__info-size-list, .detail__info-color-list {
+            display: flex;
+        }
+
+        .detail__info-size-item, .detail__info-color-item {
+            margin: 4px 4px 4px 0;
+            color: #555;
+            padding: 8px 12px;
+            border-radius: 2px;
+            border: 1px solid #555;
+            min-width: 40px;
+            text-align: center;
+        }
+
+            .detail__info-size-item:hover, .detail__info-color-item:hover {
+                cursor: pointer;
+                box-shadow: 0 0.625rem 20px 0
+            }
+
+            .detail__info-size-item:visited, .detail__info-color-item:focus {
+                color: red;
+            }
+
+        .detail__info-button {
+            display: flex;
+            align-items: center;
+            margin: 8px 0
+        }
+
+       
+
+        .detail__info-button-addtoCart {
+            opacity: 0.8;
+        }
+
+            .detail__info-button-addtoCart:hover {
+                opacity: 1;
+            }
+    </style>
+
+    <script>
+      
+
+        function addToCart() {
+        var selectedSize = document.querySelector('input[name="Size"]:checked').value;
+        var selectedColor = document.querySelector('input[name="Color"]:checked').value;
+        $.ajax({
+            url: '@Url.Action("addtoCart", "Cart")',
+            type: 'POST',
+            data: {
+                IdProduct: @Model.Id,
+                IdColor: selectedColor,
+                IdSize: selectedSize,
+                strURL: location.href
+            },
+            success: function (data) {
+                // Xử lý kết quả trả về từ server
+                document.getElementsByClassName("toast-close")[0].addEventListener("click", function () {
+                    window.location.href = data;
+                });
+                // Hiển thị popup
+                $('.header-search__cart-list').hide();
+                $('.success').show();
+                setTimeout(function () {
+                    window.location.href = data;
+                }, 5000);
+
+            },
+            error: function (data) {
+                // Hiển thị popup
+                $('.header-search__cart-list').hide();
+                $('.failed').show();
+                setTimeout(function () {
+                    window.location.href = location.href;
+                }, 5000);
+
+            }
+        });
+    }
+    </script>

@@ -116,13 +116,28 @@
                         <div class="gird__column-6 detail__info">
                             <div class="detail__info-heading">Home/Shop/</div>
                             <h1 class="detail__info-name">420 Long sleeve</h1>
-                            <h2 class="detail__info-price">500.000đ</h2>
+                            <div class="detail__info-price">
+                                <span class="detail__info-price--cost">550.000
+                                    <span class="detail__info-price--symbol">đ</span>
+                                </span>
+                                <span class="detail__info-price--unit">500.000      
+                                     <span class="detail__info-price--symbol">đ</span>
+                                </span>
+                            </div>
                             <div class="detail__info-size">
                                 <span class="detail__info-size-label">Size</span>
                                 <ul class="detail__info-size-list">
                                     <li class="detail__info-size-item">M</li>
                                     <li class="detail__info-size-item">L</li>
                                     <li class="detail__info-size-item">XL</li>
+                                </ul>
+                            </div>
+                            <div class="detail__info-color">
+                                <span class="detail__info-color-label">Color</span>
+                                <ul class="detail__info-color-list">
+                                    <li class="detail__info-color-item">White</li>
+                                    <li class="detail__info-color-item">Black</li>
+                                    <li class="detail__info-color-item">Green</li>
                                 </ul>
                             </div>
                             <div class="detail__info-button">
@@ -140,10 +155,11 @@
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
-                                <button class="btn btn--primary detail__info-button-addtoCart" type="submit" onclick="">
-                                    Thêm vào giỏ hàng
-                                </button>
                             </div>
+
+                            <button class="btn btn--primary detail__info-button-addtoCart" type="submit" onclick="">
+                                Thêm vào giỏ hàng
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -170,33 +186,71 @@
 
         .detail__info-name {
             font-weight: 700;
-            font-size: 2rem;
+            font-size: 3rem;
             line-height: 1.3;
             color: #555;
             width: 100%;
             margin: 8px 0
         }
-        .detail__info-price{
-            font-size: 1.7rem;
-            margin: 8px 0
+
+        .detail__info-price {
+            font-size: 2.2rem;
+            margin: 20px 0
         }
-        .detail__info-size{
-            margin: 8px 0
+
+        .detail__info-price--symbol {
+            font-size: .75em;
+            position: absolute;
+            top: 0;
+            font-size: 1.2rem;
         }
-        .detail__info-size-label{
+
+        .detail__info-price--cost {
+            white-space: nowrap;
+            color: #111;
+            font-weight: 700;
+            opacity: .6;
+            text-decoration: line-through;
+            position: relative;
+        }
+
+        .detail__info-price--unit {
+            white-space: nowrap;
+            color: #111;
+            font-weight: 700;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .detail__info-size, .detail__info-color {
+            margin: 20px 0
+        }
+
+        .detail__info-size-label, .detail__info-color-label {
             font-weight: bold;
+            display: block;
+            margin: 10px 0;
         }
-        .detail__info-size-list{
+
+        .detail__info-size-list, .detail__info-color-list {
             display: flex;
         }
-        .detail__info-size-item{
+
+        .detail__info-size-item, .detail__info-color-item {
             margin: 4px 4px 4px 0;
             color: #555;
-            padding: 4px;
+            padding: 8px 12px;
             border-radius: 2px;
             border: 1px solid #555;
-            width: 25px;
+            min-width: 40px;
             text-align: center;
+        }
+        .detail__info-size-item:hover, .detail__info-color-item:hover{
+            cursor: pointer;
+            box-shadow: 0 0.625rem 20px 0
+        }
+        .detail__info-size-item:visited, .detail__info-color-item:focus{
+            color: red;
         }
         .detail__info-button {
             display: flex;
@@ -206,11 +260,12 @@
 
         .detail__info-button-qty {
             width: 100%;
+            display: block;
         }
 
         .detail__info-button-qty--input {
             max-width: 5rem;
-            width: 5rem;
+            width: 20rem;
             height: 30px;
             text-align: center;
             border-radius: 0 !important;
@@ -235,7 +290,6 @@
 
         .detail__info-button-addtoCart {
             opacity: 0.8;
-            margin-left: 10px;
         }
 
         .detail__info-button-addtoCart:hover {

@@ -9,6 +9,15 @@
     <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Products" Relationship="Self.FK__Product__Categor__267ABA7A" FromRole="Category" ToRole="Product" />
   </EntityType>
+  <EntityType Name="Color">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Ghichu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__ColorId__19DFD96B" FromRole="Colors" ToRole="Stock" />
+  </EntityType>
   <EntityType Name="Customer">
     <Key>
       <PropertyRef Name="Id" />
@@ -20,8 +29,8 @@
     <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
-    <NavigationProperty Name="Orders" Relationship="Self.FK__Order__CustomerI__2D27B809" FromRole="Customer" ToRole="Order" />
     <Property Name="Member" Type="Boolean" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK__Order__CustomerI__4BAC3F29" FromRole="Customer" ToRole="Order" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
@@ -36,29 +45,29 @@
     <Property Name="DeliTime" Type="DateTime" Precision="0" />
     <Property Name="TotalPrice" Type="Double" />
     <Property Name="TotalQuantity" Type="Int32" />
-    <NavigationProperty Name="Customer" Relationship="Self.FK__Order__CustomerI__2D27B809" FromRole="Order" ToRole="Customer" />
-    <NavigationProperty Name="OrderStatu" Relationship="Self.FK__Order__Status__2E1BDC42" FromRole="Order" ToRole="OrderStatus" />
-    <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Order__30F848ED" FromRole="Order" ToRole="OrderDetail" />
     <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK__Order__CustomerI__4BAC3F29" FromRole="Order" ToRole="Customer" />
+    <NavigationProperty Name="OrderStatu" Relationship="Self.FK__Order__Status__02FC7413" FromRole="Order" ToRole="OrderStatus" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Order__208CD6FA" FromRole="Order" ToRole="OrderDetail" />
   </EntityType>
   <EntityType Name="OrderDetail">
     <Key>
       <PropertyRef Name="OrderId" />
-      <PropertyRef Name="ProductId" />
+      <PropertyRef Name="StockId" />
     </Key>
     <Property Name="OrderId" Type="Int32" Nullable="false" />
-    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="StockId" Type="Int32" Nullable="false" />
     <Property Name="Quantity" Type="Int32" />
     <Property Name="unitPrice" Type="Double" />
-    <NavigationProperty Name="Order" Relationship="Self.FK__OrderDeta__Order__30F848ED" FromRole="OrderDetail" ToRole="Order" />
-    <NavigationProperty Name="Product" Relationship="Self.FK__OrderDeta__Produ__31EC6D26" FromRole="OrderDetail" ToRole="Product" />
+    <NavigationProperty Name="Order" Relationship="Self.FK__OrderDeta__Order__208CD6FA" FromRole="OrderDetail" ToRole="Order" />
+    <NavigationProperty Name="Stock" Relationship="Self.FK__OrderDeta__Stock__2180FB33" FromRole="OrderDetail" ToRole="Stock" />
   </EntityType>
-  <EntityType Name="OrderStatus">
+  <EntityType Name="OrderStatu">
     <Key>
       <PropertyRef Name="Status" />
     </Key>
     <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Orders" Relationship="Self.FK__Order__Status__2E1BDC42" FromRole="OrderStatus" ToRole="Order" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK__Order__Status__02FC7413" FromRole="OrderStatus" ToRole="Order" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -71,13 +80,20 @@
     <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="costPrice" Type="Double" />
     <Property Name="unitPrice" Type="Double" />
-    <Property Name="Quantity" Type="Int32" />
     <Property Name="Sold" Type="Int32" />
     <Property Name="Sale" Type="Int32" />
-    <NavigationProperty Name="Category" Relationship="Self.FK__Product__Categor__267ABA7A" FromRole="Product" ToRole="Category" />
-    <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Produ__31EC6D26" FromRole="Product" ToRole="OrderDetail" />
     <Property Name="stockInDate" Type="DateTime" Precision="0" />
-    <NavigationProperty Name="Product_Sizes" Relationship="BoutiqueModel.FK__Product_S__Produ__04E4BC85" FromRole="Product" ToRole="Product_Sizes" />
+    <NavigationProperty Name="Category" Relationship="Self.FK__Product__Categor__267ABA7A" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__ProductId__18EBB532" FromRole="Product" ToRole="Stock" />
+  </EntityType>
+  <EntityType Name="Size">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Ghichu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__SizeId__1AD3FDA4" FromRole="Sizes" ToRole="Stock" />
   </EntityType>
   <EntityType Name="Staff">
     <Key>
@@ -92,6 +108,21 @@
     <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
     <Property Name="CMT" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
     <Property Name="Phone" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Stock">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" />
+    <Property Name="ColorId" Type="Int32" />
+    <Property Name="SizeId" Type="Int32" />
+    <Property Name="Stock1" Type="Int32" />
+    <Property Name="stockInDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Color" Relationship="Self.FK__Stock__ColorId__19DFD96B" FromRole="Stock" ToRole="Colors" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Stock__2180FB33" FromRole="Stock" ToRole="OrderDetail" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__Stock__ProductId__18EBB532" FromRole="Stock" ToRole="Product" />
+    <NavigationProperty Name="Size" Relationship="Self.FK__Stock__SizeId__1AD3FDA4" FromRole="Stock" ToRole="Sizes" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
@@ -115,7 +146,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Order__CustomerI__2D27B809">
+  <Association Name="FK__Stock__ColorId__19DFD96B">
+    <End Role="Colors" Type="Self.Color" Multiplicity="0..1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Colors">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="ColorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Order__CustomerI__4BAC3F29">
     <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
     <End Role="Order" Type="Self.Order" Multiplicity="*" />
     <ReferentialConstraint>
@@ -127,8 +170,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Order__Status__2E1BDC42">
-    <End Role="OrderStatus" Type="BoutiqueModel.OrderStatus" Multiplicity="0..1" />
+  <Association Name="FK__Order__Status__02FC7413">
+    <End Role="OrderStatus" Type="Self.OrderStatu" Multiplicity="0..1" />
     <End Role="Order" Type="Self.Order" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderStatus">
@@ -139,7 +182,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderDeta__Order__30F848ED">
+  <Association Name="FK__OrderDeta__Order__208CD6FA">
     <End Role="Order" Type="Self.Order" Multiplicity="1" />
     <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -151,100 +194,85 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderDeta__Produ__31EC6D26">
-    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+  <Association Name="FK__OrderDeta__Stock__2180FB33">
+    <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
     <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Stock">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="StockId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Stock__ProductId__18EBB532">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Product">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="OrderDetail">
+      <Dependent Role="Stock">
         <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Stock__SizeId__1AD3FDA4">
+    <End Role="Sizes" Type="Self.Size" Multiplicity="0..1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sizes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="SizeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="BoutiqueEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Colors" EntityType="Self.Color" />
     <EntitySet Name="Customers" EntityType="Self.Customer" />
     <EntitySet Name="Orders" EntityType="Self.Order" />
     <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
-    <EntitySet Name="OrderStatus1" EntityType="BoutiqueModel.OrderStatus" />
+    <EntitySet Name="OrderStatus" EntityType="Self.OrderStatu" />
     <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Sizes" EntityType="Self.Size" />
     <EntitySet Name="Staffs" EntityType="Self.Staff" />
+    <EntitySet Name="Stocks" EntityType="Self.Stock" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <AssociationSet Name="FK__Product__Categor__267ABA7A" Association="Self.FK__Product__Categor__267ABA7A">
       <End Role="Category" EntitySet="Categories" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
-    <AssociationSet Name="FK__Order__CustomerI__2D27B809" Association="Self.FK__Order__CustomerI__2D27B809">
+    <AssociationSet Name="FK__Stock__ColorId__19DFD96B" Association="Self.FK__Stock__ColorId__19DFD96B">
+      <End Role="Colors" EntitySet="Colors" />
+      <End Role="Stock" EntitySet="Stocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Order__CustomerI__4BAC3F29" Association="Self.FK__Order__CustomerI__4BAC3F29">
       <End Role="Customer" EntitySet="Customers" />
       <End Role="Order" EntitySet="Orders" />
     </AssociationSet>
-    <AssociationSet Name="FK__Order__Status__2E1BDC42" Association="Self.FK__Order__Status__2E1BDC42">
-      <End Role="OrderStatus" EntitySet="OrderStatus1" />
+    <AssociationSet Name="FK__Order__Status__02FC7413" Association="Self.FK__Order__Status__02FC7413">
+      <End Role="OrderStatus" EntitySet="OrderStatus" />
       <End Role="Order" EntitySet="Orders" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderDeta__Order__30F848ED" Association="Self.FK__OrderDeta__Order__30F848ED">
+    <AssociationSet Name="FK__OrderDeta__Order__208CD6FA" Association="Self.FK__OrderDeta__Order__208CD6FA">
       <End Role="Order" EntitySet="Orders" />
       <End Role="OrderDetail" EntitySet="OrderDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderDeta__Produ__31EC6D26" Association="Self.FK__OrderDeta__Produ__31EC6D26">
-      <End Role="Product" EntitySet="Products" />
+    <AssociationSet Name="FK__OrderDeta__Stock__2180FB33" Association="Self.FK__OrderDeta__Stock__2180FB33">
+      <End Role="Stock" EntitySet="Stocks" />
       <End Role="OrderDetail" EntitySet="OrderDetails" />
     </AssociationSet>
-    <EntitySet Name="Sizes1" EntityType="BoutiqueModel.Sizes" />
-    <EntitySet Name="Product_Sizes" EntityType="BoutiqueModel.Product_Sizes" />
-    <AssociationSet Name="FK__Product_S__Produ__04E4BC85" Association="BoutiqueModel.FK__Product_S__Produ__04E4BC85">
+    <AssociationSet Name="FK__Stock__ProductId__18EBB532" Association="Self.FK__Stock__ProductId__18EBB532">
       <End Role="Product" EntitySet="Products" />
-      <End Role="Product_Sizes" EntitySet="Product_Sizes" />
+      <End Role="Stock" EntitySet="Stocks" />
     </AssociationSet>
-    <AssociationSet Name="FK__Product_S__SizeI__05D8E0BE" Association="BoutiqueModel.FK__Product_S__SizeI__05D8E0BE">
-      <End Role="Sizes" EntitySet="Sizes1" />
-      <End Role="Product_Sizes" EntitySet="Product_Sizes" />
+    <AssociationSet Name="FK__Stock__SizeId__1AD3FDA4" Association="Self.FK__Stock__SizeId__1AD3FDA4">
+      <End Role="Sizes" EntitySet="Sizes" />
+      <End Role="Stock" EntitySet="Stocks" />
     </AssociationSet>
   </EntityContainer>
-  <EntityType Name="Sizes">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="Ghichu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Product_Sizes" Relationship="BoutiqueModel.FK__Product_S__SizeI__05D8E0BE" FromRole="Sizes" ToRole="Product_Sizes" />
-  </EntityType>
-  <EntityType Name="Product_Sizes">
-    <Key>
-      <PropertyRef Name="ProductId" />
-      <PropertyRef Name="SizeId" />
-    </Key>
-    <Property Name="ProductId" Type="Int32" Nullable="false" />
-    <Property Name="SizeId" Type="Int32" Nullable="false" />
-    <Property Name="Quantity" Type="Int32" />
-    <NavigationProperty Name="Product" Relationship="BoutiqueModel.FK__Product_S__Produ__04E4BC85" FromRole="Product_Sizes" ToRole="Product" />
-    <NavigationProperty Name="Size" Relationship="BoutiqueModel.FK__Product_S__SizeI__05D8E0BE" FromRole="Product_Sizes" ToRole="Sizes" />
-  </EntityType>
-  <Association Name="FK__Product_S__Produ__04E4BC85">
-    <End Type="BoutiqueModel.Product" Role="Product" Multiplicity="1" />
-    <End Type="BoutiqueModel.Product_Sizes" Role="Product_Sizes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Product_Sizes">
-        <PropertyRef Name="ProductId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Product_S__SizeI__05D8E0BE">
-    <End Type="BoutiqueModel.Sizes" Role="Sizes" Multiplicity="1" />
-    <End Type="BoutiqueModel.Product_Sizes" Role="Product_Sizes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Sizes">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Product_Sizes">
-        <PropertyRef Name="SizeId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>

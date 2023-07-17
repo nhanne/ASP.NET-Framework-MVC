@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.headTitle = "Phân loại sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <div class="row element-button">
+                    <div class="col-sm-2">
+
+                        <a class="btn btn-add btn-sm" href="@Url.Action("AddPhanLoai","Product",new { Id = ViewBag.Id})">
+                            <i class="fas fa-plus"></i>
+                            Thêm phân loại sản phẩm mới
+                        </a>
+                    </div>
+                </div>
+
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+
+                            <th>Tên sản phẩm</th>
+                            <th>Màu sắc</th>
+                            <th>Kích cỡ</th>
+                            <th>Số lượng</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            @foreach (var item in ViewBag.stock)
+                            {
+                                <tr>
+                                    <td>@item.Product.Name</td>
+                                    <td>@item.Color.Name</td>
+                                    <td>@item.Size.Name</td>
+                                    <td>@item.Stock1</td>
+                                    <td>
+                                        @*<button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
+                                                onclick="location.href='@Url.Action("Edit", "Product",new { id = item.Id })'">
+                                            Chỉnh sửa
+                                        </button>
+                                        <button class="btn btn-primary btn-sm info" type="button" title="Sửa"
+                                                onclick="location.href='@Url.Action("Detail", "Product",new { id = item.Id })'">
+                                            Chi tiết
+                                        </button>*@
+                                    </td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

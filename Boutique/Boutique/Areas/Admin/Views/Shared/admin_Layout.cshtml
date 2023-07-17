@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@ViewBag.Title | Quản trị Admin</title>
+    <title>@ViewBag.Title | Admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -53,12 +53,7 @@
         </div>
         <hr>
         <ul class="app-menu">
-            <li>
-                <a class="app-menu__item haha" href="phan-mem-ban-hang.html">
-                    <i class='app-menu__icon bx bx-cart-alt'></i>
-                    <span class="app-menu__label">POS Bán Hàng</span>
-                </a>
-            </li>
+           
             <li>
                 <a class="app-menu__item " href="@Url.Action("Index","Staff")">
                     <i class='app-menu__icon bx bx-id-card'></i> <span class="app-menu__label">Quản lý nhân viên</span>
@@ -75,6 +70,11 @@
                 </a>
             </li>
             <li>
+                <a class="app-menu__item" href="@Url.Action("Index","Stock")">
+                    <i class="app-menu__icon bx bx-cart-alt"></i><span class="app-menu__label">Quản lý kho</span>
+                </a>
+            </li>
+            <li>
                 <a class="app-menu__item" href="@Url.Action("Index","Order")">
                     <i class='app-menu__icon bx bx-task'></i><span class="app-menu__label">Quản lý đơn hàng</span>
                 </a>
@@ -84,6 +84,7 @@
                     <i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span>
                 </a>
             </li>
+
         </ul>
     </aside>
 

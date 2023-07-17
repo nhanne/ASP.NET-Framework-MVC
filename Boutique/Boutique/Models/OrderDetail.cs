@@ -15,11 +15,11 @@ namespace Boutique.Models
     public partial class OrderDetail
     {
         public int OrderId { get; set; }
-        public int ProductId { get; set; }
+        public int StockId { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<double> unitPrice { get; set; }
     
         public virtual Order Order { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual Stock Stock { get; set; }
     }
 }

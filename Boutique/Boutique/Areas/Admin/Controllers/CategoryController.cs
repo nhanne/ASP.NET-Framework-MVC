@@ -17,7 +17,7 @@ namespace Boutique.Areas.Admin.Controllers
         public ActionResult Index(int? page)
         {
             int pageNumber = (page ?? 1);
-            int pageSize = 5;
+            int pageSize = 10;
             var dsCate = _db.Categories.ToList().OrderBy(n => n.Id).ToPagedList(pageNumber, pageSize);
             ViewBag.dsCate = dsCate;
             return View(dsCate);

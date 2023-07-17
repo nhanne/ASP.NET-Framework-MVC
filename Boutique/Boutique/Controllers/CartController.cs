@@ -1,6 +1,7 @@
 ﻿using Boutique.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -34,15 +35,15 @@ namespace Boutique.Controllers
 
         // Thêm sản phẩm vào giỏ hàng
         [HttpPost]
-        public ActionResult addtoCart(int IdProduct, string strURL)
+        public ActionResult addtoCart(int IdProduct,int IdColor, int IdSize, string strURL)
         {
             // Lấy ra session giỏ hàng
             List<Cart> listCart = getCart();
             // Kiểm tra sản phẩm này có trong giỏ hàng chưa
-            Cart product = listCart.Find(n => n.IdProduct == IdProduct);
+            Cart product = listCart.Find(n => n.IdProduct == IdProduct && n.IdColor == IdColor && n.IdSize == IdSize );
             if (product == null)
             {
-                product = new Cart(IdProduct);
+                product = new Cart(IdProduct, IdColor, IdSize);
                 listCart.Add(product);
             }
             else
@@ -75,16 +76,16 @@ namespace Boutique.Controllers
             return iTongTien;
         }
         //Xóa sản phẩm khỏi giỏ hàng
-        public ActionResult deletefromCart(int IdProduct)
+        public ActionResult deletefromCart(int IdProduct, int IdColor, int IdSize)
         {
             // Lấy giỏ hàng từ session
             List<Cart> listCart = getCart();
             // Kiểm tra sản phẩm có trong giỏ hàng hay không
-            Cart product = listCart.SingleOrDefault(n => n.IdProduct == IdProduct);
+            Cart product = listCart.SingleOrDefault(n => n.IdProduct == IdProduct && n.IdColor == IdColor && n.IdSize == IdSize);
             //nếu tồn tại thì sửa số lượng
             if (product != null)
             {
-                listCart.RemoveAll(n => n.IdProduct == IdProduct);
+                listCart.RemoveAll(n => n.IdProduct == IdProduct && n.IdColor == IdColor && n.IdSize == IdSize);
                 return RedirectToAction("Index");
             }
             if (listCart.Count == 0)
@@ -94,12 +95,12 @@ namespace Boutique.Controllers
             return RedirectToAction("Index");
         }
         // Cập nhật giỏ hàng
-        public ActionResult UpdateCart(int IdProduct, FormCollection f)
+        public ActionResult UpdateCart(int IdProduct, int IdColor , int IdSize, FormCollection f)
         {
             // Lấy giỏ hàng từ session
             List<Cart> listCart = getCart();
             // Kiểm tra sản phẩm có trong giỏ hàng hay không
-            Cart product = listCart.SingleOrDefault(n => n.IdProduct == IdProduct);
+            Cart product = listCart.SingleOrDefault(n => n.IdProduct == IdProduct && n.IdColor == IdColor && n.IdSize == IdSize);
             if (product != null)
             {
                 product.Quantity = int.Parse(f["quantity"].ToString());
@@ -161,10 +162,14 @@ namespace Boutique.Controllers
                 {
                     OrderDetail detailOrd = new OrderDetail();
                     detailOrd.OrderId = order.Id;
-                    detailOrd.ProductId = item.IdProduct;
+                    detailOrd.StockId = item.IdStock;
                     detailOrd.Quantity = item.Quantity;
                     detailOrd.unitPrice = item.unitPrice;
                     _db.OrderDetails.Add(detailOrd);
+                    Stock stock = _db.Stocks.SingleOrDefault(s => s.ProductId == item.IdProduct && s.ColorId == item.IdColor && s.SizeId == item.IdSize);
+                    stock.Stock1--;
+                    _db.Entry(stock).State = EntityState.Modified;
+                    _db.SaveChanges();
                 }
                 _db.SaveChanges();
                 Session["Cart"] = null;

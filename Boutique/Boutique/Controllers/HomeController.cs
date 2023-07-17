@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,10 +15,10 @@ namespace Boutique.Controllers
         public ActionResult Index()
         {
             var dsProduct = from p in _db.Products select p;
-            ViewBag.dsProduct = dsProduct.OrderByDescending(p=>p.stockInDate).Take(4).ToList();
+            ViewBag.dsProduct = dsProduct.OrderByDescending(p => p.Id).Take(4).ToList();
             return View();
         }
-        public ActionResult Store(string sort,string category, string search, int pageIndex = 1)
+        public ActionResult Store(string sort, string category, string search, int pageIndex = 1)
         {
             var dsCate = _db.Categories.ToList();
             ViewBag.dsCate = dsCate.ToList();
@@ -32,7 +33,7 @@ namespace Boutique.Controllers
                 ViewBag.Search = search;
                 query = query.Where(p => p.Name.ToLower().Contains(search.ToLower()));
             }
-            
+
             query = Sort(sort, query);
             // Phân trang
             var products = query.ToList();
@@ -76,5 +77,17 @@ namespace Boutique.Controllers
 
             return query;
         }
+        public ActionResult Product(int Id)
+        {
+            Product product = _db.Products.SingleOrDefault(p => p.Id == Id);
+            var stocks = _db.Stocks.Where(p => p.ProductId == Id).Include(s=>s.Size).Include(s=>s.Color);
+            var size = stocks.Select(s=> s.Size).Distinct().ToList();
+            var color = stocks.Select(s => s.Color).Distinct().ToList();
+            ViewBag.size = size;
+            ViewBag.color = color;
+            ViewBag.dsCate = _db.Categories.ToList();
+            return View(product);
+        }
+      
     }
 }
