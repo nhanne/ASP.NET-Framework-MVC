@@ -101,5 +101,73 @@ namespace Boutique.Areas.Admin.Controllers
             ViewBag.sizes = sizes;
             return View();
         }
+        public ActionResult newSize()
+        {
+            return View(new Size() { Id = 0, Name = "", Ghichu = "" });
+        }
+        [HttpPost]
+        public ActionResult newSize(Size model)
+        {
+
+            // lưu dữ liệu vào db
+            if (ModelState.IsValid)
+            {
+                _db.Sizes.Add(model);
+                _db.SaveChanges();
+                return RedirectToAction("Size", "Stock");
+            }
+            return View(model);
+        }
+        public ActionResult deleteSize(int Id)
+        {
+
+            if (Id.ToString() == null)
+            {
+                return RedirectToAction("Size", "Stock");
+            }
+            Size size = _db.Sizes.Find(Id);
+            if (size == null)
+            {
+                return HttpNotFound();
+            }
+            return View(size);
+        }
+        [HttpPost, ActionName("deleteSize")]
+        [ValidateAntiForgeryToken]
+        public ActionResult confirmXsize(int Id)
+        {
+            Size size = _db.Sizes.Find(Id);
+            _db.Sizes.Remove(size);
+            _db.SaveChanges();
+            return RedirectToAction("Size", "Stock");
+        }
+         public ActionResult editSize(int Id)
+        {
+            if (Id.ToString() == null)
+            {
+                return RedirectToAction("Size", "Stock");
+            }
+            Size size = _db.Sizes.Find(Id);
+            if (size == null)
+            {
+                return HttpNotFound();
+            }
+            return View(size);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editSize(Color model)
+        {
+            Size size = _db.Sizes.Find(model.Id);
+            if (ModelState.IsValid)
+            {
+                size.Name = model.Name;
+                size.Ghichu = model.Ghichu;
+                _db.Entry(size).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Size", "Stock");
+            }
+            return View(model);
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Boutique.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -132,6 +134,7 @@ namespace Boutique.Controllers
             var products = _db.Products.ToList();
             var address = f["address"];
             var note = f["note"];
+            var payment = f["payment"];
             var check = _db.Customers.FirstOrDefault(s => s.Email.Equals(model.Email) && s.Member == true);
             ModelState.Remove("Password");
             if (ModelState.IsValid)
@@ -153,7 +156,7 @@ namespace Boutique.Controllers
                 order.OrdTime = DateTime.Now;
                 order.DeliTime = order.OrdTime.Value.AddDays(3);
                 order.Status = "Chưa giao hàng";
-                order.PaymentId = 3;
+                order.PaymentId = int.Parse(payment);
                 order.Address = address.ToString();
                 order.TotalPrice = TongTien();
                 order.TotalQuantity = totalQuantity();
@@ -176,16 +179,28 @@ namespace Boutique.Controllers
                     _db.Entry(stock).State = EntityState.Modified;
                     _db.SaveChanges();
                 }
-                _db.SaveChanges();
-                Session["Cart"] = null;
-                sendPass(order);
-                return RedirectToAction("confirmOrder", "Cart", new { Id = order.Id });
+                switch (int.Parse(payment))
+                {
+                    case 1:
+                        return RedirectToAction("confirmOrder", new { Id = order.Id });
+                    case 2:
+                        return RedirectToAction("Payment", new { orderId = order.Id });
+                    case 3:
+                        return RedirectToAction("confirmOrder", new { Id = order.Id });
+                }
+               
             }
             return View(model);
         }
         public ActionResult confirmOrder(int Id)
         {
             Order order = _db.Orders.SingleOrDefault(o => o.Id == Id);
+            if (Id == null || order == null)
+            {
+                return RedirectToAction("Index");
+            }
+            sendPass(order);
+            Session["Cart"] = null;
             var ordDetail = _db.OrderDetails.ToList();
             ViewBag.ordDetail = ordDetail;
             return View(order);
@@ -227,6 +242,7 @@ namespace Boutique.Controllers
                 "<p><strong>Mã đơn hàng:</strong> " + order.Id + "</p>" +
                 "<p><strong>Ngày đặt hàng:</strong> " + order.OrdTime?.ToString("dd/MM/yyyy") + "</p>" +
                 "<p><strong>Tình trạng đơn hàng:</strong> " + order.Status + "</p>" +
+                "<p><strong>Hình thức vận chuyển:</strong> " + order.Payment.Ghichu + "</p>" +
                 "<p><strong>Dự kiến giao hàng:</strong> " + order.DeliTime?.ToString("dd/MM/yyyy") + "</p>" +
                 "<p><strong>Giá trị đơn hàng:</strong> " + string.Format("{0:#,0}", order.TotalPrice) + "VNĐ" + "</p>" +
                 "<!-- Thêm thông tin khác về đơn hàng nếu cần -->" +
@@ -253,6 +269,171 @@ namespace Boutique.Controllers
                 smtp.Send(message);
             }
         }
-        //
+        //thanh toán VNPAY
+        public ActionResult Payment(int orderId) // tạo yêu cầu thanh toán và chuyển hướng người dùng đến trang thanh toán
+        {
+            Order order = _db.Orders.FirstOrDefault(o => o.Id == orderId);
+            if (order == null)
+            {
+                // Xử lý lỗi khi không tìm thấy đơn hàng
+                return RedirectToAction("Index", "Home"); // Hoặc chuyển hướng tới trang lỗi
+            }
+            string url = ConfigurationManager.AppSettings["Url"];
+            string returnUrl = ConfigurationManager.AppSettings["ReturnUrl"];
+            string tmnCode = ConfigurationManager.AppSettings["TmnCode"];
+            string hashSecret = ConfigurationManager.AppSettings["HashSecret"];
+
+            PayLib pay = new PayLib();
+
+            pay.AddRequestData("vnp_Version", "2.1.0"); //Phiên bản api mà merchant kết nối. Phiên bản hiện tại là 2.1.0
+            pay.AddRequestData("vnp_Command", "pay"); //Mã API sử dụng, mã cho giao dịch thanh toán là 'pay'
+            pay.AddRequestData("vnp_TmnCode", tmnCode); //Mã website của merchant trên hệ thống của VNPAY (khi đăng ký tài khoản sẽ có trong mail VNPAY gửi về)
+            pay.AddRequestData("vnp_Amount", (order.TotalPrice * 100).ToString()); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
+            pay.AddRequestData("vnp_BankCode", ""); //Mã Ngân hàng thanh toán (tham khảo: https://sandbox.vnpayment.vn/apis/danh-sach-ngan-hang/), có thể để trống, người dùng có thể chọn trên cổng thanh toán VNPAY
+            pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")); //ngày thanh toán theo định dạng yyyyMMddHHmmss
+            pay.AddRequestData("vnp_CurrCode", "VND"); //Đơn vị tiền tệ sử dụng thanh toán. Hiện tại chỉ hỗ trợ VND
+            pay.AddRequestData("vnp_IpAddr", Util.GetIpAddress()); //Địa chỉ IP của khách hàng thực hiện giao dịch
+            pay.AddRequestData("vnp_Locale", "vn"); //Ngôn ngữ giao diện hiển thị - Tiếng Việt (vn), Tiếng Anh (en)
+            pay.AddRequestData("vnp_OrderInfo", "Thanh toán đơn hàng"); //Thông tin mô tả nội dung thanh toán
+            pay.AddRequestData("vnp_OrderType", "other"); //topup: Nạp tiền điện thoại - billpayment: Thanh toán hóa đơn - fashion: Thời trang - other: Thanh toán trực tuyến
+            pay.AddRequestData("vnp_ReturnUrl", returnUrl); //URL thông báo kết quả giao dịch khi Khách hàng kết thúc thanh toán
+            pay.AddRequestData("vnp_TxnRef", orderId.ToString());  //mã hóa đơn
+            //pay.AddRequestData("vnp_payment", order.Payment.ToString()); //mã hóa đơn
+
+
+            string paymentUrl = pay.CreateRequestUrl(url, hashSecret);
+
+            return Redirect(paymentUrl);
+        }
+        public ActionResult PaymentConfirm()
+        {
+            if (Request.QueryString.Count > 0)
+            {
+                string hashSecret = ConfigurationManager.AppSettings["HashSecret"]; //Chuỗi bí mật
+                var vnpayData = Request.QueryString;
+                PayLib pay = new PayLib();
+
+                //lấy toàn bộ dữ liệu được trả về
+                foreach (string s in vnpayData)
+                {
+                    if (!string.IsNullOrEmpty(s) && s.StartsWith("vnp_"))
+                    {
+                        pay.AddResponseData(s, vnpayData[s]);
+                    }
+                }
+                long orderId = Convert.ToInt64(pay.GetResponseData("vnp_TxnRef")); //mã hóa đơn
+
+                long vnpayTranId = Convert.ToInt64(pay.GetResponseData("vnp_TransactionNo")); //mã giao dịch tại hệ thống VNPAY
+                string vnp_ResponseCode = pay.GetResponseData("vnp_ResponseCode"); //response code: 00 - thành công, khác 00 - xem thêm https://sandbox.vnpayment.vn/apis/docs/bang-ma-loi/
+                string vnp_SecureHash = Request.QueryString["vnp_SecureHash"]; //hash của dữ liệu trả về
+
+                bool checkSignature = pay.ValidateSignature(vnp_SecureHash, hashSecret); //check chữ ký đúng hay không?
+                Order order = _db.Orders.FirstOrDefault(o => o.Id == orderId);
+                if (checkSignature)
+                {
+                    if (vnp_ResponseCode == "00")
+                    {
+                        //Thanh toán thành công
+                        Session["Cart"] = null;
+                        ViewBag.Message = "Thanh toán thành công hóa đơn " + order.Id.ToString() + " | Mã giao dịch: " + vnpayTranId;
+                    }
+                    else
+                    {
+                        //Thanh toán không thành công. Mã lỗi: vnp_ResponseCode
+                        var orderDetail = _db.OrderDetails.Where(o => o.OrderId == order.Id).ToList();
+                        foreach (var item in orderDetail)
+                        {
+                            _db.OrderDetails.Remove(item);
+                            _db.SaveChanges();
+                        }
+                        _db.Orders.Remove(order);
+                        _db.SaveChanges();
+                        ViewBag.Message = "Có lỗi xảy ra trong quá trình xử lý hóa đơn " + orderId + " | Mã giao dịch: " + vnpayTranId + " | Mã lỗi: " + vnp_ResponseCode;
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "Có lỗi xảy ra trong quá trình xử lý";
+                }
+                return RedirectToAction("confirmOrder", new { Id = order.Id });
+            }
+            return RedirectToAction("Index");
+        }
+        // Momo payment
+        public ActionResult PaymentMomo(int? Id)
+        {
+            //request params need to request to MoMo system
+            string endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
+            string partnerCode = "MOMOOJOI20210710";
+            string accessKey = "iPXneGmrJH0G8FOP";
+            string serectkey = "sFcbSGRSJjwGxwhhcEktCHWYUuTuPNDB";
+            string orderInfo = "test";
+            string returnUrl = "https://localhost:44379/Home/ConfirmPaymentClient";
+            string notifyurl = "https://4c8d-2001-ee0-5045-50-58c1-b2ec-3123-740d.ap.ngrok.io/Home/SavePayment"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
+
+            Order order = _db.Orders.Find(Id);
+            string orderId = order.Id.ToString(); //mã đơn hàng
+            string amount = order.TotalPrice.ToString(); // giá trị đơn hàng
+            string requestId = DateTime.Now.Ticks.ToString();
+            string extraData = "";
+
+            //Before sign HMAC SHA256 signature
+            string rawHash = "partnerCode=" +
+                partnerCode + "&accessKey=" +
+                accessKey + "&requestId=" +
+                requestId + "&amount=" +
+                amount + "&orderId=" +
+                orderId + "&orderInfo=" +
+                orderInfo + "&returnUrl=" +
+                returnUrl + "&notifyUrl=" +
+                notifyurl + "&extraData=" +
+                extraData;
+
+            MomoSecurity crypto = new MomoSecurity();
+            //sign signature SHA256
+            string signature = crypto.signSHA256(rawHash, serectkey);
+
+            //build body json request
+            JObject message = new JObject
+            {
+                { "partnerCode", partnerCode },
+                { "accessKey", accessKey },
+                { "requestId", requestId },
+                { "amount", amount },
+                { "orderId", orderId },
+                { "orderInfo", orderInfo },
+                { "returnUrl", returnUrl },
+                { "notifyUrl", notifyurl },
+                { "extraData", extraData },
+                { "requestType", "captureMoMoWallet" },
+                { "signature", signature }
+
+            };
+
+            string responseFromMomo = PaymentRequest.sendPaymentRequest(endpoint, message.ToString());
+
+            JObject jmessage = JObject.Parse(responseFromMomo);
+
+            return Redirect(jmessage.GetValue("payUrl").ToString());
+        }
+
+        //Khi thanh toán xong ở cổng thanh toán Momo, Momo sẽ trả về một số thông tin, trong đó có errorCode để check thông tin thanh toán
+        //errorCode = 0 : thanh toán thành công (Request.QueryString["errorCode"])
+        //Tham khảo bảng mã lỗi tại: https://developers.momo.vn/#/docs/aio/?id=b%e1%ba%a3ng-m%c3%a3-l%e1%bb%97i
+        public ActionResult ConfirmPaymentClient(Result result)
+        {
+            //lấy kết quả Momo trả về và hiển thị thông báo cho người dùng (có thể lấy dữ liệu ở đây cập nhật xuống db)
+            string rMessage = result.message;
+            string rOrderId = result.orderId;
+            string rErrorCode = result.errorCode; // = 0: thanh toán thành công
+            return RedirectToAction("confirmOrder", new { Id = int.Parse(result.orderId) });
+        }
+
+        [HttpPost]
+        public void SavePayment()
+        {
+            //cập nhật dữ liệu vào db
+            String a = "";
+        }
     }
 }

@@ -23,9 +23,7 @@ namespace Boutique.Models
     
         public int Id { get; set; }
         public Nullable<int> ProductId { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập mã màu")]
         public Nullable<int> ColorId { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập kích thước")]
         public Nullable<int> SizeId { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập số lượng sản phẩm")]
         [Range(0, 10000, ErrorMessage = "Số lượng sản phẩm phải lớn hơn 0")]

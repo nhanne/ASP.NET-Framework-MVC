@@ -18,18 +18,19 @@
     /*=========================== NAVBAR ==============================*/
     #navbar {
         display: block;
-        padding: 25px 20px;
+        padding: 26px 20px;
         overflow: hidden;
     }
 
     #navbar button {
         display: inline-block;
         position: absolute;
-        /* top: 5px; */
+        top: 15px; 
         right: 10px;
         font-size: 1.25rem;
         padding: .25rem .75rem;
         border-radius: .25rem;
+        border: 1px solid black;
         transition: box-shadow .15s
     }
 
@@ -66,11 +67,17 @@
         display: none
     }
     /*=========================== BANNER ==============================*/
-    #main #about .colum-item1 {
-        transform: none;
+    #banner{
+        height: 100vh;
+        widows 100vw;
     }
-    #main #about .colum-item3 {
-        transform: none;
+    #banner #logo{
+        display: none
+    }
+    #banner #slideshow{
+        position:unset;
+        height: 100%;
+        width: 100%
     }
     /*=========================== MAIN ==============================*/
     #about.row {
@@ -104,5 +111,44 @@
     }
     .store__body .grid__column-10{
         width: 100%;
+    }
+    /*=========================== ABOUT ==============================*/
+    #about ul.social_media {
+        top: 40px
+    }
+    #about .item .content{
+        left:50px;
+        width: 200px
+    }
+    /*=========================== CONTACT ==============================*/
+    #contact .grid__row{
+        display: block;
+    }
+    #contact .grid__column-6{
+        width: 100%
+    }
+    #contact .contact__form button {
+        margin-top: 20px
+    }
+    /*=========================== Footer ==============================*/
+
+    .footer .grid__column-2-4 {
+        width: 100% 
+    }
+    /*=========================== Detail Product ==============================*/
+    .grid__row.detail {
+        display:block
+    }
+    .detail__info-name {
+        font-size: 2rem !important
+    }
+    .detail__info-price--cost {
+        font-size: 0.1rem !important;
+    }
+    .detail__info-price--unit{
+        font-size: 1.4rem!important;
+    }
+    .grid__column-6.detail__picture, .grid__column-6.detail__info {
+        width: 100%
     }
 }

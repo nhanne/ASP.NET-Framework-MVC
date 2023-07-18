@@ -170,6 +170,56 @@ namespace Boutique.Areas.Admin.Controllers
             }
             return View(model);
         }
-
+        public ActionResult EditPhanLoai(int Id)
+        {
+            if (Id.ToString() == null)
+            {
+                return RedirectToAction("Index", "Product");
+            }
+            Stock stock = _db.Stocks.FirstOrDefault(p => p.Id == Id);
+            if(stock == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(stock);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPhanLoai(Stock model)
+        {
+            Stock stock = _db.Stocks.Find(model.Id);
+            if (ModelState.IsValid)
+            {
+                
+                stock.Stock1 = model.Stock1;
+                stock.stockInDate = DateTime.Now;
+                _db.Entry(stock).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("PhanLoaiSP", new { Id = stock.ProductId });
+            }
+            return View(model);
+        }
+        public ActionResult DeletePhanLoai(int Id)
+        {
+            if (Id.ToString() == null)
+            {
+                return RedirectToAction("Index", "Product");
+            }
+            Stock stock = _db.Stocks.FirstOrDefault(p => p.Id == Id);
+            if (stock == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(stock);
+        }
+        [HttpPost, ActionName("DeletePhanLoai")]
+        [ValidateAntiForgeryToken]
+        public ActionResult confirmXPhanLoai(int Id)
+        {
+            Stock stock = _db.Stocks.FirstOrDefault(p => p.Id == Id);
+            _db.Stocks.Remove(stock);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
