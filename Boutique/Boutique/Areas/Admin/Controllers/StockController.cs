@@ -1,7 +1,9 @@
 ﻿using Boutique.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -37,6 +39,58 @@ namespace Boutique.Areas.Admin.Controllers
             {
                 _db.Colors.Add(model);
                 _db.SaveChanges();
+                return RedirectToAction("Color", "Stock");
+            }
+            return View(model);
+        }
+        public ActionResult deleteColor(int Id)
+        {
+
+            if (Id.ToString() == null)
+            {
+                return RedirectToAction("Color", "Stock");
+            }
+            Color color = _db.Colors.Find(Id);
+            if (color == null)
+            {
+                return HttpNotFound();
+            }
+            return View(color);
+        }
+        [HttpPost, ActionName("deleteColor")]
+        [ValidateAntiForgeryToken]
+        public ActionResult confirmXcolor(int Id)
+        {
+                Color color = _db.Colors.Find(Id);
+                _db.Colors.Remove(color);
+                _db.SaveChanges();
+            return RedirectToAction("Color", "Stock");
+        }
+        public ActionResult editColor(int Id)
+        {
+            if (Id.ToString() == null)
+            {
+                return RedirectToAction("Color", "Stock");
+            }
+            Color color = _db.Colors.Find(Id);
+            if (color == null)
+            {
+                return HttpNotFound();
+            }
+            return View(color);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editColor(Color model)
+        {
+            Color color = _db.Colors.Find(model.Id);
+            if (ModelState.IsValid)
+            {
+                color.Name = model.Name;
+                color.Ghichu = model.Ghichu;
+                _db.Entry(color).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Color", "Stock");
             }
             return View(model);
         }

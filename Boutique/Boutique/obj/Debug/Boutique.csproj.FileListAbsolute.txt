@@ -176,3 +176,5 @@ C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.abstractions.dl
 C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.core.dll
 C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.abstractions.xml
 C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.core.xml
+C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.execution.desktop.dll
+C:\Users\nhanc\Desktop\BoutiqueStore\Boutique\Boutique\bin\xunit.execution.desktop.xml

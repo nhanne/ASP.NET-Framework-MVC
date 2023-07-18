@@ -59,38 +59,47 @@
                                     <span class="detail__info-price--symbol">đ</span>
                                 </span>
                             </div>
-                            <div class="detail__info-size">
-                                <span class="detail__info-size-label">Size</span>
-                                <ul class="detail__info-size-list">
-                                    @foreach (var size in ViewBag.size)
-                                    {
-                                        <li class="detail__info-size-item">
-                                            <input type="radio" name="Size" value="@size.Id" id="@size.Id" />
-                                            <label for="@size.Id">@size.Name</label>
-                                        </li>
-                                    }
+                            @if (ViewBag.size.Count != 0)
+                            {
+                                <div class="detail__info-size">
+                                    <span class="detail__info-size-label">Size</span>
+                                    <ul class="detail__info-size-list">
 
-                                </ul>
+                                        @foreach (var size in ViewBag.size)
+                                        {
+                                            <li class="detail__info-size-item">
+                                                <input type="radio" name="Size" value="@size.Id" id="@size.Id" />
+                                                <label for="@size.Id">@size.Name</label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            @if (ViewBag.color.Count != 0)
+                            {
+                                <div class="detail__info-color">
+                                    <span class="detail__info-color-label">Color</span>
+                                    <ul class="detail__info-color-list">
+                                        @foreach (var color in ViewBag.color)
+                                        {
+                                            <li class="detail__info-color-item">
+                                                <input type="radio" name="Color" value="@color.Id" id="@color.Id" />
+                                                <label for="@color.Id">@color.Name</label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            @if (ViewBag.color.Count != 0 || ViewBag.size.Count != 0)
+                            {
+                                <button class="btn btn--primary detail__info-button-addtoCart" type="submit" onclick="addToCart()">
+                                    Thêm vào giỏ hàng
+                                </button>
+                            }
+                            else {
+                                <span class="validate">Sản phẩm hiện đang hết hàng, vui lòng quay lại sau.</span>
+                            }
                             </div>
-                            <div class="detail__info-color">
-                                <span class="detail__info-color-label">Color</span>
-                                <ul class="detail__info-color-list">
-                                    @foreach (var color in ViewBag.color)
-                                    {
-                                        <li class="detail__info-color-item">
-                                            <input type="radio" name="Color" value="@color.Id" id="@color.Id" />
-                                            <label for="@color.Id">@color.Name</label>
-                                        </li>
-                                    }
-
-                                </ul>
-                            </div>
-                          
-
-                            <button class="btn btn--primary detail__info-button-addtoCart" type="submit" onclick="addToCart()">
-                                Thêm vào giỏ hàng
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

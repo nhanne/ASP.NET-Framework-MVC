@@ -62,11 +62,12 @@ namespace Boutique.Areas.Admin.Controllers
                 product.Picture = anh;
                 Random prCode = new Random();
                 product.Code = prCode.Next(72000000,79000000).ToString();
+                product.Sold = 0;
                 product.unitPrice = (product.Sale != null) ? (product.unitPrice = (product.costPrice - (product.costPrice * product.Sale) / 100)) : (product.unitPrice = product.costPrice);                       
                 _db.Products.Add(product);
                 _db.SaveChanges();
                
-                return RedirectToAction("Index");
+                return RedirectToAction("AddPhanLoai", new {Id = product.Id });
             }
             ViewBag.CategoryId = new SelectList(_db.Categories, "Id", "Name", product.CategoryId);
             return View(product);
@@ -91,6 +92,7 @@ namespace Boutique.Areas.Admin.Controllers
         public ActionResult Edit([Bind(Include = "Id,CategoryId,Picture,Name,Code,costPrice,Quantity,Sold,Sale")] Product product, HttpPostedFileBase file)
         {
             Product pr = _db.Products.Find(product.Id);
+            ViewBag.CatalogId = new SelectList(_db.Categories, "Id", "Name", pr.CategoryId);
             if (ModelState.IsValid)
             {
                 String anh = pr.Picture;
@@ -119,7 +121,6 @@ namespace Boutique.Areas.Admin.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CatalogId = new SelectList(_db.Categories, "Id", "Name", pr.CategoryId);
             return View(product);
         }
         public ActionResult PhanLoaiSP(int Id)

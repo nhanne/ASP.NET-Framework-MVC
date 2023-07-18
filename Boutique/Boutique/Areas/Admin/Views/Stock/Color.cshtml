@@ -33,14 +33,13 @@
             <td>@item.Name</td>
             <td>@item.Ghichu</td>
             <td>
-
-                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" id="delete-btn"
-                        onclick="location.href='@Url.Action("Delete", "Category",new { id = item.Id })'">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
                 <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                        onclick="location.href='@Url.Action("Edit", "Category",new { id = item.Id })'">
+                        onclick="location.href='@Url.Action("editColor", "Stock",new { id = item.Id })'">
                     <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" id="delete-btn"
+                        onclick="location.href='@Url.Action("deleteColor", "Stock",new { id = item.Id })'">
+                    <i class="fas fa-trash-alt"></i>
                 </button>
             </td>
         </tr>

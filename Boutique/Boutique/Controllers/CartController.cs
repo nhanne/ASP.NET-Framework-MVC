@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Web.Mvc;
 
@@ -145,6 +147,13 @@ namespace Boutique.Controllers
                     _db.SaveChanges();
                 }
                 Customer cus = _db.Customers.SingleOrDefault(s => s.Email.Equals(model.Email));
+                if (cus.Member == false)
+                {
+                    cus.FullName = model.FullName;
+                    cus.Phone = model.Phone;
+                    _db.Entry(cus).State = EntityState.Modified;
+                    _db.SaveChanges();
+                }
                 Order order = new Order();
                 order.CustomerId = cus.Id;
                 order.OrdTime = DateTime.Now;
@@ -166,6 +175,8 @@ namespace Boutique.Controllers
                     detailOrd.Quantity = item.Quantity;
                     detailOrd.unitPrice = item.unitPrice;
                     _db.OrderDetails.Add(detailOrd);
+                    Product product = _db.Products.SingleOrDefault(p => p.Id == item.IdProduct);
+                    product.Sold++;
                     Stock stock = _db.Stocks.SingleOrDefault(s => s.ProductId == item.IdProduct && s.ColorId == item.IdColor && s.SizeId == item.IdSize);
                     stock.Stock1--;
                     _db.Entry(stock).State = EntityState.Modified;
@@ -173,6 +184,7 @@ namespace Boutique.Controllers
                 }
                 _db.SaveChanges();
                 Session["Cart"] = null;
+                sendPass(order);
                 return RedirectToAction("confirmOrder", "Cart");
             }
             return View(model);
@@ -180,6 +192,68 @@ namespace Boutique.Controllers
         public ActionResult confirmOrder()
         {
             return View();
+        }
+        public void sendPass(Order order)
+
+        {
+            var orderDetail = _db.OrderDetails.Where(p => p.OrderId == order.Id).ToList();
+            StringBuilder htmlBuilder = new StringBuilder();
+            foreach (var item in orderDetail)
+            {
+                htmlBuilder.AppendLine(item.Stock.Product.Name + "-" + item.Stock.Color.Name + "-" + item.Stock.Size.Name + " x" + item.Quantity + "</p>\n" + "</br>");
+            }
+
+            MailAddress fromAddress = new MailAddress("nhancmvn12@gmail.com", "Nhân Boutique");
+
+            MailAddress toAddress = new MailAddress("nhancmvn12@gmail.com");
+
+            const string fromPassword = "jznrdhzrgpnsxswp";
+
+            string subject = "Đơn hàng mới #" + order.Id.ToString();
+            string body = @"
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset='UTF-8'>
+                <title>Xác nhận đơn hàng</title>
+            </head>
+            <body>
+                <h1>Đơn hàng mới !!! " + ",</h1>" +
+                "<h2>Thông tin khách hàng:</h2>" +
+                "<p><strong>Tên khách hàng:</strong> " + order.Customer.FullName + "</p>" +
+                "<p><strong>Email:</strong> " + order.Customer.Email + "</p>" +
+                "<p><strong>Địa chỉ:</strong> " + order.Address + "</p>" +
+                "<p><strong>Số điện thoại:</strong> " + order.Customer.Phone + "</p>" +
+                "<h2>Thông tin đơn hàng:</h2>" +
+                htmlBuilder.ToString() +
+                "<p><strong>Mã đơn hàng:</strong> " + order.Id + "</p>" +
+                "<p><strong>Ngày đặt hàng:</strong> " + order.OrdTime?.ToString("dd/MM/yyyy") + "</p>" +
+                "<p><strong>Tình trạng đơn hàng:</strong> " + order.Status + "</p>" +
+                "<p><strong>Dự kiến giao hàng:</strong> " + order.DeliTime?.ToString("dd/MM/yyyy") + "</p>" +
+                "<p><strong>Giá trị đơn hàng:</strong> " + string.Format("{0:#,0}", order.TotalPrice) + "VNĐ" + "</p>" +
+                "<!-- Thêm thông tin khác về đơn hàng nếu cần -->" +
+                "<p>Kiểm tra thông tin đơn hàng và giao hàng.</p>" +
+                "<p>Nhân Boutique</p>" +
+                "</body></html>";
+            SmtpClient smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+
+            using (MailMessage message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true,
+            })
+            {
+                smtp.Send(message);
+            }
         }
     }
 }

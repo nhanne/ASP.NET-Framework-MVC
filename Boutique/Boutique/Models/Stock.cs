@@ -29,7 +29,7 @@ namespace Boutique.Models
         [Required(ErrorMessage = "Vui lòng nhập kích thước")]
         public Nullable<int> SizeId { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập số lượng sản phẩm")]
-        [Range(1, 10000, ErrorMessage = "Số lượng sản phẩm phải lớn hơn 0")]
+        [Range(0, 10000, ErrorMessage = "Số lượng sản phẩm phải lớn hơn 0")]
         public Nullable<int> Stock1 { get; set; }
         public Nullable<System.DateTime> stockInDate { get; set; }
     

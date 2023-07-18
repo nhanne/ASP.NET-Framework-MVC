@@ -1,0 +1,95 @@
+﻿@using Boutique.Models;
+@model Boutique.Models.Order
+@{
+    ViewBag.Title = "Đơn hàng";
+    ViewBag.headTitle = "Chi tiết đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
+}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="tile">
+                <h3 class="tile-title">Thông tin đơn hàng #@Model.Id</h3>
+                <div class="du--lieu-san-pham">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="so--luong">Mã sản phẩm</th>
+                                <th class="so--luong">Tên sản phẩm</th>
+                                <th class="so--luong">Ảnh</th>
+                                <th class="so--luong">Số lượng</th>
+                                <th class="so--luong">Giá bán</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.orderDetail)
+                            {
+                                if (Model.Id == item.OrderId)
+                                {
+                                    <tr>
+                                        <td>#@item.Stock.Product.Id</td>
+                                        <td>@item.Stock.Product.Name</td>
+                                        <td><img src="~/Images/sp/@Url.Content(item.Stock.Product.Picture)" alt="" style="width: 50px"></td>
+                                        <td>@item.Quantity</td>
+                                        <td>@string.Format("{0:#,0}", item.unitPrice / item.Quantity) đ</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="alert">
+                    @string.Format("{0:#,0}", Model.TotalPrice) đ
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="tile">
+                <h3 class="tile-title">Thông tin khách hàng</h3>
+                <div class="row">
+                    <div class="form-group  col-md-6">
+                        <label class="control-label">Họ tên khách hàng</label>
+                        <input class="form-control" type="text" value="@Model.Customer.FullName" disabled>
+                    </div>
+                    <div class="form-group  col-md-6">
+                        <label class="control-label">Số điện thoại khách hàng</label>
+                        <input class="form-control" type="text" value="@Model.Customer.Phone" disabled>
+                    </div>
+                    <div class="form-group  col-md-12">
+                        <label class="control-label">Địa chỉ khách hàng</label>
+                        <input class="form-control" type="text" value="@Model.Address" disabled>
+                    </div>
+                    <div class="form-group  col-md-6">
+                        <label class="control-label">Nhân viên bán hàng</label>
+                        <input class="form-control" type="text" value="@Model.Customer.FullName" disabled>
+                    </div>
+                    <div class="form-group  col-md-6">
+                        <label class="control-label">Trạng thái đơn hàng</label>
+                        <input class="form-control" type="text" value="@Model.Status" disabled>
+                    </div>
+                    
+                </div>
+                <div class="row">
+
+                    <div class="form-group  col-md-12">
+                        <label class="control-label">Hình thức thanh toán</label>
+                        @if (Model.Payment == true)
+                        {
+                            <input class="form-control" type="text" value="Thanh toán qua cổng VNPAY" disabled>
+                        }
+                        else
+                        {
+                            <input class="form-control" type="text" value="Trả tiền mặt khi nhận hàng" disabled>
+                        }
+                    </div>
+                    <div class="form-group  col-md-12">
+                        <label class="control-label">Tổng cộng thanh toán: </label>
+                        <p class="control-all-money-total">= @string.Format("{0:#,0}", Model.TotalPrice) VNĐ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
