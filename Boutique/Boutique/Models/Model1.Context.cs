@@ -36,5 +36,6 @@ namespace Boutique.Models
         public virtual DbSet<Staff> Staffs { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
     }
 }

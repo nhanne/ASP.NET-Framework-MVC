@@ -37,12 +37,12 @@ namespace Boutique.Controllers
 
         // Thêm sản phẩm vào giỏ hàng
         [HttpPost]
-        public ActionResult addtoCart(int IdProduct,int IdColor, int IdSize, string strURL)
+        public ActionResult addtoCart(int IdProduct, int IdColor, int IdSize, string strURL)
         {
             // Lấy ra session giỏ hàng
             List<Cart> listCart = getCart();
             // Kiểm tra sản phẩm này có trong giỏ hàng chưa
-            Cart product = listCart.Find(n => n.IdProduct == IdProduct && n.IdColor == IdColor && n.IdSize == IdSize );
+            Cart product = listCart.Find(n => n.IdProduct == IdProduct && n.IdColor == IdColor && n.IdSize == IdSize);
             if (product == null)
             {
                 product = new Cart(IdProduct, IdColor, IdSize);
@@ -97,7 +97,7 @@ namespace Boutique.Controllers
             return RedirectToAction("Index");
         }
         // Cập nhật giỏ hàng
-        public ActionResult UpdateCart(int IdProduct, int IdColor , int IdSize, FormCollection f)
+        public ActionResult UpdateCart(int IdProduct, int IdColor, int IdSize, FormCollection f)
         {
             // Lấy giỏ hàng từ session
             List<Cart> listCart = getCart();
@@ -109,6 +109,7 @@ namespace Boutique.Controllers
             }
             return RedirectToAction("Index");
         }
+        // Đặt hàng
         public ActionResult CheckOut()
         {
             List<Cart> listCart = getCart();
@@ -118,22 +119,22 @@ namespace Boutique.Controllers
             }
             ViewBag.Cart = listCart;
             Customer model = (Customer)Session["Taikhoan"];
-            if(model == null)
+            if (model == null)
             {
                 model = new Customer();
             }
             return View(model);
         }
         [HttpPost]
-        public ActionResult CheckOut(Customer model,FormCollection f)
+        public ActionResult CheckOut(Customer model, FormCollection f)
         {
             getCart();
             var products = _db.Products.ToList();
             var address = f["address"];
             var note = f["note"];
-            var check = _db.Customers.FirstOrDefault(s => s.Email.Equals(model.Email));
+            var check = _db.Customers.FirstOrDefault(s => s.Email.Equals(model.Email) && s.Member == true);
             ModelState.Remove("Password");
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 if (check == null)
                 {
@@ -146,20 +147,13 @@ namespace Boutique.Controllers
                     _db.Customers.Add(customer);
                     _db.SaveChanges();
                 }
-                Customer cus = _db.Customers.SingleOrDefault(s => s.Email.Equals(model.Email));
-                if (cus.Member == false)
-                {
-                    cus.FullName = model.FullName;
-                    cus.Phone = model.Phone;
-                    _db.Entry(cus).State = EntityState.Modified;
-                    _db.SaveChanges();
-                }
+                Customer cus = _db.Customers.OrderByDescending(c => c.Id).FirstOrDefault();
                 Order order = new Order();
                 order.CustomerId = cus.Id;
                 order.OrdTime = DateTime.Now;
                 order.DeliTime = order.OrdTime.Value.AddDays(3);
                 order.Status = "Chưa giao hàng";
-                order.Payment = false;
+                order.PaymentId = 3;
                 order.Address = address.ToString();
                 order.TotalPrice = TongTien();
                 order.TotalQuantity = totalQuantity();
@@ -185,14 +179,18 @@ namespace Boutique.Controllers
                 _db.SaveChanges();
                 Session["Cart"] = null;
                 sendPass(order);
-                return RedirectToAction("confirmOrder", "Cart");
+                return RedirectToAction("confirmOrder", "Cart", new { Id = order.Id });
             }
             return View(model);
         }
-        public ActionResult confirmOrder()
+        public ActionResult confirmOrder(int Id)
         {
-            return View();
+            Order order = _db.Orders.SingleOrDefault(o => o.Id == Id);
+            var ordDetail = _db.OrderDetails.ToList();
+            ViewBag.ordDetail = ordDetail;
+            return View(order);
         }
+        // Mail
         public void sendPass(Order order)
 
         {
@@ -218,7 +216,7 @@ namespace Boutique.Controllers
                 <title>Xác nhận đơn hàng</title>
             </head>
             <body>
-                <h1>Đơn hàng mới !!! " + ",</h1>" +
+                <h1>Đơn hàng mới !!! " + "</h1>" +
                 "<h2>Thông tin khách hàng:</h2>" +
                 "<p><strong>Tên khách hàng:</strong> " + order.Customer.FullName + "</p>" +
                 "<p><strong>Email:</strong> " + order.Customer.Email + "</p>" +
@@ -255,5 +253,6 @@ namespace Boutique.Controllers
                 smtp.Send(message);
             }
         }
+        //
     }
 }

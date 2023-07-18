@@ -12,23 +12,17 @@ namespace Boutique.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Staff
+    public partial class Payment
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Staff()
+        public Payment()
         {
             this.Orders = new HashSet<Order>();
         }
     
         public int Id { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Avatar { get; set; }
-        public string Address { get; set; }
-        public Nullable<System.DateTime> DateOfBirth { get; set; }
-        public string CMT { get; set; }
-        public string Phone { get; set; }
+        public string Name { get; set; }
+        public string Ghichu { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

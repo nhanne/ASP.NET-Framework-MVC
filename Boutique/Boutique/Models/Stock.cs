@@ -12,7 +12,6 @@ namespace Boutique.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using Xunit.Sdk;
 
     public partial class Stock
     {

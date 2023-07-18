@@ -77,14 +77,7 @@
 
                     <div class="form-group  col-md-12">
                         <label class="control-label">Hình thức thanh toán</label>
-                        @if (Model.Payment == true)
-                        {
-                            <input class="form-control" type="text" value="Thanh toán qua cổng VNPAY" disabled>
-                        }
-                        else
-                        {
-                            <input class="form-control" type="text" value="Trả tiền mặt khi nhận hàng" disabled>
-                        }
+                            <input class="form-control" type="text" value="@Model.Payment.Ghichu" disabled>
                     </div>
                     <div class="form-group  col-md-12">
                         <label class="control-label">Tổng cộng thanh toán: </label>

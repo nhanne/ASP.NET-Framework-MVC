@@ -36,16 +36,17 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="BoutiqueModel.Order">
         <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="Payment" ColumnName="Payment" />
           <ScalarProperty Name="OrdTime" ColumnName="OrdTime" />
           <ScalarProperty Name="DeliTime" ColumnName="DeliTime" />
           <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
           <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
           <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -126,6 +127,15 @@
           <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
           <ScalarProperty Name="version" ColumnName="version" />
           <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Payments">
+      <EntityTypeMapping TypeName="BoutiqueModel.Payment">
+        <MappingFragment StoreEntitySet="Payment">
+          <ScalarProperty Name="Ghichu" ColumnName="Ghichu" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -158,10 +158,10 @@ namespace Boutique.Areas.Admin.Controllers
                 "<h3>Thông tin đơn hàng:</h3>" +
                 htmlBuilder.ToString() +
                 "<p><strong>Mã đơn hàng:</strong> " + order.Id + "</p>" +
-                "<p><strong>Ngày đặt hàng:</strong> " + order.OrdTime + "</p>" +
+                "<p><strong>Ngày đặt hàng:</strong> " + order.OrdTime?.ToString("dd-MM-yyyy") + "</p>" +
                 "<p><strong>Tình trạng đơn hàng:</strong> " + order.Status + "</p>" +
-                "<p><strong>Dự kiến giao hàng:</strong> " + order.DeliTime + "</p>" +
-                "<p><strong>Giá trị đơn hang:</strong> " + string.Format("{0:#,0}", order.TotalPrice) + "VNĐ"+"</p>" +
+                "<p><strong>Dự kiến giao hàng:</strong> " + order.DeliTime?.ToString("dd-MM-yyyy") + "</p>" +
+                "<p><strong>Giá trị đơn hàng:</strong> " + string.Format("{0:#,0}", order.TotalPrice) + "VNĐ"+"</p>" +
                 "<!-- Thêm thông tin khác về đơn hàng nếu cần -->" +
                 "<p>Xin hãy kiểm tra lại thông tin đơn hàng của bạn. Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào, hãy liên hệ với chúng tôi qua email nhancmvn12@gmail.com hoặc số điện thoại 0858032268.</p>" +
                 "<p>Chúng tôi rất hân hạnh được phục vụ bạn!</p>" +

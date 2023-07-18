@@ -24,16 +24,19 @@ namespace Boutique.Models
         public Nullable<int> CustomerId { get; set; }
         public string Status { get; set; }
         public string Address { get; set; }
-        public Nullable<bool> Payment { get; set; }
         public Nullable<System.DateTime> OrdTime { get; set; }
         public Nullable<System.DateTime> DeliTime { get; set; }
         public Nullable<double> TotalPrice { get; set; }
         public Nullable<int> TotalQuantity { get; set; }
         public string Note { get; set; }
+        public Nullable<int> StaffId { get; set; }
+        public Nullable<int> PaymentId { get; set; }
     
         public virtual Customer Customer { get; set; }
+        public virtual Staff Staff { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual Payment Payment { get; set; }
     }
 }

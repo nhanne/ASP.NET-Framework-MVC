@@ -37,12 +37,13 @@
     <Property Name="CustomerId" Type="int" />
     <Property Name="Status" Type="nvarchar" MaxLength="50" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
-    <Property Name="Payment" Type="bit" />
+    <Property Name="PaymentId" Type="int" />
     <Property Name="OrdTime" Type="date" />
     <Property Name="DeliTime" Type="date" />
     <Property Name="TotalPrice" Type="float" />
     <Property Name="TotalQuantity" Type="int" />
     <Property Name="Note" Type="nvarchar" MaxLength="200" />
+    <Property Name="StaffId" Type="int" />
   </EntityType>
   <EntityType Name="OrderDetail">
     <Key>
@@ -59,6 +60,14 @@
       <PropertyRef Name="Status" />
     </Key>
     <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Ghichu" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -118,7 +127,7 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
-  <Association Name="FK__Order__CustomerI__4BAC3F29">
+  <Association Name="FK__Order__CustomerI__30C33EC3">
     <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
     <End Role="Order" Type="Self.Order" Multiplicity="*" />
     <ReferentialConstraint>
@@ -130,7 +139,31 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Order__Status__02FC7413">
+  <Association Name="FK__Order__PaymentId__32AB8735">
+    <End Role="Payment" Type="Self.Payment" Multiplicity="0..1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Payment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="PaymentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Order__StaffId__31B762FC">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Order__Status__2FCF1A8A">
     <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
     <End Role="Order" Type="Self.Order" Multiplicity="*" />
     <ReferentialConstraint>
@@ -142,7 +175,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderDeta__Order__208CD6FA">
+  <Association Name="FK__OrderDeta__Order__2EDAF651">
     <End Role="Order" Type="Self.Order" Multiplicity="1" />
     <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -221,20 +254,29 @@
     <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sizes" EntityType="Self.Sizes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Order__CustomerI__4BAC3F29" Association="Self.FK__Order__CustomerI__4BAC3F29">
+    <AssociationSet Name="FK__Order__CustomerI__30C33EC3" Association="Self.FK__Order__CustomerI__30C33EC3">
       <End Role="Customer" EntitySet="Customer" />
       <End Role="Order" EntitySet="Order" />
     </AssociationSet>
-    <AssociationSet Name="FK__Order__Status__02FC7413" Association="Self.FK__Order__Status__02FC7413">
+    <AssociationSet Name="FK__Order__PaymentId__32AB8735" Association="Self.FK__Order__PaymentId__32AB8735">
+      <End Role="Payment" EntitySet="Payment" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Order__StaffId__31B762FC" Association="Self.FK__Order__StaffId__31B762FC">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Order__Status__2FCF1A8A" Association="Self.FK__Order__Status__2FCF1A8A">
       <End Role="OrderStatus" EntitySet="OrderStatus" />
       <End Role="Order" EntitySet="Order" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderDeta__Order__208CD6FA" Association="Self.FK__OrderDeta__Order__208CD6FA">
+    <AssociationSet Name="FK__OrderDeta__Order__2EDAF651" Association="Self.FK__OrderDeta__Order__2EDAF651">
       <End Role="Order" EntitySet="Order" />
       <End Role="OrderDetail" EntitySet="OrderDetail" />
     </AssociationSet>

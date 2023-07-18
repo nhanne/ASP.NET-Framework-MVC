@@ -12,6 +12,7 @@ namespace Boutique.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Xunit.Sdk;
 
     public partial class Product
     {
@@ -23,7 +24,7 @@ namespace Boutique.Models
     
         public int Id { get; set; }
         public Nullable<int> CategoryId { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn ảnh sản phẩm")]
+       
         public string Picture { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập tên sản phẩm")]
         public string Name { get; set; }
@@ -36,7 +37,7 @@ namespace Boutique.Models
         [Range(0, 50, ErrorMessage = "Phạm vi 0-50%")]
         public Nullable<int> Sale { get; set; }
         public Nullable<System.DateTime> stockInDate { get; set; }
-    
+
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Stock> Stocks { get; set; }

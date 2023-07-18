@@ -190,6 +190,9 @@
     <Compile Include="Models\OrderStatu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Payment.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -319,6 +322,12 @@
     <Content Include="Areas\Admin\Views\Stock\Color.cshtml" />
     <Content Include="Areas\Admin\Views\Stock\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Stock\Size.cshtml" />
+    <Content Include="Areas\Admin\Views\Stock\newColor.cshtml" />
+    <Content Include="Areas\Admin\Views\Stock\deleteColor.cshtml" />
+    <Content Include="Areas\Admin\Views\Stock\editColor.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\handleOrder.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -326,12 +335,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\Stock\newColor.cshtml" />
-    <Content Include="Areas\Admin\Views\Stock\deleteColor.cshtml" />
-    <Content Include="Areas\Admin\Views\Stock\editColor.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\handleOrder.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -366,6 +369,7 @@
     <Content Include="Views\Account\Partial_Account.cshtml" />
     <Content Include="Views\Cart\CheckOut.cshtml" />
     <Content Include="Views\Home\Product.cshtml" />
+    <Content Include="Views\Cart\confirmOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
