@@ -89,6 +89,17 @@
           <Property Name="Sale" Type="int" />
           <Property Name="stockInDate" Type="date" />
         </EntityType>
+        <EntityType Name="Promotions">
+          <Key>
+            <PropertyRef Name="promotion_id" />
+          </Key>
+          <Property Name="promotion_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="promotion_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="start_date" Type="date" Nullable="false" />
+          <Property Name="end_date" Type="date" Nullable="false" />
+          <Property Name="discount_percentage" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="Sizes">
           <Key>
             <PropertyRef Name="Id" />
@@ -108,8 +119,8 @@
           <Property Name="Avatar" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar" MaxLength="250" />
           <Property Name="DateOfBirth" Type="date" />
-          <Property Name="CMT" Type="char" MaxLength="1" />
-          <Property Name="Phone" Type="char" MaxLength="1" />
+          <Property Name="CMT" Type="varchar" MaxLength="15" />
+          <Property Name="Phone" Type="varchar" MaxLength="12" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -261,6 +272,7 @@
           <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Promotions" EntityType="Self.Promotions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sizes" EntityType="Self.Sizes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
@@ -419,8 +431,8 @@
           <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
-          <Property Name="CMT" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Phone" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CMT" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Orders" Relationship="Self.FK__Order__StaffId__2A164134" FromRole="Staff" ToRole="Order" />
         </EntityType>
         <EntityType Name="Stock">
@@ -609,6 +621,7 @@
             <End Role="Payment" EntitySet="Payments" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
+          <EntitySet Name="Promotions" EntityType="BoutiqueModel.Promotion" />
         </EntityContainer>
         <EntityType Name="Payment">
           <Key>
@@ -631,6 +644,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Promotion">
+          <Key>
+            <PropertyRef Name="promotion_id" />
+          </Key>
+          <Property Name="promotion_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="promotion_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="discount_percentage" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -772,6 +796,18 @@
                 <ScalarProperty Name="Ghichu" ColumnName="Ghichu" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Promotions">
+            <EntityTypeMapping TypeName="BoutiqueModel.Promotion">
+              <MappingFragment StoreEntitySet="Promotions">
+                <ScalarProperty Name="discount_percentage" ColumnName="discount_percentage" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="promotion_name" ColumnName="promotion_name" />
+                <ScalarProperty Name="promotion_id" ColumnName="promotion_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

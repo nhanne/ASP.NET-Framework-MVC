@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Boutique.Controllers
 {
-    public class CartController : Controller
+    public class CartController  : Controller 
     {
         BoutiqueEntities _db = new BoutiqueEntities();
         // GET: Cart
@@ -112,7 +112,19 @@ namespace Boutique.Controllers
             return RedirectToAction("Index");
         }
         // Đặt hàng
-        public ActionResult CheckOut()
+        public ActionResult getPromotion()
+        {
+            var result = _db.Promotions.ToList();
+            return Json(new { Data = result, TotalItems = result.Count }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult getCode(string Code)
+        {
+            var now = DateTime.Now;
+            var item = _db.Promotions.SingleOrDefault(i => i.promotion_name.Equals(Code) && i.end_date > now);
+            return Json(new { data = item }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult CheckOut(string promo_code)
         {
             List<Cart> listCart = getCart();
             if (Session["Cart"] == null || listCart.Count == 0)
@@ -136,12 +148,16 @@ namespace Boutique.Controllers
             var note = f["note"];
             var payment = f["payment"];
             var check = _db.Customers.FirstOrDefault(s => s.Email.Equals(model.Email) && s.Member == true);
+            var maKM = f["promo_code"];
+            var now = DateTime.Now;
+            Promotion codeKM = _db.Promotions.SingleOrDefault(m => m.promotion_name.Equals(maKM) && m.end_date > now);
             ModelState.Remove("Password");
             if (ModelState.IsValid)
             {
+                Customer customer;
                 if (check == null)
                 {
-                    Customer customer = new Customer();
+                    customer = new Customer();
                     customer.Password = "Nhan123?";
                     customer.FullName = model.FullName;
                     customer.Phone = model.Phone;
@@ -149,16 +165,25 @@ namespace Boutique.Controllers
                     customer.Member = false;
                     _db.Customers.Add(customer);
                     _db.SaveChanges();
+                    customer = _db.Customers.OrderByDescending(c => c.Id).FirstOrDefault(c => c.Email == model.Email);
                 }
-                Customer cus = _db.Customers.OrderByDescending(c => c.Id).FirstOrDefault();
+                else
+                {
+                    customer = _db.Customers.SingleOrDefault(c => c.Email.Equals(model.Email) && c.Member == true);
+                }
                 Order order = new Order();
-                order.CustomerId = cus.Id;
+                order.CustomerId = customer.Id;
                 order.OrdTime = DateTime.Now;
                 order.DeliTime = order.OrdTime.Value.AddDays(3);
                 order.Status = "Chưa giao hàng";
                 order.PaymentId = int.Parse(payment);
                 order.Address = address.ToString();
                 order.TotalPrice = TongTien();
+                if (codeKM != null)
+                {
+                    float var = ((float)((float)order.TotalPrice * (float)codeKM.discount_percentage)) / 100;
+                    order.TotalPrice -= var;
+                }
                 order.TotalQuantity = totalQuantity();
                 order.Note = note.ToString();
                 _db.Orders.Add(order);
@@ -182,7 +207,7 @@ namespace Boutique.Controllers
                 switch (int.Parse(payment))
                 {
                     case 1:
-                        return RedirectToAction("confirmOrder", new { Id = order.Id });
+                        return RedirectToAction("PaymentMomo", new { Id = order.Id });
                     case 2:
                         return RedirectToAction("Payment", new { orderId = order.Id });
                     case 3:
@@ -282,7 +307,7 @@ namespace Boutique.Controllers
             string returnUrl = ConfigurationManager.AppSettings["ReturnUrl"];
             string tmnCode = ConfigurationManager.AppSettings["TmnCode"];
             string hashSecret = ConfigurationManager.AppSettings["HashSecret"];
-
+            DateTime expirationTime = DateTime.Now.AddDays(1);
             PayLib pay = new PayLib();
 
             pay.AddRequestData("vnp_Version", "2.1.0"); //Phiên bản api mà merchant kết nối. Phiên bản hiện tại là 2.1.0
@@ -290,7 +315,8 @@ namespace Boutique.Controllers
             pay.AddRequestData("vnp_TmnCode", tmnCode); //Mã website của merchant trên hệ thống của VNPAY (khi đăng ký tài khoản sẽ có trong mail VNPAY gửi về)
             pay.AddRequestData("vnp_Amount", (order.TotalPrice * 100).ToString()); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
             pay.AddRequestData("vnp_BankCode", ""); //Mã Ngân hàng thanh toán (tham khảo: https://sandbox.vnpayment.vn/apis/danh-sach-ngan-hang/), có thể để trống, người dùng có thể chọn trên cổng thanh toán VNPAY
-            pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")); //ngày thanh toán theo định dạng yyyyMMddHHmmss
+            /*  pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss"));*/ //ngày thanh toán theo định dạng yyyyMMddHHmmss
+            pay.AddRequestData("vnp_CreateDate", expirationTime.ToString("yyyyMMddHHmmss"));
             pay.AddRequestData("vnp_CurrCode", "VND"); //Đơn vị tiền tệ sử dụng thanh toán. Hiện tại chỉ hỗ trợ VND
             pay.AddRequestData("vnp_IpAddr", Util.GetIpAddress()); //Địa chỉ IP của khách hàng thực hiện giao dịch
             pay.AddRequestData("vnp_Locale", "vn"); //Ngôn ngữ giao diện hiển thị - Tiếng Việt (vn), Tiếng Anh (en)
@@ -360,7 +386,7 @@ namespace Boutique.Controllers
             return RedirectToAction("Index");
         }
         // Momo payment
-        public ActionResult PaymentMomo(int? Id)
+        public ActionResult PaymentMomo(int Id)
         {
             //request params need to request to MoMo system
             string endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
@@ -368,13 +394,13 @@ namespace Boutique.Controllers
             string accessKey = "iPXneGmrJH0G8FOP";
             string serectkey = "sFcbSGRSJjwGxwhhcEktCHWYUuTuPNDB";
             string orderInfo = "test";
-            string returnUrl = "https://localhost:44379/Home/ConfirmPaymentClient";
-            string notifyurl = "https://4c8d-2001-ee0-5045-50-58c1-b2ec-3123-740d.ap.ngrok.io/Home/SavePayment"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
-
+            string returnUrl = "https://localhost:44379/Cart/PaymentConfirm";
+            string notifyurl = "http://thanhnhan-001-site1.atempurl.com/Cart/PaymentConfirm"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
+            DateTime expirationTime = DateTime.Now.AddDays(1);
             Order order = _db.Orders.Find(Id);
             string orderId = order.Id.ToString(); //mã đơn hàng
             string amount = order.TotalPrice.ToString(); // giá trị đơn hàng
-            string requestId = DateTime.Now.Ticks.ToString();
+            string requestId = order.Id.ToString();
             string extraData = "";
 
             //Before sign HMAC SHA256 signature

@@ -16,7 +16,7 @@ namespace Boutique.Areas.Admin.Controllers
     {
         private BoutiqueEntities _db = new BoutiqueEntities();
         // GET: Admin/Order
-        public ActionResult Index(string search, string sort, int page = 1)
+        public ActionResult Index(string search, string sort, int pageIndex = 1)
         {
             var orderDetail = _db.OrderDetails.ToList();
             ViewBag.orderDetail = orderDetail.ToList();
@@ -29,9 +29,9 @@ namespace Boutique.Areas.Admin.Controllers
             query = Sort(sort, query);
             // Phân trang
             var orders = query.ToList();
-            ViewBag.orderList = orders.ToPagedList(page, 10);
+            ViewBag.orderList = orders.ToPagedList(pageIndex, 10);
             var totalPages = (int)Math.Ceiling((double)query.Count() / 8);
-            ViewBag.CurrentPage = page;
+            ViewBag.CurrentPage = pageIndex;
             ViewBag.TotalPages = totalPages;
             return View();
         }
@@ -53,7 +53,7 @@ namespace Boutique.Areas.Admin.Controllers
                     query = query.Where(s => s.Status == "Đã hủy");
                     break;
                 default:
-                    query = query;
+                    query = query.OrderByDescending(s => s.Status == "Chưa giao hàng");
                     break;
             }
             return query;

@@ -1,0 +1,71 @@
+﻿@model Boutique.Models.Stock
+
+@{
+    ViewBag.Title = "Phân loại";
+    ViewBag.headTitle = "Xóa phân loại";
+    Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
+}
+
+<div style="position:relative">
+    <div class="center">
+        <h4>Dữ liệu sản phẩm</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Tên sản phẩm
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Product.Name)
+            </dd>
+
+            <dt>
+                Ngày nhập kho
+            </dt>
+
+            <dd>
+                @(Model.stockInDate?.ToString("dd-MM-yyyy"))
+            </dd>
+
+            <dt>
+                Màu sắc
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Color.Name)
+            </dd>
+            <dt>
+                Kích thước
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Size.Name)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Xóa" class="btn btn-default" /> |
+                @Html.ActionLink("Quay lại danh sách", "Index")
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+<style>
+    .center{
+        position:absolute;
+        top: 0;
+        bottom:0;
+        left:0;
+        right:0;
+        margin: auto;
+    }
+</style>

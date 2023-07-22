@@ -149,6 +149,8 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PromotionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StaffController.cs" />
     <Compile Include="Areas\Admin\Controllers\StockController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -201,6 +203,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Payment\Momo\Result.cs" />
+    <Compile Include="Models\Promotion.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Size.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -438,6 +443,7 @@
     <Content Include="Images\banner.jpg" />
     <Content Include="Images\footer-logo.png" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\momo.jpg" />
     <Content Include="Images\nhan.png" />
     <Content Include="Images\payment.png" />
     <Content Include="Images\slideshow\1.jpg" />
@@ -455,6 +461,7 @@
     <Content Include="Images\sp\sp06.jpg" />
     <Content Include="Images\sp\sp07.jpg" />
     <Content Include="Images\sp\sp09.jpg" />
+    <Content Include="Images\vnpay.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -521,6 +528,10 @@
     <Content Include="ckeditor\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="ckeditor\ckeditor\SECURITY.md" />
     <Content Include="ckeditor\ckeditor\skins\moono-lisa\readme.md" />
+    <Content Include="Areas\Admin\Views\Staff\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Promotion\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\thanhnhan-001-site1 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\thanhnhan-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -556,6 +567,7 @@
     <Content Include="Views\Cart\CheckOut.cshtml" />
     <Content Include="Views\Home\Product.cshtml" />
     <Content Include="Views\Cart\confirmOrder.cshtml" />
+    <Content Include="Views\Account\orderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

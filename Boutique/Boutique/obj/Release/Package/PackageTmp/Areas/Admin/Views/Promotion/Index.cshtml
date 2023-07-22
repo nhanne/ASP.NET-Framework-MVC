@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý chương trình khuyến mãi";
+    ViewBag.headTitle = "Danh sách mã khuyến mãi";
+    Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
+}
+<div class="container mt-5">
+    <h2 class="mb-4">Danh sách Chương trình Khuyến mãi</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên chương trình</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+                <th>Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dữ liệu mẫu (có thể lấy từ cơ sở dữ liệu) -->
+            <tr>
+                <td>1</td>
+                <td>Khuyến mãi mùa hè</td>
+                <td>2023-07-01</td>
+                <td>2023-07-31</td>
+                <td><a href="#" data-toggle="modal" data-target="#chiTietModal1">Xem chi tiết</a></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Khuyến mãi mua 1 tặng 1</td>
+                <td>2023-08-15</td>
+                <td>2023-08-30</td>
+                <td><a href="#" data-toggle="modal" data-target="#chiTietModal2">Xem chi tiết</a></td>
+            </tr>
+            <!-- Thêm các hàng dữ liệu khác tương tự nếu cần -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Chi tiết Chương trình Khuyến mãi -->
+<div class="modal fade" id="chiTietModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Chi tiết Chương trình Khuyến mãi - Khuyến mãi mùa hè</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID:</strong> 1</p>
+                <p><strong>Tên chương trình:</strong> Khuyến mãi mùa hè</p>
+                <p><strong>Ngày bắt đầu:</strong> 2023-07-01</p>
+                <p><strong>Ngày kết thúc:</strong> 2023-07-31</p>
+                <p><strong>Nội dung:</strong> Chương trình khuyến mãi hè 2023, giảm giá lên đến 50% cho các sản phẩm trong bộ sưu tập mùa hè.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Chi tiết Chương trình Khuyến mãi 2 -->
+<div class="modal fade" id="chiTietModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Chi tiết Chương trình Khuyến mãi - Khuyến mãi mua 1 tặng 1</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID:</strong> 2</p>
+                <p><strong>Tên chương trình:</strong> Khuyến mãi mua 1 tặng 1</p>
+                <p><strong>Ngày bắt đầu:</strong> 2023-08-15</p>
+                <p><strong>Ngày kết thúc:</strong> 2023-08-30</p>
+                <p><strong>Nội dung:</strong> Chương trình khuyến mãi đặc biệt, mua 1 sản phẩm tặng 1 sản phẩm cùng loại hoặc giá trị tương đương.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,7 +34,7 @@ namespace Boutique.Controllers
             if (ModelState.IsValid)
             {
                 var data = _db.Customers.Where(s => s.Email.Equals(email) && s.Password.Equals(password)).ToList();
-                Customer kh = _db.Customers.SingleOrDefault(s => s.Email.Equals(email) && s.Password.Equals(password));
+                Customer kh = _db.Customers.SingleOrDefault(s => s.Email.Equals(email) && s.Password.Equals(password) && s.Member == true);
                 if (kh != null)
                 {
                     Session["Taikhoan"] = kh;
@@ -69,7 +69,7 @@ namespace Boutique.Controllers
         {
             if (ModelState.IsValid)
             {
-                var check = _db.Customers.FirstOrDefault(s => s.Email == khachhang.Email);
+                var check = _db.Customers.FirstOrDefault(s => s.Email == khachhang.Email && khachhang.Member == true);
                 if (check == null)
                 {
                     khachhang.Member = true;
@@ -80,7 +80,7 @@ namespace Boutique.Controllers
 
                 else
                 {
-                    Customer customer = _db.Customers.SingleOrDefault(s => s.Email.Equals(khachhang.Email));
+                    Customer customer = _db.Customers.FirstOrDefault(s => s.Email.Equals(khachhang.Email));
                     customer.Member = true;
                     customer.Phone = khachhang.Phone;
                     customer.Password = khachhang.Password;
@@ -134,5 +134,18 @@ namespace Boutique.Controllers
             }
             return View(model);
         }
+        public ActionResult orderList()
+        {
+            Customer khsession = (Customer)Session["Taikhoan"];
+            if(khsession == null)
+            {
+                return RedirectToAction("Login");
+            }
+            Customer kh = _db.Customers.Find(khsession.Id);
+            var orders = _db.Orders.Where(o => o.CustomerId == kh.Id).ToList();
+            ViewBag.orders = orders;
+            return View();
+        }
+        
     }
 }
