@@ -4,6 +4,9 @@
     .mobile-searchForm{
         display: none
     }
+    .openbtn, .category-list .closebtn {
+        display: none;
+    }
 }
 
 
@@ -49,7 +52,7 @@
         display: inline-block;
         position: absolute;
         top: 15px; 
-        right: 10px;
+        right: 20px;
         font-size: 1.25rem;
         padding: .25rem .75rem;
         border-radius: .25rem;
@@ -130,7 +133,7 @@
         width: 100%;
     }
     .store__body .grid__column-2{
-        display: none;
+        /*display: none;*/
     }
     .store__body .grid__column-10{
         width: 100%;
@@ -141,7 +144,7 @@
     #mobile-searchInput {
         display: block;
         width: 100%;
-        padding: .375rem .75rem;
+        padding: .375rem 1.75rem;
         font-size: 1rem;
         font-weight: 400;
         line-height: 1.5;
@@ -151,6 +154,53 @@
         border: 1px solid #ced4da;
         border-radius: .25rem;
     }
+    .category-list {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        margin-left: 0;
+    }
+    .openbtn {
+        display: block;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #111;
+        color: white;
+        padding: 10px 15px;
+        width: 100%;
+        border: none;
+    }
+    .category-list a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+   .category-list a:hover {
+      color: #f1f1f1;
+    }
+
+    .category-list .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+    .openbtn:hover {
+      background-color: #444;
+    }
+
     /*=========================== ABOUT ==============================*/
     #about ul.social_media {
         top: 40px;

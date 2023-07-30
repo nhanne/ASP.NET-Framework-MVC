@@ -14,6 +14,7 @@ namespace Boutique.Areas.Admin.Controllers
         // GET: Admin/Staff
         public ActionResult Index()
         {
+            ViewBag.ColorId = new SelectList(_db.Colors, "Id", "Name");
             return View();
         }
         public ActionResult GetData()
@@ -43,8 +44,7 @@ namespace Boutique.Areas.Admin.Controllers
             }
             else
             {
-                if (ModelState.IsValid)
-                {
+               
                     _db.Staffs.Add(model);
                     try
                     {
@@ -58,9 +58,6 @@ namespace Boutique.Areas.Admin.Controllers
                         var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
                         return Json(new { success = false, errors = errors });
                     }
-                }
-                return View(model);
-             
             }
           
         }

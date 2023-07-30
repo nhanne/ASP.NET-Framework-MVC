@@ -46,11 +46,11 @@
                                 <td>@item.Size.Name</td>
                                 <td>@item.Stock1</td>
                                 <td>
-                                    @*<button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                                onclick="location.href='@Url.Action("Edit", "Product",new { id = item.Id })'">
-                                            Chỉnh sửa
+                                    <button class="btn btn-warning btn-sm edit" type="button" title="Sửa"
+                                                onclick="location.href='@Url.Action("EditPhanLoai", "Product",new { id = item.Id })'">
+                                           <i class="fas fa-edit"></i>
                                         </button>
-                                        <button class="btn btn-primary btn-sm info" type="button" title="Sửa"
+                                        @*<button class="btn btn-primary btn-sm info" type="button" title="Sửa"
                                                 onclick="location.href='@Url.Action("Detail", "Product",new { id = item.Id })'">
                                             Chi tiết
                                         </button>*@

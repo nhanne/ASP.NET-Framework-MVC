@@ -5,8 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
 }
 <div class="container mt-5">
-    <h2 class="mb-4">Danh sách Chương trình Khuyến mãi</h2>
-
+    <a href="#" data-toggle="modal" data-target="#modalCreateUpdate" class="btn btn-info">Thêm mới</a>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -14,32 +13,75 @@
                 <th>Tên chương trình</th>
                 <th>Ngày bắt đầu</th>
                 <th>Ngày kết thúc</th>
-                <th>Chi tiết</th>
+                <th>Giảm giá (%)</th>
+                <th>Chức năng</th>
+
             </tr>
         </thead>
-        <tbody>
-            <!-- Dữ liệu mẫu (có thể lấy từ cơ sở dữ liệu) -->
-            <tr>
-                <td>1</td>
-                <td>Khuyến mãi mùa hè</td>
-                <td>2023-07-01</td>
-                <td>2023-07-31</td>
-                <td><a href="#" data-toggle="modal" data-target="#chiTietModal1">Xem chi tiết</a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Khuyến mãi mua 1 tặng 1</td>
-                <td>2023-08-15</td>
-                <td>2023-08-30</td>
-                <td><a href="#" data-toggle="modal" data-target="#chiTietModal2">Xem chi tiết</a></td>
-            </tr>
-            <!-- Thêm các hàng dữ liệu khác tương tự nếu cần -->
+        <tbody id="show_data">
         </tbody>
     </table>
 </div>
 
+<div class="modal fade" id="modalCreateUpdate" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+     data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group  col-md-12">
+                        <span class="thong-tin-thanh-toan">
+                            <h5>Cập nhật thông tin nhân viên</h5>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <input type="hidden" id="exampleId" value="0" disabled />
+
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputName">Mã chương trình</label>
+                        <input class="form-control" type="text" required value="" id="inputName">
+                        <span class="error text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputstartDate">Ngày bắt đầu</label>
+                        <input class="form-control" type="date" value="" id="inputstartDate" placeholder="dd-mm-yyyy">
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputendDate">Ngày kết thúc</label>
+                        <input class="form-control" type="date" value="" id="inputendDate" placeholder="dd-mm-yyyy">
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputPercent">Phần trăm giảm giá %</label>
+                        <input class="form-control" type="number" required value="" id="inputPercent">
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputDes">Mô tả chương trình</label>
+                        <input class="form-control" type="text" required value="" id="inputDes">
+                        <span class="error text-danger"></span>
+                    </div>
+                </div>
+                <BR>
+                <BR>
+                <BR>
+                <button id="btnLuu" class="btn btn-save" type="button">Lưu lại</button>
+                <a id="btnHuy" class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                <BR>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal Chi tiết Chương trình Khuyến mãi -->
-<div class="modal fade" id="chiTietModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="chiTietModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -50,10 +92,10 @@
             </div>
             <div class="modal-body">
                 <p><strong>ID:</strong> 1</p>
-                <p><strong>Tên chương trình:</strong> Khuyến mãi mùa hè</p>
-                <p><strong>Ngày bắt đầu:</strong> 2023-07-01</p>
-                <p><strong>Ngày kết thúc:</strong> 2023-07-31</p>
-                <p><strong>Nội dung:</strong> Chương trình khuyến mãi hè 2023, giảm giá lên đến 50% cho các sản phẩm trong bộ sưu tập mùa hè.</p>
+                <p><strong>Tên chương trình: </strong> <span id="name"></span></p>
+                <p><strong>Ngày bắt đầu: </strong> <span id="create"></span></p>
+                <p><strong>Ngày kết thúc: </strong> <span id="end"></span></p>
+                <p><strong>Nội dung: </strong><span id="des"></span> </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -62,26 +104,141 @@
     </div>
 </div>
 
-<!-- Modal Chi tiết Chương trình Khuyến mãi 2 -->
-<div class="modal fade" id="chiTietModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Chi tiết Chương trình Khuyến mãi - Khuyến mãi mua 1 tặng 1</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p><strong>ID:</strong> 2</p>
-                <p><strong>Tên chương trình:</strong> Khuyến mãi mua 1 tặng 1</p>
-                <p><strong>Ngày bắt đầu:</strong> 2023-08-15</p>
-                <p><strong>Ngày kết thúc:</strong> 2023-08-30</p>
-                <p><strong>Nội dung:</strong> Chương trình khuyến mãi đặc biệt, mua 1 sản phẩm tặng 1 sản phẩm cùng loại hoặc giá trị tương đương.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-            </div>
-        </div>
-    </div>
-</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    $(document).ready(function () {
+        loadData();
+        $('#btnLuu').click(function () {
+            var _id = $('#exampleId').val();
+            var name = $('#inputName').val();
+            var startDate = $('#inputstartDate').val();
+            var endDate = $('#inputendDate').val();
+            var percent = $('#inputPercent').val();
+            var inputDes = $('#inputDes').val();
+            var modal = {
+                promotion_id : _id,
+                promotion_name : name,
+                start_date: startDate,
+                end_date: endDate,
+                discount_percentage: percent,
+                description: inputDes
+            };
+            $.ajax({
+                url: '/Promotion/Create',
+                type: 'POST',
+                data: modal,
+                success: function (response) {
+                    if (response.success) {
+                        loadData();
+                        //resetInput();
+                        $('#modalCreateUpdate').modal('hide');
+                        window.location.reload();
+                    }
+                }
+            });
+        });
+        $('body').on('click', '.btn--detail', function () {
+            var Id = $(this).data('id');
+            GetDataById(Id);
+        });
+        $('body').on('click', '.btn--delete', function () {
+            var Id = $(this).data('id');
+            if (parseInt(Id) > 0) {
+                var conf = confirm('Bạn có chắc chắn muốn xóa?');
+                if (conf) {
+                    DeleteById(Id);
+                }
+            }
+        });
+
+    });
+    // Read
+    function loadData() {
+        $.ajax({
+            url: '/Promotion/GetData',
+            type: 'GET',
+            success: function (res) {
+                if (res.TotalItems > 0) {
+                    var items = res.Data;
+                    var html = "";
+                    for (let i = 0; i < res.TotalItems; i++) {
+                        html += "<tr id='trow_" + items[i].promotion_id + "'>";
+                        html += "<td>" + items[i].promotion_id + "</td>";
+                        html += "<td>" + items[i].promotion_name + "</td>";
+                        html += "<td>" + formatDate(items[i].start_date) + "</td>";
+                        html += "<td>" + formatDate(items[i].end_date) + "</td>";
+                        html += "<td>" + items[i].discount_percentage + "</td>";
+                        html += "<td><a data-id='" +
+                            items[i].promotion_id +
+                            "' href='#' class='btn btn-success btn--detail'> <i class='fas fa-info'></i> </a>  <a data-id='" +
+                            items[i].promotion_id +
+                            "' href='#' class='btn btn-danger btn--delete'> <i class='fas fa-trash'></i></a> <a data-id='" +
+                            items[i].promotion_id +
+                            "' href='#' class='btn btn-warning btn--edit'> <i class='fas fa-edit'></i></a> </td>";
+                        html += "</tr>";
+                    }
+                    $('#show_data').html(html);
+                }
+            }
+        });
+    }
+    function GetDataById(Id) {
+        $.ajax({
+            url: '/Promotion/GetById',
+            type: 'GET',
+            data: { Id: Id },
+            success: function (res) {
+                if (res.data != null) {
+                    $('#name').html(res.data.promotion_name);
+                    $('#create').html(formatDate(res.data.start_date));
+                    $('#end').html(formatDate(res.data.end_date));
+                    $('#des').html(res.data.description);
+                    $('#chiTietModal').modal('show');
+                }
+            }
+        });
+    }
+    //delete
+    function DeleteById(Id) {
+        $.ajax({
+            url: '/Promotion/Delete',
+            type: 'POST',
+            data: { promotion_id: Id }
+        }).done(function (res) {
+            if (res.Success) {
+                $('#trow_' + Id).remove();
+            }
+        }).fail(function (err) {
+            console.log(err);
+        });
+    }
+    
+
+    function formatDate(inputDate) {
+        const regex = /\/Date\((\d+)\)\//;
+        const match = regex.exec(inputDate);
+
+        if (match && match[1]) {
+            const dateInMillis = parseInt(match[1], 10);
+            const date = new Date(dateInMillis);
+
+            const day = date.getDate();
+            const month = date.getMonth() + 1; // Tháng trong JavaScript đếm từ 0, cộng thêm 1 để đúng định dạng
+            const year = date.getFullYear();
+
+            // Hàm padStart sẽ thêm số 0 vào trước nếu ngày hoặc tháng chỉ có một chữ số
+            const formattedDay = String(day).padStart(2, '0');
+            const formattedMonth = String(month).padStart(2, '0');
+
+            // Xây dựng chuỗi ngày tháng năm mới theo định dạng "dd-MM-yyyy"
+            const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
+
+            return formattedDate;
+        } else {
+            console.error("Ngày không hợp lệ!");
+            return null;
+        }
+    }
+</script>

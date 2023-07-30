@@ -29,16 +29,16 @@
                                                          class="img-fluid rounded-3" alt="Cotton T-shirt">
                                                 </div>
                                                 <div class="col-md-3 col-lg-3 col-xl-3">
-                                                    <h6 class="text-black mb-0">@item.ProductName - M</h6>
+                                                    <h6 class="text-black mb-0">@item.ProductName- @item.Color- @item.Size</h6>
                                                 </div>
 
-                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                <div class="col-md-2 col-lg-2 col-xl-2 d-flex">
 
                                                     <input id="form1" min="1" name="quantity" value="@item.Quantity" type="number"
                                                            class="form-control form-control-sm" disabled style="text-align:center" />
 
                                                 </div>
-                                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                <div class="col-md-3 col-lg-3 col-xl-3 offset-lg-1">
                                                     <h6 class="mb-0">@string.Format("{0:#,0}", item.totalPrice) ₫</h6>
                                                 </div>
                                             </div>
@@ -183,6 +183,7 @@
 <script>
     $(document).ready(function () {
         const promoCode = localStorage.getItem("promo_code");
+        document.getElementById("promo_code").value = promoCode;
         var totalPrice = parseFloat($('#totalPrice').val());
         if (promoCode) {
             getCode(promoCode);
@@ -246,7 +247,6 @@
         document.getElementById("address").value = "";
         address = streets + " " + selectedWard + ", " + selectedDistrict + ", " + selectedCity;
         document.getElementById("address").value = address;
-        document.getElementById("promo_code").value = promoCode;
     }
 
     function getCode(code) {

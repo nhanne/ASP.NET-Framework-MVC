@@ -78,8 +78,11 @@
                                             <div class="form-outline">
                                                 <input type="text" id="form3Examplea2"
                                                        class="form-control form-control-lg" />
-                                                <label class="form-label" for="form3Examplea2">Nhập mã khuyến mãi của bạn</label>
+                                                <button type="button" class="btn btn-primary mt-5" data-toggle="modal" data-target="#myModal">
+                                                    Xem danh sách khuyến mãi
+                                                </button>
                                             </div>
+
                                         </div>
 
                                         <hr class="my-4">
@@ -114,6 +117,40 @@
     </div>
 </section>
 
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Danh sách các khuyến mãi</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="card-deck">
+
+                    <!-- Card 1 -->
+                    <div class="card" id="loadData">
+                        <div class="card-body">
+                            <h5 class="card-title">Chương trình A</h5>
+                            <p class="card-text">Mô tả chương trình A - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <p class="card-text">Ngày hết hạn: 30/09/2023</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="program" id="programA" value="programA">
+                                <label class="form-check-label" for="programA">
+                                    Chọn chương trình A
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="submitCode" class="btn btn-primary" data-dismiss="modal">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <style>
@@ -139,17 +176,81 @@
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
 
+
+    $(document).ready(function () {
+        loadData();
+        $('#submitCode').click(function () {
+            var selectCode = document.querySelector('input[name="program"]:checked').value;
+            $('#form3Examplea2').val(selectCode);
+           
+        });
+    });
     function checkout() {
         var code = document.getElementById('form3Examplea2').value;
         location.href = '/Cart/CheckOut';
+
         if (code != null) {
             localStorage.setItem("promo_code", code);
         }
         else {
             localStorage.removeItem("promo_code");
         }
+
+    }
+    // Read
+    function loadData() {
+        $.ajax({
+            url: '/Cart/getPromotion',
+            type: 'GET',
+            success: function (res) {
+                if (res.TotalItems > 0) {
+                    var items = res.Data;
+                    var html = "";
+                    for (let i = 0; i < res.TotalItems; i++) {
+                        html += "<div class='card-body'>"
+                        html += "<h5 class='card-title'>" + items[i].promotion_name + "</h5>"
+                        html += "<p class='card-text'>" + "Mô tả: " + items[i].description + "</p>"
+                        html += "<p class='card-text'>" + "Ngày hết hạn: " + formatDate(items[i].end_date) + "</p>"
+                        html += "<input class='form-check-input' type='radio' name='program' value='" + items[i].promotion_name + "' id='" + items[i].promotion_id + "' >"
+                        html += "<lable class='form-check-label' for='" + items[i].promotion_id + "'> Chọn </label>"
+                        html += "</div>   <hr class='mt-1mb-1'/>";
+                    }
+                    $('#loadData').html(html);
+                }
+            }
+        });
+    }
+    function formatDate(inputDate) {
+        const regex = /\/Date\((\d+)\)\//;
+        const match = regex.exec(inputDate);
+
+        if (match && match[1]) {
+            const dateInMillis = parseInt(match[1], 10);
+            const date = new Date(dateInMillis);
+
+            const day = date.getDate();
+            const month = date.getMonth() + 1; // Tháng trong JavaScript đếm từ 0, cộng thêm 1 để đúng định dạng
+            const year = date.getFullYear();
+
+            // Hàm padStart sẽ thêm số 0 vào trước nếu ngày hoặc tháng chỉ có một chữ số
+            const formattedDay = String(day).padStart(2, '0');
+            const formattedMonth = String(month).padStart(2, '0');
+
+            // Xây dựng chuỗi ngày tháng năm mới theo định dạng "dd-MM-yyyy"
+            const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
+
+            return formattedDate;
+        } else {
+            console.error("Ngày không hợp lệ!");
+            return null;
+        }
     }
 
+
 </script>
+
+

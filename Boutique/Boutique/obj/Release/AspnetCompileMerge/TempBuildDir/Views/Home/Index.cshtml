@@ -25,7 +25,7 @@
 <section id="main">
     <div id="release" class="container" style="margin:50px 0">
         <div id="headline">
-            <h3>NEW RELEASE</h3>
+            <h3>BEST SELLER</h3>
         </div>
         <ul id="products" class="row">
             @foreach (var product in ViewBag.dsProduct)
@@ -33,20 +33,9 @@
                 <li class="product-item">
                     <div class="product-top">
                         <a href="@Url.Action("Product","Home", new { Id = product.Id })" class="product-thumb"><img src="/Images/sp/@Url.Content(@product.Picture)"></a>
-                        <a href="#" class="buynow">xem ngay</a>
+                        @*<a href="#" class="buynow">xem ngay</a>*@
                     </div>
-                    <div class="product-info">
-                        <a href="" class="product-cat"> @product.Category.Name</a>
-                        <a href="" class="product-name">@product.Name</a>
-                        <div class="product-price">
-                            <span class="product--costPrice">@string.Format("{0:#,0}", product.costPrice) <span class="product--currentPrice">₫</span> </span>
-                            <span class="product--unitPrice">@string.Format("{0:#,0}", product.unitPrice) <span class="product--currentPrice">₫</span></span>
-                        </div>
-                        <div class="store-product__sale-off">
-                            <span class="store-product__sale-off-percent">@product.Sale %</span>
-                            <span class="store-product__sale-off-label">Sale</span>
-                        </div>
-                    </div>
+                  
                 </li>
             }
         </ul>
@@ -145,16 +134,21 @@
                     <div class="contact__form">
                         <form action="#">
                             <div class="grid__row">
+                                <span id="content"></span>
                                 <div class="grid__column-6">
-                                    <input type="text" placeholder="Name">
+                                    <input type="text" id="name" placeholder="Name">
+                                    <span class="error text-danger"></span>
                                 </div>
                                 <div class="grid__column-6">
-                                    <input type="text" placeholder="Email">
+                                    <input type="text" id="email" placeholder="Email">
+                                    <span class="error text-danger"></span>
                                 </div>
                                 <div class="grid__column-12">
-                                    <textarea class="ckeditor" id="Detail"></textarea>
-                                    <button type="submit" class="site-btn">Send Message</button>
+                                    <textarea class="ckeditor" id="messenger"></textarea>
+                                    <span class="error text-danger"></span>
                                 </div>
+                                <button type="button" class="site-btn" id="sendmail">Send Message</button>
+
                             </div>
                         </form>
                     </div>
@@ -206,24 +200,84 @@
 
 
 <script>
-    document.getElementById('next').onclick = function () {
-        let lists = document.querySelectorAll('.item');
-        document.getElementById('slide').appendChild(lists[0]);
-    }
-    document.getElementById('prev').onclick = function () {
-        let lists = document.querySelectorAll('.item');
-        document.getElementById('slide').prepend(lists[lists.length - 1]);
-    }
-    $('.cn_num').each(function () {
-        $(this).prop('Counter', 0).animate({
-            Counter: $(this).text()
-        }, {
-            duration: 4000,
-            easing: 'swing',
-            step: function (now) {
-                $(this).text(Math.ceil(now));
+    $(document).ready(function () {
+        // about slide
+        document.getElementById('next').onclick = function () {
+            let lists = document.querySelectorAll('.item');
+            document.getElementById('slide').appendChild(lists[0]);
+        }
+        document.getElementById('prev').onclick = function () {
+            let lists = document.querySelectorAll('.item');
+            document.getElementById('slide').prepend(lists[lists.length - 1]);
+        }
+        $('.cn_num').each(function () {
+            $(this).prop('Counter', 0).animate({
+                Counter: $(this).text()
+            }, {
+                duration: 4000,
+                easing: 'swing',
+                step: function (now) {
+                    $(this).text(Math.ceil(now));
+                }
+            });
+        });
+        $('#sendmail').click(function () {
+            if (Validate()) {
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var messenger = $('#messenger').val();
+                $.ajax({
+                    url: '/Home/Contact',
+                    type: 'POST',
+                    data: {
+                        name: name,
+                        email: email,
+                        messenger: messenger
+                    },
+                    success: function (res) {
+                        $('#content').html(res.content);
+                    }
+                });
             }
         });
+        function Validate() {
+            var check = false;
+            debugger;
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var messenger = $('#messenger').val();
+            if (name === '') {
+                $('#name').next().html('Bạn chưa nhập họ và tên');
+                check = false;
+            }
+            else {
+                $('#name').next().html('');
+                check = true;
+            }
+            if (email === '') {
+                $('#email').next().html('Bạn chưa nhập email liên lạc');
+                check = false;
+            }
+            else {
+                $('#email').next().html('');
+                check = true;
+            }
+            if (messenger === '') {
+                $('#messenger').next().html('Bạn chưa nhập nội dung');
+                check = false;
+            }
+            else {
+                $('#messenger').next().html('');
+                check = true;
+            }
+            return check;
+        }
+
+
     });
+
+   
+   
+   
 </script>
 

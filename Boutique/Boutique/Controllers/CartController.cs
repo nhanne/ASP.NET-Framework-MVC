@@ -114,7 +114,7 @@ namespace Boutique.Controllers
         // Đặt hàng
         public ActionResult getPromotion()
         {
-            var result = _db.Promotions.ToList();
+            var result = _db.Promotions.Where(m => m.end_date > DateTime.Now).ToList();
             return Json(new { Data = result, TotalItems = result.Count }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
@@ -148,9 +148,8 @@ namespace Boutique.Controllers
             var note = f["note"];
             var payment = f["payment"];
             var check = _db.Customers.FirstOrDefault(s => s.Email.Equals(model.Email) && s.Member == true);
-            var maKM = f["promo_code"];
+            var maKM = f["promo_code"].ToString();
             var now = DateTime.Now;
-            Promotion codeKM = _db.Promotions.SingleOrDefault(m => m.promotion_name.Equals(maKM) && m.end_date > now);
             ModelState.Remove("Password");
             if (ModelState.IsValid)
             {
@@ -178,10 +177,16 @@ namespace Boutique.Controllers
                 order.Status = "Chưa giao hàng";
                 order.PaymentId = int.Parse(payment);
                 order.Address = address.ToString();
-                order.TotalPrice = TongTien();
-                if (codeKM != null)
+                double totalPrice = TongTien();
+                Promotion codeKM = _db.Promotions.SingleOrDefault(m => m.promotion_name == maKM && m.end_date > DateTime.Now);
+                if (codeKM == null)
                 {
-                    float var = ((float)((float)order.TotalPrice * (float)codeKM.discount_percentage)) / 100;
+                    order.TotalPrice =  totalPrice;
+                }
+                else
+                {
+                    order.TotalPrice = totalPrice;
+                    double var = ((double)((double)TongTien() * (double)codeKM.discount_percentage)) / 100;
                     order.TotalPrice -= var;
                 }
                 order.TotalQuantity = totalQuantity();
@@ -394,8 +399,8 @@ namespace Boutique.Controllers
             string accessKey = "iPXneGmrJH0G8FOP";
             string serectkey = "sFcbSGRSJjwGxwhhcEktCHWYUuTuPNDB";
             string orderInfo = "test";
-            string returnUrl = "https://localhost:44379/Cart/PaymentConfirm";
-            string notifyurl = "http://thanhnhan-001-site1.atempurl.com/Cart/PaymentConfirm"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
+            string returnUrl = "http://thanhnhan-001-site1.atempurl.com//Cart/PaymentConfirm";
+            string notifyurl = "http://thanhnhan-001-site1.atempurl.com//Cart/PaymentConfirm"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
             DateTime expirationTime = DateTime.Now.AddDays(1);
             Order order = _db.Orders.Find(Id);
             string orderId = order.Id.ToString(); //mã đơn hàng

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using Boutique.Models;
@@ -15,7 +17,7 @@ namespace Boutique.Controllers
         public ActionResult Index()
         {
             var dsProduct = from p in _db.Products select p;
-            ViewBag.dsProduct = dsProduct.OrderByDescending(p => p.Id).Take(4).ToList();
+            ViewBag.dsProduct = dsProduct.OrderByDescending(p => p.Sold).Take(4).ToList();
             return View();
         }
         public ActionResult Store(string sort, string category, string search, int pageIndex = 1)
@@ -37,8 +39,8 @@ namespace Boutique.Controllers
             query = Sort(sort, query);
             // Phân trang
             var products = query.ToList();
-            ViewBag.dsProduct = products.ToPagedList(pageIndex, 8);
-            var totalPages = (int)Math.Ceiling((double)query.Count() / 8);
+            ViewBag.dsProduct = products.ToPagedList(pageIndex, 16);
+            var totalPages = (int)Math.Ceiling((double)query.Count() / 16);
             ViewBag.CurrentPage = pageIndex;
             ViewBag.TotalPages = totalPages;
             return View();
@@ -77,6 +79,7 @@ namespace Boutique.Controllers
 
             return query;
         }
+      
         public ActionResult Product(int Id)
         {
             Product product = _db.Products.SingleOrDefault(p => p.Id == Id);
@@ -88,7 +91,61 @@ namespace Boutique.Controllers
             ViewBag.dsCate = _db.Categories.ToList();
             return View(product);
         }
-      
+        //get product in stock
+        [HttpGet]
+        public ActionResult getProductbyId(int ProductId, int SizeId, int ColorId)
+        {
+            Stock item = _db.Stocks.FirstOrDefault(p => p.ProductId == ProductId && p.SizeId == SizeId && p.ColorId == ColorId);
+            if(item != null)
+            {
+                return Json(new { Data = item.Stock1 }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { Data = "Sản phẩm hiện đang hết hàng" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public ActionResult Contact(string name, string email, string messenger)
+        {
+            MailAddress fromAddress = new MailAddress(email, name);
+
+            MailAddress toAddress = new MailAddress("nhancmvn12@gmail.com");
+            const string fromPassword = "jznrdhzrgpnsxswp";
+
+            string subject = "Hỗ trợ vấn đề";
+            string body = @"
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset='UTF-8'>
+                <title>Xác </title>
+            </head>
+            <body>
+                <p><strong>Người liên hệ: </strong>" + name + "</p>" +
+                "<p><strong>Email: </strong> " + email + "</p>" +
+                "<p><strong>Nội dung: </strong> " + messenger + "</p>" +
+                "</body></html>";
+            SmtpClient smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (MailMessage message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true,
+            })
+            {
+                smtp.Send(message);
+            }
+            return Json(new { content = "Chúng tôi sẽ sớm liên lạc lại với bạn qua email: " + email });
+        }
 
     }
 }

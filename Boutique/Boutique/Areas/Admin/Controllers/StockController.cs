@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using System.Data.SqlClient;
 
 namespace Boutique.Areas.Admin.Controllers
 {
@@ -19,6 +22,35 @@ namespace Boutique.Areas.Admin.Controllers
             ViewBag.stocks = stocks;
             return View();
         }
+
+        public ActionResult GetStockData()
+        {
+            try
+            {
+                // Mã có thể gây ra lỗi ở đây
+                // Ví dụ: truy cập vào một phần tử không tồn tại trong mảng, chia cho 0, mở file không tồn tại, ...
+                // Đoạn mã mà bạn muốn bắt lỗi
+                var result = _db.Stocks.ToList();
+                var jsonResult = JsonConvert.SerializeObject(result);
+                return Content(jsonResult, "application/json");
+            }
+            catch (SqlException ex)
+            {
+                // Xử lý lỗi cơ sở dữ liệu (nếu sử dụng SQL Server)
+                Console.WriteLine("Lỗi cơ sở dữ liệu SQL: " + ex.Message);
+                return Content("Có lỗi xảy ra khi truy vấn dữ liệu từ cơ sở dữ liệu.");
+            }
+            catch (Exception ex) // Bắt lỗi chung (Exception) (nếu không rõ lỗi cụ thể)
+            {
+                // Xử lý lỗi ở đây
+                // Ví dụ: ghi log, hiển thị thông báo cho người dùng, cố gắng khắc phục lỗi, ...
+                Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
+                return Content("Có lỗi xảy ra trong quá trình xử lý.");
+            }
+        }
+
+
+
         //Color
         public ActionResult Color()
         {

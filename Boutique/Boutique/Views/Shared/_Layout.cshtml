@@ -22,13 +22,13 @@
 <body>
     <!--=================================================== NAVBAR============================================================ -->
     <nav id="navbar" class="container">
-        <a href="#" class="navbar-brand">boutique</a>
+        <a href="@Url.Action("Index","Home")" class="navbar-brand">boutique</a>
         <button id="mobile-menu"><i class="far fa-align-justify"></i></button>
         <ul id="navbar-center">
             <li><a class="nav-link" href="@Url.Action("Index","Home")">home</a></li>
             <li><a class="nav-link" href="@Url.Action("Store","Home")">store</a></li>
-            <li><a class="nav-link" href="contact.html">contact</a></li>
-            <li><a class="nav-link" href="#about">about</a></li>
+            <li><a class="nav-link" href="javascript:void(0)" onclick="contact()">contact</a></li>
+            <li><a class="nav-link" href="javascript:void(0)" onclick="about()">about</a></li>
         </ul>
         <ul id="navbar-right">
             <li>
@@ -140,8 +140,10 @@
                             <a href="#"><img src="" alt=""></a>
                         </div>*@
                         <p style="line-height: 25px;">Khách hàng là trung tâm của mô hình kinh doanh độc đáo của chúng tôi, bao gồm cả thiết kế.</p>
-                        <a href="#"><img src="~/Images/momo.jpg" alt=""></a>
-                        <a href="#"><img src="~/Images/vnpay.jpg" alt=""></a>
+                        <div class="footer__payment">
+                            <a href="#"><img src="~/Images/momo.jpg" alt=""></a>
+                            <a href="#"><img src="~/Images/vnpay.jpg" alt=""></a>
+                        </div>
                     </div>
                 </div>
                 <div class="grid__column-2-4"></div>
@@ -184,7 +186,14 @@
 
     <!--=================================================== Script============================================================ -->
     @Scripts.Render("~/bundles/mainjs")
-    <script src="~/ckeditor/ckeditor/ckeditor.js"></script>
     <script src="https://sp.zalo.me/plugins/sdk.js"></script>
+    <script>
+        function about() {
+            window.location = '/Home#about';
+        }
+        function contact() {
+            window.location = '/Home#contact';
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOP</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/responsive.css">
+
+</head>
+
+<body>
+    <!--=================================================== LOADER============================================================ -->
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
+    <!--=================================================== BACKTOP ============================================================ -->
+    <div id="backtop">
+        <i class="fal fa-arrow-to-top"></i>
+    </div>
+    <!--=================================================== NAVBAR============================================================ -->
+
+    <nav id="navbar" class="container">
+        <a href="#" class="navbar-brand">boutique</a>
+        <button id="mobile-menu"><i class="far fa-align-justify"></i></button>
+        <ul id="navbar-center">
+            <li><a class="nav-link active" href="index.html">home</a></li>
+            <li class="nav-dropdown">
+                <a href="store.html">store</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Sweater</a></li>
+                    <li><a class="dropdown-item" href="#">Jacket</a></li>
+                    <li><a class="dropdown-item" href="#">Pants</a></li>
+                    <li><a class="dropdown-item" href="#">Tee</a></li>
+                    <li><a class="dropdown-item" href="#">Flannel</a></li>
+                    <li><a class="dropdown-item" href="#">Backpack</a></li>
+                    <li><a class="dropdown-item" href="#">Caps</a></li>
+                </ul>
+            </li>
+            <li><a class="nav-link" href="contact.html">contact</a></li>
+            <li><a class="nav-link" href="#about">about</a></li>
+        </ul>
+        <ul id="navbar-right">
+            <li>
+                <button type="button" onclick="navSearch()" id="navSearch" class="nav-search"><i
+                        class="fas fa-search"></i></button>
+                <form class="dropdown-search" id="dropdown-search">
+                    <input type="text" id="search-box" placeholder="Bạn đang tìm gì đó ? ">
+                    <button class="btnsearch">tìm kiếm</button>
+                </form>
+            </li>
+            <li><a class="nav-icon" href=""><i class="far fa-shopping-bag "></i></a></li>
+            <li><a class="nav-icon" href="login.html"><i class="far fa-user "></i></a></li>
+        </ul>
+    </nav>
+
+  
+    <div id="banner" class="score">
+        <div class="parallax">
+            <div id="logo" class="bg"></div>
+            <div id="slideshow" class="bg">
+            </div>
+
+        </div>
+
+    </div>
+    
+   
+  
+
+ <!-- <section id="main" class="container">
+
+        
+        <div id="release">
+             <div id="headline">
+                 <h3>NEW RELEASE</h3>
+             </div>
+             <ul id="products" class="row">
+                 <li>
+                     <div class="product-item">
+                         <div class="product-top">
+                             <a href="" class="product-thumb"><img
+                                     src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/13-Long-sleeve-300x298.jpg"></a>
+                             <a href="" class="buynow">mua ngay</a>
+                         </div>
+                         <div class="product-info">
+                             <a href="" class="product-cat">Sweater</a>
+                             <a href="" class="product-name">13 Long Sleeve</a>
+                             <div class="product-price">500.000 ₫</div>
+                         </div>
+                     </div>
+                 </li>
+                 <li>
+                     <div class="product-item">
+                         <div class="product-top">
+                             <a href="" class="product-thumb"><img
+                                     src="https://havefunwiththehomies.com/wp-content/uploads/2021/11/shoes-black5-300x300.jpg"></a>
+                             <a href="" class="buynow">mua ngay</a>
+                         </div>
+                         <div class="product-info">
+                             <a href="" class="product-cat">Shoes</a>
+                             <a href="" class="product-name">Black Signature Shoes</a>
+                             <div class="product-price">890.000 ₫</div>
+                         </div>
+                     </div>
+                 </li>
+                 <li>
+                     <div class="product-item">
+                         <div class="product-top">
+                             <a href="" class="product-thumb"><img
+                                     src="https://havefunwiththehomies.com/wp-content/uploads/2021/11/shoes-white-300x300.jpg"></a>
+                             <a href="" class="buynow">mua ngay</a>
+ 
+                         </div>
+                         <div class="product-info">
+                             <a href="" class="product-cat">Sweater</a>
+                             <a href="" class="product-name">13 Long Sleeve</a>
+                             <div class="product-price">500.000 ₫</div>
+                         </div>
+                     </div>
+                 </li>
+                 <li>
+                     <div class="product-item">
+                         <div class="product-top">
+                             <a href="" class="product-thumb"><img
+                                     src="https://havefunwiththehomies.com/wp-content/uploads/2021/11/lifes-a-beach-sweater-300x300.jpg"></a>
+                             <a href="" class="buynow">mua ngay</a>
+ 
+                         </div>
+                         <div class="product-info">
+                             <a href="" class="product-cat">Sweater</a>
+                             <a href="" class="product-name">13 Long Sleeve</a>
+                             <div class="product-price">500.000 ₫</div>
+                         </div>
+                     </div>
+                 </li>
+                 <li>
+                     <div class="product-item">
+                         <div class="product-top">
+                             <a href="" class="product-thumb"><img
+                                     src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/holiday-jk-2020-300x300.jpg"></a>
+                             <a href="" class="buynow">mua ngay</a>
+ 
+                         </div>
+                         <div class="product-info">
+                             <a href="" class="product-cat">Sweater</a>
+                             <a href="" class="product-name">13 Long Sleeve</a>
+                             <div class="product-price">500.000 ₫</div>
+                         </div>
+                     </div>
+                 </li>
+                 <li>
+                     <div class="product-item">
+                         <div class="product-top">
+                             <a href="" class="product-thumb"><img
+                                     src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/4x4_1-300x300.png"></a>
+                             <a href="" class="buynow">mua ngay</a>
+ 
+                         </div>
+                         <div class="product-info">
+                             <a href="" class="product-cat">Sweater</a>
+                             <a href="" class="product-name">13 Long Sleeve</a>
+                             <div class="product-price">500.000 ₫</div>
+                         </div>
+                     </div>
+                 </li>
+                 <li>
+                     <div class="product-item">
+                         <div class="product-top">
+                             <a href="" class="product-thumb"><img
+                                     src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/13-Long-sleeve-300x298.jpg"></a>
+                             <a href="" class="buynow">mua ngay</a>
+ 
+                         </div>
+                         <div class="product-info">
+                             <a href="" class="product-cat">Sweater</a>
+                             <a href="" class="product-name">13 Long Sleeve</a>
+                             <div class="product-price">500.000 ₫</div>
+                         </div>
+                     </div>
+                 </li>
+                 <li>
+                     <div class="product-item">
+                         <div class="product-top">
+                             <a href="" class="product-thumb"><img
+                                     src="https://havefunwiththehomies.com/wp-content/uploads/2021/10/bw-300x300.jpg"></a>
+                             <a href="" class="buynow">mua ngay</a>
+ 
+                         </div>
+                         <div class="product-info">
+                             <a href="" class="product-cat">Sweater</a>
+                             <a href="" class="product-name">13 Long Sleeve</a>
+                             <div class="product-price">500.000 ₫</div>
+                         </div>
+                     </div>
+                 </li>
+ 
+             </ul>
+         </div> 
+ 
+ 
+     </section> -->
+    <!--=================================================== MAIN ============================================================ -->
+
+    <!--=================================================== TOATS============================================================ -->
+    <div id="toast">
+        <div class="toast toast--success">
+            <div class="toast-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="toast-body">
+                <h3 class="toast-title">SUCCESS</h3>
+                <p class="toast-msg">đã đăng ký thành công</p>
+            </div>
+            <div class="toast-close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--=================================================== FOOTER============================================================ -->
+    <footer id="footer" class="container">
+    </footer>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="assets/javascript.js"></script>
+</body>
+
+</html>
+<style>
+  
+    .about {
+        height: 100vh;
+        width: 100vw;
+        position: relative;
+      
+    }
+
+    .about__container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100vw;
+        height: 100vh;
+        padding: 50px;
+        background-color: #f5f5f5;
+        box-shadow: 0 30px 50px #dbdbdb;
+      
+    }
+
+    #slide {
+        width: max-content;
+        margin-top: 50px;
+    }
+
+    .item {
+        width: 200px;
+        height: 300px;
+        background-position: 50% 50%;
+        display: inline-block;
+        transition: 0.5s;
+        background-size: cover;
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        transform: translate(0, -50%);
+        border-radius: 20px;
+        box-shadow: 0 30px 50px #505050;
+    }
+
+    .item:nth-child(1),
+    .item:nth-child(2) {
+        left: 0;
+        top: 0;
+        transform: translate(0, 0);
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: none;
+    }
+
+    .item:nth-child(3) {
+        left: 50%;
+    }
+
+    .item:nth-child(4) {
+        left: calc(50% + 220px);
+    }
+
+    .item:nth-child(5) {
+        left: calc(50% + 440px);
+    }
+
+    .item:nth-child(n+6) {
+        left: calc(50% + 660px);
+        opacity: 0;
+    }
+
+    .item .content {
+        position: absolute;
+        top: 50%;
+        left: 100px;
+        width: 300px;
+        text-align: left;
+        padding: 20px;
+        border-radius: 20px;
+        color: #eee;
+        line-height: 2rem;
+        transform: translate(0, -50%);
+        display: none;
+        font-family: system-ui;
+        background-image: linear-gradient(0, rgb(0 0 0 / 10%), rgb(0 0 0 / 10%));
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .item:nth-child(2) .content {
+        display: block;
+        z-index: 11111;
+    }
+
+    .item .name {
+        font-size: 40px;
+        font-weight: bold;
+        opacity: 0;
+        animation: showcontent 1s ease-in-out 1 forwards
+    }
+
+    .item .des {
+        margin: 20px 0;
+        opacity: 0;
+        animation: showcontent 1s ease-in-out 0.3s 1 forwards
+    }
+
+    .item button {
+        padding: 10px 20px;
+        border: none;
+        opacity: 0;
+        animation: showcontent 1s ease-in-out 0.6s 1 forwards
+    }
+
+    @keyframes showcontent {
+        from {
+            opacity: 0;
+            transform: translate(0, 100px);
+            filter: blur(33px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate(0, 0);
+            filter: blur(0);
+        }
+    }
+
+    .buttons {
+        position: absolute;
+        bottom: 30px;
+        z-index: 222222;
+        text-align: center;
+        width: 100%;
+    }
+
+    .buttons button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 1px solid #555;
+        transition: 0.5s;
+    }
+
+    .buttons button:hover {
+        background-color: #bac383;
+    }
+</style>
+<script>
+    document.getElementById('next').onclick = function () {
+        let lists = document.querySelectorAll('.item');
+        document.getElementById('slide').appendChild(lists[0]);
+    }
+    document.getElementById('prev').onclick = function () {
+        let lists = document.querySelectorAll('.item');
+        document.getElementById('slide').prepend(lists[lists.length - 1]);
+    }
+
+
+
+</script>

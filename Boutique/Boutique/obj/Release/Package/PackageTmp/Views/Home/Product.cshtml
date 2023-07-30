@@ -69,7 +69,7 @@
                                 {
                                     <label>
                                         @size.Name
-                                        <input type="radio" name="Size" value="@size.Id" id="@size.Id" />
+                                        <input type="radio" name="Size" value="@size.Id" id="@size.Id" onchange="handleQty()" required />
                                     </label>
                                 }
                             </div>
@@ -82,12 +82,12 @@
                                 {
                                     <label>
                                         @color.Name
-                                        <input type="radio" name="Color" value="@color.Id" id="@color.Id" />
+                                        <input type="radio" name="Color" value="@color.Id" id="@color.Id" onchange="handleQty()" required/>
                                     </label>
                                 }
                             </div>
                         }
-
+                        <span id="qtyinStock">Có sẵn <span id="qty"></span> sản phẩm</span>
                         @if (ViewBag.color.Count != 0 || ViewBag.size.Count != 0)
                         {
                             <button class="btn detail__info-button-addtoCart" type="submit" onclick="addToCart()">
@@ -221,6 +221,11 @@
         .detail__info-button-addtoCart:hover {
             opacity: 1;
         }
+    #qtyinStock{
+        display: block;
+        margin: 15px 0;
+    }
+
 </style>
 
 <script>
@@ -232,6 +237,33 @@
             $(".detail__info-color label").removeClass('active');
             $(this).addClass('active');
         });
+         
+        function handleQty() {
+            var selectedSize = document.querySelector('input[name="Size"]:checked').value;
+            var selectedColor = document.querySelector('input[name="Color"]:checked').value;
+            if (selectedColor && selectedSize != null) {
+                $.ajax({
+                    url: '/Home/getProductbyId',
+                    type: 'GET',
+                    data: {
+                        ProductId: @Model.Id,
+                        SizeId: selectedSize,
+                        ColorId: selectedColor
+                    },
+                    success: function (res) {
+                        if (res.Data > 0) {
+                            var html = "";
+                            html += " <span id='qtyinStock'>Có sẵn <span id='qty'></span> sản phẩm</span>";
+                            $("#qtyinStock").html(html);
+                            $("#qty").html(res.Data);
+                        }
+                        else {
+                            $("#qtyinStock").html("Phân loại này hiện tại đang hết hàng.");
+                        }
+                    }
+                })
+            }
+    };
         function addToCart() {
         var selectedSize = document.querySelector('input[name="Size"]:checked').value;
         var selectedColor = document.querySelector('input[name="Color"]:checked').value;
@@ -251,7 +283,7 @@
                 });
                 // Hiển thị popup
                 $('.header-search__cart-list').hide();
-                $('.success').show();
+                $('.success').hide().show();
                 setTimeout(function () {
                     window.location.href = data;
                 }, 5000);
@@ -260,7 +292,7 @@
             error: function (data) {
                 // Hiển thị popup
                 $('.header-search__cart-list').hide();
-                $('.failed').show();
+                $('.failed').hide().show();
                 setTimeout(function () {
                     window.location.href = location.href;
                 }, 5000);

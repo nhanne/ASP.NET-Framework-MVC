@@ -1347,13 +1347,20 @@ ul.social_media {
         .footer__copyright__text p a {
             color: #e53637;
         }
-
+    .footer__payment{
+        display: flex;
+    }
+     .footer__payment img{
+        padding: 10px
+    }
 /*=========================== contact ==============================*/
 .contact {
     margin: 50px 0;
     line-height: 25px;
 }
-
+.contact__form .grid__column-6{
+    margin-bottom: 10px
+}
 .contact__text .section-title {
     text-align: left;
     margin-bottom: 40px;
@@ -1397,7 +1404,6 @@ ul.social_media {
     padding-left: 20px;
     font-size: 15px;
     color: #b7b7b7;
-    margin-bottom: 30px;
 }
 
     .contact__form input::-webkit-input-placeholder {
@@ -1428,7 +1434,6 @@ ul.social_media {
     padding-top: 12px;
     font-size: 15px;
     color: #b7b7b7;
-    margin-bottom: 24px;
     resize: none;
 }
 
@@ -1451,7 +1456,14 @@ ul.social_media {
     .contact__form textarea::placeholder {
         color: #b7b7b7;
     }
-
+.text-danger{
+    color: red;
+}
+#content{
+}
+.contact__form{
+    margin: 10px 0;
+}
 .contact__form button {
     letter-spacing: 4px;
     padding: 14px 35px;
@@ -1466,6 +1478,7 @@ ul.social_media {
     text-transform: uppercase;
     display: inline-block;
     padding: 14px 30px;
+    margin-left: 5px
 }
 
 .section-title span {

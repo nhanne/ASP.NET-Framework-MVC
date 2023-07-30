@@ -36,19 +36,19 @@
                             <a href="@Url.Action("Store", "Home")" class="select-input__link">Mặc định</a>
                         </li>
                         <li class="select-input__item">
-                            <a href="@Url.Action("Store", "Home", new {sort = "new", category = cate, search = search})" class="select-input__link">Mới nhất</a>
+                            <a href="@Url.Action("Store", "Home", new {sort = "new", category = cate, search = search, pageIndex = pageIndex})" class="select-input__link">Mới nhất</a>
                         </li>
                         <li class="select-input__item">
-                            <a href="@Url.Action("Store", "Home", new {sort = "hot", category = cate, search = search})" class="select-input__link">Bán chạy</a>
+                            <a href="@Url.Action("Store", "Home", new {sort = "hot", category = cate, search = search, pageIndex = pageIndex})" class="select-input__link">Bán chạy</a>
                         </li>
                         <li class="select-input__item">
-                            <a href="@Url.Action("Store", "Home", new {sort = "sale", category = cate, search = search})" class="select-input__link">Khuyến mãi</a>
+                            <a href="@Url.Action("Store", "Home", new {sort = "sale", category = cate, search = search, pageIndex = pageIndex})" class="select-input__link">Khuyến mãi</a>
                         </li>
                         <li class="select-input__item">
-                            <a href="@Url.Action("Store", "Home", new {sort = "asc", category = cate, search = search})" class="select-input__link">Giá: thấp đến cao</a>
+                            <a href="@Url.Action("Store", "Home", new {sort = "asc", category = cate, search = search, pageIndex = pageIndex})" class="select-input__link">Giá: thấp đến cao</a>
                         </li>
                         <li class="select-input__item">
-                            <a href="@Url.Action("Store", "Home", new {sort = "desc", category = cate, search = search})" class="select-input__link">Giá: cao đến thấp</a>
+                            <a href="@Url.Action("Store", "Home", new {sort = "desc", category = cate, search = search, pageIndex = pageIndex})" class="select-input__link">Giá: cao đến thấp</a>
                         </li>
                     </ul>
                 </div>
@@ -64,7 +64,8 @@
         <div class="grid__row store__body">
             <div class="grid__column-2">
                 <nav class="category">
-                    <ul class="category-list">
+                    <ul class="category-list" id="mySidebar">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
                         <li class="category-item" id="ctg">
                             <a href="@Url.Action("Store","Home")" class="category-item__link">NEW Stuff</a>
                         </li>
@@ -73,12 +74,14 @@
                             <li class="category-item" id="ctg">
                                 <a href="@Url.Action("Store","Home", new {category = @item.Name})" class="category-item__link">@item.Name</a>
                             </li>
-
                         }
                     </ul>
                 </nav>
+
             </div>
 
+            <button class="openbtn" onclick="openNav()">☰ Danh mục</button>
+         
             <div class="grid__column-10" id="release">
 
                 @if (totalPages == 0)
@@ -97,9 +100,9 @@
                                     Xem ngay
                                 </a>
                                 @*@if (product.Quantity == 0)
-                                    {
-                                        <span class="sold">out of stock</span>
-                                    }*@
+                            {
+                                <span class="sold">out of stock</span>
+                            }*@
                             </div>
                             <div class="product-info">
                                 <a href="" class="product-cat"> @product.Category.Name</a>
@@ -123,13 +126,13 @@
                                         <span class="store-product__sale-off-label">Sale</span>
                                     </div>
                                 }
-                                else
-                                {
-                                    <div class="store-product__sale-off">
-                                        <span class="store-product__sale-off-percent">Deal</span>
-                                        <span class="store-product__sale-off-label">Hot</span>
-                                    </div>
-                                }
+                                @*else
+                            {
+                                <div class="store-product__sale-off">
+                                    <span class="store-product__sale-off-percent">Deal</span>
+                                    <span class="store-product__sale-off-label">Hot</span>
+                                </div>
+                            }*@
 
                             </div>
                         </li>
@@ -139,7 +142,7 @@
                 @if (totalPages > 1)
                 {
                     <div class="MenuTrang pagination">
-                        @Html.PagedListPager((IPagedList<Boutique.Models.Product>)ViewBag.dsProduct, page => Url.Action("Store", new { sort = sort, pageIndex = page }),
+                        @Html.PagedListPager((IPagedList<Boutique.Models.Product>)ViewBag.dsProduct, page => Url.Action("Store", new { sort = sort, pageIndex = page, category = cate, search = search }),
                             new PagedListRenderOptions()
                             {
                                 LiElementClasses = new[] { "paginate_button page-item page-link" },

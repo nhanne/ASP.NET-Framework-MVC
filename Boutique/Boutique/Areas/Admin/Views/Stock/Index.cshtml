@@ -6,65 +6,106 @@
 }
 
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="tile">
-            <div class="tile-body">
-                <div class="row element-button">
-                    <div class="col-sm-2">
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("Color","Stock")">
-                            <i class="fas fa-list"></i>
-                            Danh sách mã màu
-                        </a>
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="row element-button">
+                        <div class="col-sm-2">
+                            <a class="btn btn-warning btn-sm" href="@Url.Action("Color","Stock")">
+                                <i class="fas fa-list"></i>
+                                Danh sách mã màu
+                            </a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-danger btn-sm" href="@Url.Action("Size","Stock")">
+                                <i class="fas fa-list"></i>
+                                Danh sách kích thước
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-sm-2">
-                        <a class="btn btn-danger btn-sm" href="@Url.Action("Size","Stock")">
-                            <i class="fas fa-list"></i>
-                            Danh sách kích thước
-                        </a>
-                    </div>
-                </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
 
-                <table class="table table-hover table-bordered" id="sampleTable">
-                    <thead>
-                        <tr>
-                            <th>Mã sản phẩm</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Màu sắc</th>
-                            <th>Kích cỡ</th>
-                            <th>Số lượng</th>
-                            <th>Chức năng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in ViewBag.stocks)
-                        {
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <form action="/Admin/Product" class="dataTables_filter d-flex justify-content-end" method="get">
+                                <label>
+                                    Tìm kiếm:
+
+                                    <input class="form-control form-control-sm" id="searchString" name="searchString" type="text" value="">
+
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
                             <tr>
-                                <td>@item.Product.Code</td>
-                                <td>@item.Product.Name</td>
-                                <td>@item.Color.Name</td>
-                                <td>@item.Size.Name</td>
-                                <td>@item.Stock1</td>
-                                <td>
-                                    @*<button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                                onclick="location.href='@Url.Action("Edit", "Product",new { id = item.Id })'">
-                                            Chỉnh sửa
-                                        </button>
-                                        <button class="btn btn-primary btn-sm info" type="button" title="Sửa"
-                                                onclick="location.href='@Url.Action("Detail", "Product",new { id = item.Id })'">
-                                            Chi tiết
-                                        </button>*@
-                                </td>
+                                <th>Mã sản phẩm</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Màu sắc</th>
+                                <th>Kích cỡ</th>
+                                <th>Số lượng</th>
+                                <th>Chức năng</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.stocks)
+                            {
+                                <tr>
+                                    <td>@item.Product.Code</td>
+                                    <td>@item.Product.Name</td>
+                                    <td>@item.Color.Name</td>
+                                    <td>@item.Size.Name</td>
+                                    <td>@item.Stock1</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm edit" type="button" title="Sửa"
+                                                onclick="location.href='@Url.Action("EditPhanLoai", "Product",new { id = item.Id })'">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        @*<button class="btn btn-primary btn-sm info" type="button" title="Sửa"
+                                                    onclick="location.href='@Url.Action("Detail", "Product",new { id = item.Id })'">
+                                                Chi tiết
+                                            </button>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
 
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Nơi bạn muốn hiển thị kết quả -->
+<div id="stockData"></div>
+
+<!-- Sử dụng JavaScript và AJAX để gọi action method và nhận dữ liệu JSON -->
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("GetStockData", "Stock")',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Xử lý dữ liệu JSON ở đây, ví dụ hiển thị dữ liệu trong #stockData
+                var stockData = '';
+                $.each(data, function (index, item) {
+                    stockData += '<p>' + item.StockName + ' - ' + item.StockPrice + '</p>';
+                });
+                $('#stockData').html(stockData);
+            },
+            error: function () {
+                alert('Đã xảy ra lỗi khi gọi API.');
+            }
+        });
+    });
+</script>
 
 
 

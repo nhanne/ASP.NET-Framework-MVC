@@ -24,7 +24,7 @@ namespace Boutique.Areas.Admin.Controllers
             if (!String.IsNullOrEmpty(search))
             {
                 ViewBag.search = search;
-                query = query.Where(p => p.Customer.Phone.ToString().ToLower().Contains(search.ToLower()));
+                query = query.Where(p => p.Customer.Phone.ToString().ToLower().Contains(search.ToLower()) || p.Id.ToString() == search);
             }
             query = Sort(sort, query);
             // Phân trang

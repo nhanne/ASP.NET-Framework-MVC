@@ -13,25 +13,24 @@ using System.Data.Entity;
 namespace Boutique.Areas.Admin.Controllers
 {
     public class ProductController : Controller
-    {
+    {   
         private BoutiqueEntities _db = new BoutiqueEntities();
         // GET: Admin/Product
-        public ActionResult Index(int? page, string searchString)
+        public ActionResult Index(string searchString, int pageIndex = 1)
         {
-            int pageNumber = (page ?? 1);
-            int pageSize = 10;
-            var dsProduct = _db.Products.ToList().OrderBy(n => n.Id).ToPagedList(pageNumber, pageSize);
+            var query = _db.Products.AsQueryable();
             if (!String.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
-                ViewBag.dsProduct = dsProduct.Where(s => s.Name.ToLower().Contains(searchString));
+                ViewBag.search = searchString;
+                query = query.Where(s => s.Name.ToLower().Contains(searchString.ToLower()));
             }
-            else
-            {
-                ViewBag.dsProduct = dsProduct;
-            }
-          
-            return View(dsProduct);
+            var products = query.ToList();
+            var totalPages = (int)Math.Ceiling((double)query.Count() / 10);
+            ViewBag.dsProduct = products.ToPagedList(pageIndex, 10);
+            ViewBag.CurrentPage = pageIndex;
+            ViewBag.TotalPages = totalPages;
+            return View();
         }
         public ActionResult Create()
         {

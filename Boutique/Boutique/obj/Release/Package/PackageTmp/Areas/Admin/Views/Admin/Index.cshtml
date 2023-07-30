@@ -4,7 +4,7 @@
     ViewBag.headTitle = "Bảng điều khiển";
     Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
     BoutiqueEntities _db = new BoutiqueEntities();
-    var dsKhachHang = _db.Customers.ToList();
+    var dsKhachHang = _db.Customers.Where(c => c.Member == true).ToList();
     var dsProduct = _db.Products.ToList();
     var dsOrder = _db.Orders.ToList();
 }
