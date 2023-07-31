@@ -122,6 +122,24 @@ namespace Boutique.Areas.Admin.Controllers
             }
             return View(product);
         }
+        public ActionResult listIteminStock(int Id)
+        {
+            var stock = _db.Stocks.Where(p => p.ProductId == Id);
+            var validitemStock = stock.Select(c => new
+            {
+                Id = c.Id,
+                ProductId = (c.ProductId != 0) ? c.ProductId : -1,
+                ColorId = (c.ColorId != 0) ? c.ColorId : -1,
+                SizeId = (c.SizeId != 0) ? c.SizeId : -1,
+                Stock1 = (c.Stock1 != 0) ? c.Stock1 : -1,
+                stockInDate = (c.stockInDate != DateTime.MinValue) ? c.stockInDate : DateTime.MinValue
+            }).ToList();
+            return Json(new
+            {
+                Data = validitemStock,
+                TotalItems = validitemStock.Count,
+            }, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult PhanLoaiSP(int Id)
         {
             var stock = _db.Stocks.Where(p => p.ProductId == Id);

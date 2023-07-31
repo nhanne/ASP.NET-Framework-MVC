@@ -34,10 +34,8 @@ namespace Boutique.Areas.Admin.Controllers
                 var promotion = _db.Promotions.Find(model.promotion_id);
                 promotion.promotion_name = model.promotion_name;
                 promotion.description = model.description;
-                if (model.start_date != null)
-                {
-                    promotion.start_date = model.start_date;
-                }
+                promotion.start_date = model.start_date;
+                promotion.end_date = model.end_date;
                 promotion.discount_percentage = model.discount_percentage;
              
                 _db.Entry(promotion).State = EntityState.Modified;

@@ -22,9 +22,9 @@ namespace Boutique.Models
         }
     
         public int Id { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập tên màu sắc bằng tiếng Anh")]
+        //[Required(ErrorMessage = "Vui lòng nhập tên màu sắc bằng tiếng Anh")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập chú thích")]
+        //[Required(ErrorMessage = "Vui lòng nhập chú thích")]
         public string Ghichu { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -83,18 +83,9 @@
                         </div>
                         <div class="form-group  col-md-6">
                             <label for="exampleSelect1" class="control-label">Chức vụ</label>
-                            <select class="form-control" id="exampleSelect1">
-                                <option>Bán hàng</option>
-                                <option>Tư vấn</option>
-                                <option>Dịch vụ</option>
-                                <option>Thu Ngân</option>
-                                <option>Quản kho</option>
-                                <option>Bảo trì</option>
-                                <option>Kiểm hàng</option>
-                                <option>Bảo vệ</option>
-                                <option>Tạp vụ</option>
-                            </select>
+                            @Html.DropDownList("ColorId", null, htmlAttributes: new { @class = "form-control" })
                         </div>
+
                     </div>
                     
                 <BR>
@@ -146,7 +137,7 @@
                             loadData();
                             resetInput();
                             $('#modalCreateUpdate').modal('hide');
-                            //window.location.reload();
+                            window.location.reload();
                         }
                     }
                 });

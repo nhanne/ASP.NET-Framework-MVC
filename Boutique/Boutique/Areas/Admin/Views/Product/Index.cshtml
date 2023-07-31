@@ -24,21 +24,7 @@
                         </a>
                     </div>
 
-                    <div class="col-sm-2">
-                        <a class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép">
-                            <i class="fas fa-copy"></i> Sao chép
-                        </a>
-                    </div>
-
-                    <div class="col-sm-2">
-                        <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
-                    </div>
-
-                    <div class="col-sm-2">
-                        <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)">
-                            <i class="fas fa-trash-alt"></i> Xóa tất cả
-                        </a>
-                    </div>
+                 
 
                 </div>
 
@@ -116,3 +102,27 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '#phanloai1', function () {
+            var Id = $(this).data('id');
+            getProductbyId(Id);
+        });
+    });
+    getProductbyId = function (Id) {
+        $.ajax({
+            url: '/Product/listIteminStock',
+            type: 'GET',
+            data: { Id: Id },
+            success: function (res) {
+                if (res.data != null) {
+                    $('#sizeId').val(res.data.Id);
+                    $('#sizeName').val(res.data.Name);
+                    $('#sizeNote').val(res.data.Ghichu);
+                    $('#modalCreateUpdate').modal('show');
+                }
+            }
+        });
+    }
+
+</script>

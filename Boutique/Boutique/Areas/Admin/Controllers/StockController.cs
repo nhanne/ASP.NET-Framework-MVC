@@ -16,190 +16,184 @@ namespace Boutique.Areas.Admin.Controllers
     {
         private BoutiqueEntities _db = new BoutiqueEntities();
         // GET: Admin/Stock
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            var stocks = _db.Stocks.OrderBy(p=>p.ProductId).ToList();
-            ViewBag.stocks = stocks;
+            var stocks = _db.Stocks.AsQueryable();
+            if (!String.IsNullOrEmpty(search))
+            {
+                stocks = stocks.Where(p => p.Product.Code.Contains(search));
+            }
+            else
+            {
+                stocks = stocks.OrderBy(p => p.ProductId);
+            }
+            ViewBag.stocks = stocks.ToList();
             return View();
         }
 
         public ActionResult GetStockData()
         {
-            try
-            {
-                // Mã có thể gây ra lỗi ở đây
-                // Ví dụ: truy cập vào một phần tử không tồn tại trong mảng, chia cho 0, mở file không tồn tại, ...
-                // Đoạn mã mà bạn muốn bắt lỗi
-                var result = _db.Stocks.ToList();
-                var jsonResult = JsonConvert.SerializeObject(result);
-                return Content(jsonResult, "application/json");
-            }
-            catch (SqlException ex)
-            {
-                // Xử lý lỗi cơ sở dữ liệu (nếu sử dụng SQL Server)
-                Console.WriteLine("Lỗi cơ sở dữ liệu SQL: " + ex.Message);
-                return Content("Có lỗi xảy ra khi truy vấn dữ liệu từ cơ sở dữ liệu.");
-            }
-            catch (Exception ex) // Bắt lỗi chung (Exception) (nếu không rõ lỗi cụ thể)
-            {
-                // Xử lý lỗi ở đây
-                // Ví dụ: ghi log, hiển thị thông báo cho người dùng, cố gắng khắc phục lỗi, ...
-                Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
-                return Content("Có lỗi xảy ra trong quá trình xử lý.");
-            }
+            var result = _db.Stocks.ToList();
+            var jsonResult = JsonConvert.SerializeObject(result);
+            return Content(jsonResult, "application/json");
         }
-
-
-
         //Color
+
         public ActionResult Color()
         {
-            var colors = _db.Colors.ToList();
-            ViewBag.colors = colors;
             return View();
         }
-        public ActionResult newColor()
+        public ActionResult loadColor()
         {
-            return View(new Color() { Id = 0, Name = "", Ghichu = "" });
-        }
-        [HttpPost]
-        public ActionResult newColor(Color model)
-        {
-          
-            // lưu dữ liệu vào db
-            if (ModelState.IsValid)
+            var colorList = _db.Colors.ToList();
+            var validColorList = colorList.Select(c => new
             {
-                _db.Colors.Add(model);
-                _db.SaveChanges();
-                return RedirectToAction("Color", "Stock");
-            }
-            return View(model);
+                Id = c.Id,
+                Name = !string.IsNullOrEmpty(c.Name) ? c.Name : "Tên màu không hợp lệ",
+                Ghichu = !string.IsNullOrEmpty(c.Ghichu) ? c.Ghichu : "Chú thích không hợp lệ"
+            }).ToList();
+            return Json(new
+            {
+                Data = validColorList,
+                TotalItems = validColorList.Count,
+            }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult deleteColor(int Id)
+        public ActionResult getColor(int Id)
         {
+            var color = _db.Colors.Find(Id);
+            var validColor = new
+            {
+                Id = color.Id,
+                Name = !string.IsNullOrEmpty(color.Name) ? color.Name : "Tên màu không hợp lệ",
+                Ghichu = !string.IsNullOrEmpty(color.Ghichu) ? color.Ghichu : "Chú thích không hợp lệ"
+            };
 
-            if (Id.ToString() == null)
+            return Json(new
             {
-                return RedirectToAction("Color", "Stock");
-            }
-            Color color = _db.Colors.Find(Id);
-            if (color == null)
-            {
-                return HttpNotFound();
-            }
-            return View(color);
-        }
-        [HttpPost, ActionName("deleteColor")]
-        [ValidateAntiForgeryToken]
-        public ActionResult confirmXcolor(int Id)
-        {
-                Color color = _db.Colors.Find(Id);
-                _db.Colors.Remove(color);
-                _db.SaveChanges();
-            return RedirectToAction("Color", "Stock");
-        }
-        public ActionResult editColor(int Id)
-        {
-            if (Id.ToString() == null)
-            {
-                return RedirectToAction("Color", "Stock");
-            }
-            Color color = _db.Colors.Find(Id);
-            if (color == null)
-            {
-                return HttpNotFound();
-            }
-            return View(color);
+                data = validColor
+            }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult editColor(Color model)
+        public ActionResult createColor(Color model)
         {
-            Color color = _db.Colors.Find(model.Id);
-            if (ModelState.IsValid)
+            if (model.Id != 0)
             {
-                color.Name = model.Name;
-                color.Ghichu = model.Ghichu;
+                var color = _db.Colors.Find(model.Id);
+                color.Name = !string.IsNullOrEmpty(model.Name) ? model.Name : color.Name;
+                color.Ghichu = !string.IsNullOrEmpty(model.Ghichu) ? model.Ghichu : color.Name;
                 _db.Entry(color).State = EntityState.Modified;
                 _db.SaveChanges();
-                return RedirectToAction("Color", "Stock");
+                return Json(new { success = true });
             }
-            return View(model);
+            else
+            {
+                _db.Colors.Add(model);
+                try
+                {
+                    _db.SaveChanges();
+                    return Json(new { success = true });
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    return Json(new { success = false, errors = errors });
+                }
+            }
         }
+        [HttpPost]
+        public ActionResult deleteColor(int Id)
+        {
+            var color = _db.Colors.Find(Id);
+            _db.Colors.Remove(color);
+            var rs = _db.SaveChanges();
+            if (rs > 0)
+            {
+                return Json(new { Success = true });
+            }
+            return Json(new { Success = false });
+        }
+
+
+
+
+
         //Size
         public ActionResult Size()
         {
-            var sizes = _db.Sizes.ToList();
-            ViewBag.sizes = sizes;
             return View();
         }
-        public ActionResult newSize()
+        public ActionResult loadSize()
         {
-            return View(new Size() { Id = 0, Name = "", Ghichu = "" });
+            var sizeList = _db.Sizes.ToList();
+            var validSizeList = sizeList.Select(c => new
+            {
+                Id = c.Id,
+                Name = !string.IsNullOrEmpty(c.Name) ? c.Name : "Tên kích thước không hợp lệ",
+                Ghichu = !string.IsNullOrEmpty(c.Ghichu) ? c.Ghichu : "Chú thích không hợp lệ"
+            }).ToList();
+            return Json(new
+            {
+                Data = validSizeList,
+                TotalItems = validSizeList.Count,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getSize(int Id)
+        {
+            var size = _db.Sizes.Find(Id);
+            var validSize = new
+            {
+                Id = size.Id,
+                Name = !string.IsNullOrEmpty(size.Name) ? size.Name : "Tên màu không hợp lệ",
+                Ghichu = !string.IsNullOrEmpty(size.Ghichu) ? size.Ghichu : "Chú thích không hợp lệ"
+            };
+
+            return Json(new
+            {
+                data = validSize
+            }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult newSize(Size model)
-        {
-
-            // lưu dữ liệu vào db
-            if (ModelState.IsValid)
-            {
-                _db.Sizes.Add(model);
-                _db.SaveChanges();
-                return RedirectToAction("Size", "Stock");
-            }
-            return View(model);
-        }
         public ActionResult deleteSize(int Id)
         {
-
-            if (Id.ToString() == null)
-            {
-                return RedirectToAction("Size", "Stock");
-            }
-            Size size = _db.Sizes.Find(Id);
-            if (size == null)
-            {
-                return HttpNotFound();
-            }
-            return View(size);
-        }
-        [HttpPost, ActionName("deleteSize")]
-        [ValidateAntiForgeryToken]
-        public ActionResult confirmXsize(int Id)
-        {
-            Size size = _db.Sizes.Find(Id);
+            var size = _db.Sizes.Find(Id);
             _db.Sizes.Remove(size);
-            _db.SaveChanges();
-            return RedirectToAction("Size", "Stock");
-        }
-         public ActionResult editSize(int Id)
-        {
-            if (Id.ToString() == null)
+            var rs = _db.SaveChanges();
+            if (rs > 0)
             {
-                return RedirectToAction("Size", "Stock");
+                return Json(new { Success = true });
             }
-            Size size = _db.Sizes.Find(Id);
-            if (size == null)
-            {
-                return HttpNotFound();
-            }
-            return View(size);
+            return Json(new { Success = false });
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult editSize(Color model)
+        public ActionResult createSize(Size model)
         {
-            Size size = _db.Sizes.Find(model.Id);
-            if (ModelState.IsValid)
+            if (model.Id != 0)
             {
-                size.Name = model.Name;
-                size.Ghichu = model.Ghichu;
+                var size = _db.Sizes.Find(model.Id);
+                size.Name = !string.IsNullOrEmpty(model.Name) ? model.Name : size.Name;
+                size.Ghichu = !string.IsNullOrEmpty(model.Ghichu) ? model.Ghichu : size.Name;
                 _db.Entry(size).State = EntityState.Modified;
                 _db.SaveChanges();
-                return RedirectToAction("Size", "Stock");
+                return Json(new { success = true });
             }
-            return View(model);
+            else
+            {
+                _db.Sizes.Add(model);
+                try
+                {
+                    _db.SaveChanges();
+                    return Json(new { success = true });
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    return Json(new { success = false, errors = errors });
+                }
+            }
         }
     }
 }

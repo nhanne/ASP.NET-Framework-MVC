@@ -529,9 +529,6 @@
     <Content Include="Areas\Admin\Views\Stock\Color.cshtml" />
     <Content Include="Areas\Admin\Views\Stock\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Stock\Size.cshtml" />
-    <Content Include="Areas\Admin\Views\Stock\newColor.cshtml" />
-    <Content Include="Areas\Admin\Views\Stock\deleteColor.cshtml" />
-    <Content Include="Areas\Admin\Views\Stock\editColor.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
     <Content Include="Areas\Admin\Views\Order\handleOrder.cshtml" />
@@ -542,9 +539,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\Stock\newSize.cshtml" />
-    <Content Include="Areas\Admin\Views\Stock\deleteSize.cshtml" />
-    <Content Include="Areas\Admin\Views\Stock\editSize.cshtml" />
     <Content Include="Areas\Admin\Views\Product\EditPhanLoai.cshtml" />
     <Content Include="Areas\Admin\Views\Product\DeletePhanLoai.cshtml" />
     <Content Include="ckeditor\ckeditor\bender-runner.config.json" />

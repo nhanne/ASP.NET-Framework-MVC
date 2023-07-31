@@ -45,23 +45,22 @@
                         <input class="form-control" type="text" required value="" id="inputName">
                         <span class="error text-danger"></span>
                     </div>
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label" for="inputstartDate">Ngày bắt đầu</label>
-                        <input class="form-control" type="date" value="" id="inputstartDate" placeholder="dd-mm-yyyy">
-                        <span class="error text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="control-label" for="inputendDate">Ngày kết thúc</label>
-                        <input class="form-control" type="date" value="" id="inputendDate" placeholder="dd-mm-yyyy">
-                        <span class="error text-danger"></span>
-                    </div>
                     <div class="form-group col-md-6">
                         <label class="control-label" for="inputPercent">Phần trăm giảm giá %</label>
                         <input class="form-control" type="number" required value="" id="inputPercent">
                         <span class="error text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
+                        <label class="control-label" for="inputstartDate">Ngày bắt đầu</label>
+                        <input class="form-control" type="date" value="" id="inputstartDate" required>
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputendDate">Ngày kết thúc</label>
+                        <input class="form-control" type="date" value="" id="inputendDate" required>
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-12">
                         <label class="control-label" for="inputDes">Mô tả chương trình</label>
                         <input class="form-control" type="text" required value="" id="inputDes">
                         <span class="error text-danger"></span>
@@ -142,6 +141,12 @@
         $('body').on('click', '.btn--detail', function () {
             var Id = $(this).data('id');
             GetDataById(Id);
+            $('#chiTietModal').modal('show');
+        });
+        $('body').on('click', '.btn--edit', function () {
+            var Id = $(this).data('id');
+            GetDataById(Id);
+            $('#modalCreateUpdate').modal('show');
         });
         $('body').on('click', '.btn--delete', function () {
             var Id = $(this).data('id');
@@ -195,7 +200,11 @@
                     $('#create').html(formatDate(res.data.start_date));
                     $('#end').html(formatDate(res.data.end_date));
                     $('#des').html(res.data.description);
-                    $('#chiTietModal').modal('show');
+
+                    $('#exampleId').val(res.data.promotion_id);
+                    $('#inputName').val(res.data.promotion_name);
+                    $('#inputPercent').val(res.data.discount_percentage);
+                    $('#inputDes').val(res.data.description);
                 }
             }
         });

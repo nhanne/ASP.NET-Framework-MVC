@@ -1,5 +1,5 @@
-﻿@using PagedList;
-@using PagedList.Mvc;
+﻿@using PagedList.Mvc;
+@using PagedList;
 
 @{
     ViewBag.Title = "Trang sản phẩm";
@@ -7,7 +7,7 @@
     Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
     var search = ViewBag.search;
     var totalPages = ViewBag.TotalPages;
-    var page = ViewBag.CurrentPage;
+    var pageIndex = ViewBag.CurrentPage;
     List<Boutique.Models.Product> dsProduct = ViewBag.dsProduct as List<Boutique.Models.Product>;
 }
 
@@ -102,7 +102,14 @@
                     </tbody>
                 </table>
                 @* Tạo liên kết các trang *@
-
+                <div class="MenuTrang pagination">
+                    @Html.PagedListPager((IPagedList<Boutique.Models.Product>)ViewBag.dsProduct, page => Url.Action("Index","Product", new { searchString = search , pageIndex = page}),
+                        new PagedListRenderOptions()
+                        {
+                            LiElementClasses = new[] { "paginate_button page-item page-link" },
+                            UlElementClasses = new[] { "pagination" }
+                        })
+                </div>
 
             </div>
         </div>
