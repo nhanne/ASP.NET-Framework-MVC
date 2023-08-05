@@ -98,12 +98,13 @@ namespace Boutique.Areas.Admin.Controllers
         public ActionResult handleOrder([Bind(Include = "Id")] Order model)
         {
             Order order = _db.Orders.Find(model.Id);
-
+            var session = (Staff)Session["NV"];
+            Staff nv = _db.Staffs.Find(session.Id);
             if (order == null)
             {
                 return HttpNotFound();
             }
-
+            order.StaffId = nv.Id;
             order.Status = "Đang giao hàng";
             order.DeliTime = DateTime.Now.AddDays(3);
 

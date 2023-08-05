@@ -95,6 +95,7 @@
     <EntitySetMapping Name="Staffs">
       <EntityTypeMapping TypeName="BoutiqueModel.Staff">
         <MappingFragment StoreEntitySet="Staff">
+          <ScalarProperty Name="Job_title" ColumnName="Job_title" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="FullName" ColumnName="FullName" />
           <ScalarProperty Name="Email" ColumnName="Email" />
@@ -148,6 +149,14 @@
           <ScalarProperty Name="description" ColumnName="description" />
           <ScalarProperty Name="promotion_name" ColumnName="promotion_name" />
           <ScalarProperty Name="promotion_id" ColumnName="promotion_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Job_title">
+      <EntityTypeMapping TypeName="BoutiqueModel.Job_title">
+        <MappingFragment StoreEntitySet="Job_title">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

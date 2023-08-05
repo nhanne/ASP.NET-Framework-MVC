@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b5419632fb4c41e3b52dab30e3385788" Name="Diagram1" ZoomLevel="62">
+      <Diagram DiagramId="b5419632fb4c41e3b52dab30e3385788" Name="Diagram1" ZoomLevel="68">
         <EntityTypeShape EntityType="BoutiqueModel.Category" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BoutiqueModel.Color" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="BoutiqueModel.Customer" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
@@ -28,6 +28,8 @@
         <EntityTypeShape EntityType="BoutiqueModel.Payment" Width="1.5" PointX="8.375" PointY="4.875" />
         <AssociationConnector Association="BoutiqueModel.FK__Order__PaymentId__32AB8735" />
         <EntityTypeShape EntityType="BoutiqueModel.Promotion" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="BoutiqueModel.Job_title" Width="1.5" PointX="0.75" PointY="16.875" />
+        <AssociationConnector Association="BoutiqueModel.FK_STAFF" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -9,6 +9,8 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web.Mvc;
+using Microsoft.AspNet.SignalR;
+using Boutique.Models.Hubs;
 
 namespace Boutique.Controllers
 {
@@ -233,6 +235,8 @@ namespace Boutique.Controllers
             Session["Cart"] = null;
             var ordDetail = _db.OrderDetails.ToList();
             ViewBag.ordDetail = ordDetail;
+            var orderHubContext = GlobalHost.ConnectionManager.GetHubContext<NotifyHub>();
+            orderHubContext.Clients.All.NotifyOrderPlaced(order.Id.ToString());
             return View(order);
         }
         // Mail
@@ -398,9 +402,9 @@ namespace Boutique.Controllers
             string partnerCode = "MOMOOJOI20210710";
             string accessKey = "iPXneGmrJH0G8FOP";
             string serectkey = "sFcbSGRSJjwGxwhhcEktCHWYUuTuPNDB";
-            string orderInfo = "test";
-            string returnUrl = "http://thanhnhan-001-site1.atempurl.com//Cart/PaymentConfirm";
-            string notifyurl = "http://thanhnhan-001-site1.atempurl.com//Cart/PaymentConfirm"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
+            string orderInfo = "Thanh toán đơn hàng từ Nhân Boutique";
+            string returnUrl = "http://thanhnhan-001-site1.atempurl.com/Cart/PaymentConfirm";
+            string notifyurl = "http://thanhnhan-001-site1.atempurl.com/Cart/PaymentConfirm"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
             DateTime expirationTime = DateTime.Now.AddDays(1);
             Order order = _db.Orders.Find(Id);
             string orderId = order.Id.ToString(); //mã đơn hàng

@@ -83,7 +83,7 @@
                         </div>
                         <div class="form-group  col-md-6">
                             <label for="exampleSelect1" class="control-label">Chức vụ</label>
-                            @Html.DropDownList("ColorId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownList("Job_title", null, htmlAttributes: new { @id="job_title", @class = "form-control" })
                         </div>
 
                     </div>
@@ -117,6 +117,7 @@
             var address = $('#inputAddress').val();
             var cmt = $('#inputCMT').val();
             var pass = $('#inputPass').val();
+            var job_title = $('#job_title').val();
             var modal = {
                 Id: _id,
                 FullName: name,
@@ -126,6 +127,7 @@
                 CMT: cmt,
                 Address: address,
                 Password: pass,
+                Job_title: job_title
             };
             if (Validate()) {
                 $.ajax({
@@ -205,6 +207,8 @@
                     $('#inputCMT').val(res.data.CMT);
                     $('#inputPass').val(res.data.Password);
                     $('#exampleId').val(res.data.Id);
+                    $('#job_title').val(res.data.Job_title);
+                    $('#job_title option[value="' + res.data.Job_title + '"]').prop('selected', true);
                     $('#modalCreateUpdate').modal('show');
                 }
             }

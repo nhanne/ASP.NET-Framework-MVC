@@ -13,8 +13,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="varchar" MaxLength="10" />
-    <Property Name="Ghichu" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Ghichu" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Customer">
     <Key>
@@ -28,6 +28,13 @@
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
     <Property Name="Phone" Type="char" MaxLength="10" />
     <Property Name="Member" Type="bit" />
+  </EntityType>
+  <EntityType Name="Job_title">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
@@ -90,7 +97,7 @@
     </Key>
     <Property Name="promotion_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="promotion_name" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="description" Type="varchar" MaxLength="255" />
+    <Property Name="description" Type="nvarchar" MaxLength="255" />
     <Property Name="start_date" Type="date" Nullable="false" />
     <Property Name="end_date" Type="date" Nullable="false" />
     <Property Name="discount_percentage" Type="decimal" Precision="5" Scale="2" Nullable="false" />
@@ -100,8 +107,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="varchar" MaxLength="10" />
-    <Property Name="Ghichu" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Ghichu" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Staff">
     <Key>
@@ -116,6 +123,7 @@
     <Property Name="DateOfBirth" Type="date" />
     <Property Name="CMT" Type="varchar" MaxLength="15" />
     <Property Name="Phone" Type="varchar" MaxLength="12" />
+    <Property Name="Job_title" Type="int" />
   </EntityType>
   <EntityType Name="Stock">
     <Key>
@@ -258,10 +266,23 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_STAFF">
+    <End Role="Job_title" Type="Self.Job_title" Multiplicity="0..1" />
+    <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job_title">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Staff">
+        <PropertyRef Name="Job_title" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="BoutiqueModelStoreContainer">
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Colors" EntityType="Self.Colors" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Job_title" EntityType="Self.Job_title" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
@@ -311,6 +332,10 @@
     <AssociationSet Name="FK__Stock__SizeId__1AD3FDA4" Association="Self.FK__Stock__SizeId__1AD3FDA4">
       <End Role="Sizes" EntitySet="Sizes" />
       <End Role="Stock" EntitySet="Stock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_STAFF" Association="Self.FK_STAFF">
+      <End Role="Job_title" EntitySet="Job_title" />
+      <End Role="Staff" EntitySet="Staff" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -30,14 +30,13 @@
 
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <form action="/Admin/Product" class="dataTables_filter d-flex justify-content-end" method="get">
+                            @using (Html.BeginForm("Index", "Stock", FormMethod.Get, new { @class = "dataTables_filter d-flex justify-content-end" }))
+                            {
                                 <label>
                                     Tìm kiếm:
-
-                                    <input class="form-control form-control-sm" id="searchString" name="searchString" type="text" value="">
-
+                                    @Html.TextBox("search", null, new { @class = "form-control form-control-sm" })
                                 </label>
-                            </form>
+                            }
                         </div>
                     </div>
 
@@ -66,10 +65,6 @@
                                                 onclick="location.href='@Url.Action("EditPhanLoai", "Product",new { id = item.Id })'">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        @*<button class="btn btn-primary btn-sm info" type="button" title="Sửa"
-                                                    onclick="location.href='@Url.Action("Detail", "Product",new { id = item.Id })'">
-                                                Chi tiết
-                                            </button>*@
                                     </td>
                                 </tr>
                             }
@@ -82,30 +77,6 @@
     </div>
 </div>
 
-<!-- Nơi bạn muốn hiển thị kết quả -->
-<div id="stockData"></div>
-
-<!-- Sử dụng JavaScript và AJAX để gọi action method và nhận dữ liệu JSON -->
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: '@Url.Action("GetStockData", "Stock")',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                // Xử lý dữ liệu JSON ở đây, ví dụ hiển thị dữ liệu trong #stockData
-                var stockData = '';
-                $.each(data, function (index, item) {
-                    stockData += '<p>' + item.StockName + ' - ' + item.StockPrice + '</p>';
-                });
-                $('#stockData').html(stockData);
-            },
-            error: function () {
-                alert('Đã xảy ra lỗi khi gọi API.');
-            }
-        });
-    });
-</script>
 
 
 

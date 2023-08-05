@@ -23,7 +23,12 @@
     @Scripts.Render("~/bundles/adminjs")
 </head>
 <body onload="time()" class="app sidebar-mini rtl">
-
+    @{
+        if (Session["NV"] == null)
+        {
+            Response.Redirect("~/Admin/Admin/Login");
+        }
+    }
 
     <!-- Navbar-->
     <header class="app-header">
@@ -33,7 +38,7 @@
         <ul class="app-nav">
             <!-- User Menu-->
             <li>
-                <a class="app-nav__item" href="#"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+                <a class="app-nav__item" href="@Url.Action("Logout","Admin")"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 
             </li>
         </ul>
@@ -60,7 +65,7 @@
             </li>
             <li>
                 <a class="app-menu__item" href="@Url.Action("Index","Product")">
-                    <i class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span>
+                    <i class="app-menu__icon bx bxl-product-hunt"></i><span class="app-menu__label">Quản lý sản phẩm</span>
                 </a>
             </li>
             <li>
@@ -71,6 +76,11 @@
             <li>
                 <a class="app-menu__item" href="@Url.Action("Index","Order")">
                     <i class='app-menu__icon bx bx-task'></i><span class="app-menu__label">Quản lý đơn hàng</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item" href="@Url.Action("Index","Promotion")">
+                    <i class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý khuyến mãi</span>
                 </a>
             </li>
             <li>
@@ -109,9 +119,54 @@
             </div>
         </div>
     </main>
+
+    <div id="orderPlacedModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color: Black">New Order Placed</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color: Black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="color: Black" id="orderMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color: Black">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+
     @Scripts.Render("~/bundles/adminjs")
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(document).ready(function () {
+            var orderHub = $.connection.notifyHub;
+
+            orderHub.client.orderPlaced = function (orderId) {
+                // Xử lý thông báo về đơn hàng mới
+                console.log("New order placed! Order ID: " + orderId);
+                // Hoặc làm gì đó để cập nhật giao diện người dùng
+                showOrderPlacedModal("ĐƠN ĐẶT HÀNG MỚI: " + orderId + " .Vui lòng kiểm tra !!!");
+            };
+
+            $.connection.hub.start().done(function () {
+                // Kết nối tới Hub để nhận thông báo về đơn hàng mới
+            });
+
+            function showOrderPlacedModal(message) {
+                $("#orderMessage").text(message);
+                $("#orderPlacedModal").modal("show");
+            }
+        });
+    </script>
 
     <script type="text/javascript">
+
         // Thêm active class vào category
         const currentUrl = window.location.href
         const getNameCate = currentUrl.split('Admin')?.[1]

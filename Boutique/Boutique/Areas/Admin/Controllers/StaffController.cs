@@ -14,12 +14,25 @@ namespace Boutique.Areas.Admin.Controllers
         // GET: Admin/Staff
         public ActionResult Index()
         {
-            ViewBag.ColorId = new SelectList(_db.Colors, "Id", "Name");
+            ViewBag.Job_title = new SelectList(_db.Job_title, "Id", "Name");
             return View();
         }
         public ActionResult GetData()
         {
-            var result = _db.Staffs.ToList();
+            var result = _db.Staffs
+                .Include(s => s.Job_title1).Select(s => new {
+                    Id = s.Id,
+                    FullName = s.FullName,
+                    Email = s.Email,
+                    Password = s.Password,
+                    Avatar = s.Avatar,
+                    Address = s.Address,
+                    DateOfBirth = s.DateOfBirth,
+                    CMT = s.CMT,
+                    Phone = s.Phone,
+                    Job_title1 = s.Job_title1 != null ? s.Job_title1.Name : ""
+                })
+                .ToList();
             return Json(new { Data = result, TotalItems = result.Count }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -38,6 +51,7 @@ namespace Boutique.Areas.Admin.Controllers
                 }
                 staff.CMT = model.CMT;
                 staff.Phone = model.Phone;
+                staff.Job_title = model.Job_title;
                 _db.Entry(staff).State = EntityState.Modified;
                 _db.SaveChanges();
                 return Json(new { success = true });
@@ -64,8 +78,21 @@ namespace Boutique.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult GetById(int Id)
         {
-            var item = _db.Staffs.Find(Id);
-            return Json(new { data = item }, JsonRequestBehavior.AllowGet);
+            var s = _db.Staffs.Find(Id);
+            var staff = new
+            {
+                Id = s.Id,
+                FullName = s.FullName,
+                Email = s.Email,
+                Password = s.Password,
+                Avatar = s.Avatar,
+                Address = s.Address,
+                DateOfBirth = s.DateOfBirth,
+                CMT = s.CMT,
+                Phone = s.Phone,
+                Job_title = s.Job_title != null ? s.Job_title : 0
+            };
+            return Json(new { data = staff }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult Update(Staff request)

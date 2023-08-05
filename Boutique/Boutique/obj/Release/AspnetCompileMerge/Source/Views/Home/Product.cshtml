@@ -52,10 +52,13 @@
                         </div>
                         <h1 class="detail__info-name">@Model.Name</h1>
                         <div class="detail__info-price">
-                            <span class="detail__info-price--cost">
-                                @string.Format("{0:#,0}", Model.costPrice)
-                                <span class="detail__info-price--symbol">đ</span>
-                            </span>
+                            @if (Model.Sale > 0)
+                            {
+                                <span class="detail__info-price--cost">
+                                    @string.Format("{0:#,0}", Model.costPrice)
+                                    <span class="detail__info-price--symbol">đ</span>
+                                </span>
+                            }
                             <span class="detail__info-price--unit">
                                 @string.Format("{0:#,0}", Model.unitPrice)
                                 <span class="detail__info-price--symbol">đ</span>
@@ -87,7 +90,7 @@
                                 }
                             </div>
                         }
-                        <span id="qtyinStock">Có sẵn <span id="qty"></span> sản phẩm</span>
+                        <span id="qtyinStock"><span id="qty"></span> </span>
                         @if (ViewBag.color.Count != 0 || ViewBag.size.Count != 0)
                         {
                             <button class="btn detail__info-button-addtoCart" type="submit" onclick="addToCart()">
@@ -157,13 +160,13 @@
         opacity: .6;
         text-decoration: line-through;
         position: relative;
+        margin-right: 20px;
     }
 
     .detail__info-price--unit {
         white-space: nowrap;
         color: #111;
         font-weight: 700;
-        margin-left: 20px;
         position: relative;
     }
 

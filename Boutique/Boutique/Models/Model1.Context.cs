@@ -38,5 +38,6 @@ namespace Boutique.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Promotion> Promotions { get; set; }
+        public virtual DbSet<Job_title> Job_title { get; set; }
     }
 }

@@ -18,8 +18,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="10" />
-          <Property Name="Ghichu" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Ghichu" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -33,6 +33,13 @@
           <Property Name="Address" Type="nvarchar" MaxLength="250" />
           <Property Name="Phone" Type="char" MaxLength="10" />
           <Property Name="Member" Type="bit" />
+        </EntityType>
+        <EntityType Name="Job_title">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -95,7 +102,7 @@
           </Key>
           <Property Name="promotion_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="promotion_name" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="description" Type="nvarchar" MaxLength="255" />
           <Property Name="start_date" Type="date" Nullable="false" />
           <Property Name="end_date" Type="date" Nullable="false" />
           <Property Name="discount_percentage" Type="decimal" Precision="5" Scale="2" Nullable="false" />
@@ -105,8 +112,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="10" />
-          <Property Name="Ghichu" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Ghichu" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Staff">
           <Key>
@@ -121,6 +128,7 @@
           <Property Name="DateOfBirth" Type="date" />
           <Property Name="CMT" Type="varchar" MaxLength="15" />
           <Property Name="Phone" Type="varchar" MaxLength="12" />
+          <Property Name="Job_title" Type="int" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -263,10 +271,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_STAFF">
+          <End Role="Job_title" Type="Self.Job_title" Multiplicity="0..1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job_title">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="Job_title" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="BoutiqueModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Colors" EntityType="Self.Colors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Job_title" EntityType="Self.Job_title" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
@@ -317,6 +338,10 @@
             <End Role="Sizes" EntitySet="Sizes" />
             <End Role="Stock" EntitySet="Stock" />
           </AssociationSet>
+          <AssociationSet Name="FK_STAFF" Association="Self.FK_STAFF">
+            <End Role="Job_title" EntitySet="Job_title" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -336,8 +361,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Ghichu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ghichu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__ColorId__19DFD96B" FromRole="Colors" ToRole="Stock" />
         </EntityType>
         <EntityType Name="Customer">
@@ -416,8 +441,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Ghichu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ghichu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__SizeId__1AD3FDA4" FromRole="Sizes" ToRole="Stock" />
         </EntityType>
         <EntityType Name="Staff">
@@ -434,6 +459,8 @@
           <Property Name="CMT" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Orders" Relationship="Self.FK__Order__StaffId__2A164134" FromRole="Staff" ToRole="Order" />
+          <Property Name="Job_title" Type="Int32" />
+          <NavigationProperty Name="Job_title1" Relationship="BoutiqueModel.FK_STAFF" FromRole="Staff" ToRole="Job_title" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -622,6 +649,11 @@
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <EntitySet Name="Promotions" EntityType="BoutiqueModel.Promotion" />
+          <EntitySet Name="Job_title" EntityType="BoutiqueModel.Job_title" />
+          <AssociationSet Name="FK_STAFF" Association="BoutiqueModel.FK_STAFF">
+            <End Role="Job_title" EntitySet="Job_title" />
+            <End Role="Staff" EntitySet="Staffs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Payment">
           <Key>
@@ -650,11 +682,31 @@
           </Key>
           <Property Name="promotion_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="promotion_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="discount_percentage" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
         </EntityType>
+        <EntityType Name="Job_title">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Staffs" Relationship="BoutiqueModel.FK_STAFF" FromRole="Job_title" ToRole="Staff" />
+        </EntityType>
+        <Association Name="FK_STAFF">
+          <End Type="BoutiqueModel.Job_title" Role="Job_title" Multiplicity="0..1" />
+          <End Type="BoutiqueModel.Staff" Role="Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job_title">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="Job_title" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -755,6 +807,7 @@
           <EntitySetMapping Name="Staffs">
             <EntityTypeMapping TypeName="BoutiqueModel.Staff">
               <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="Job_title" ColumnName="Job_title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -808,6 +861,14 @@
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="promotion_name" ColumnName="promotion_name" />
                 <ScalarProperty Name="promotion_id" ColumnName="promotion_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Job_title">
+            <EntityTypeMapping TypeName="BoutiqueModel.Job_title">
+              <MappingFragment StoreEntitySet="Job_title">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
