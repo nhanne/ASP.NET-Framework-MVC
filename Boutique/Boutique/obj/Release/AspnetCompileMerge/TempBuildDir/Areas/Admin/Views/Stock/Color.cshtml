@@ -1,0 +1,160 @@
+﻿@model Boutique.Models.Color
+@{
+    ViewBag.Title = "Color";
+    ViewBag.headTitle = "Danh sách mã màu";
+    Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
+}
+
+
+<a href="#" data-toggle="modal" data-target="#modalCreateUpdate" class="btn btn-info">Thêm mới</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Màu sắc
+            </th>
+            <th>
+                Chú thích
+            </th>
+            <th>
+                Chức năng
+            </th>
+        </tr>
+    </thead>
+    <tbody id="show_data">
+    </tbody>
+</table>
+
+<div class="modal fade" id="modalCreateUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: black">Cập nhật mã màu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="colorId" value="0" disabled />
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Tên màu sắc:</label>
+                        <input type="text" class="form-control" id="colorName">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Chú thích:</label>
+                        <textarea class="form-control" id="colorNote"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btn-save" type="button" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        loadColor();
+        // Create - Update
+        $('#btn-save').click(function () {
+            var _id = $('#colorId').val();
+            var name = $('#colorName').val();
+            var note = $('#colorNote').val();
+            var model = {
+                Id: _id,
+                Name: name,
+                Ghichu: note
+            };
+            /*  if (Validate()) {*/
+
+            $.ajax({
+                url: '/Stock/createColor',
+                type: 'POST',
+                data: model,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.reload();
+                        loadData();
+                        resetInput();
+                        $('#modalCreateUpdate').modal('hide');
+                    }
+                }
+            });
+            //}
+
+        });
+        $('body').on('click', '.edit', function () {
+            var Id = $(this).data('id');
+            getColorbyId(Id);
+        });
+        $('body').on('click', '.trash', function () {
+            var Id = $(this).data('id');
+            if (parseInt(Id) > 0) {
+                var conf = confirm('Bạn có chắc chắn muốn xóa?');
+                if (conf) {
+                    DeleteById(Id);
+                }
+            }
+        });
+        $('body').on('click', '#btn-cancel', function () {
+            resetInput();
+        });
+    });
+    loadColor = function () {
+        $.ajax({
+            url: '/Stock/loadColor',
+            type: 'GET',
+            success: function (res) {
+                if (res.TotalItems > 0) {
+                    var items = res.Data;
+                    var html = "";
+                    for (let i = 0; i < res.TotalItems; i++) {
+                        html += "<tr id='trow_" + items[i].Id + "'>";
+                        html += "<td>" + items[i].Name + "</td>";
+                        html += "<td>" + items[i].Ghichu + "</td>";
+                        html += "<td><a data-id='" + items[i].Id + "' href='#' class='btn btn-primary edit'> <i class='fas fa-edit'></i></a> <a data-id='" + items[i].Id + "' href='#' class='btn btn-danger trash'> <i class='fas fa-trash-alt'></i></a></td>";
+                        html += "</tr>";
+                    }
+                    $('#show_data').html(html);
+                }
+            }
+        });
+    };
+    getColorbyId = function (Id) {
+        $.ajax({
+            url: '/Stock/getColor',
+            type: 'GET',
+            data: { Id: Id },
+            success: function (res) {
+                if (res.data != null) {
+                    $('#colorId').val(res.data.Id);
+                    $('#colorName').val(res.data.Name);
+                    $('#colorNote').val(res.data.Ghichu);
+                    $('#modalCreateUpdate').modal('show');
+                }
+            }
+        });
+    }
+    function DeleteById(Id) {
+        $.ajax({
+            url: '/Stock/deleteColor',
+            type: 'POST',
+            data: { Id: Id }
+        }).done(function (res) {
+            if (res.Success) {
+                $('#trow_' + Id).remove();
+            }
+        }).fail(function (err) {
+            console.log(err);
+        });
+    }
+    function resetInput() {
+        $('#colorId').val(0);
+        $('#colorName').val('');
+        $('#colorNote').val('');
+    }
+</script>

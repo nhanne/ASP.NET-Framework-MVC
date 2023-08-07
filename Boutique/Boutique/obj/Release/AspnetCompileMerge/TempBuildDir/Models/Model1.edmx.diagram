@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b5419632fb4c41e3b52dab30e3385788" Name="Diagram1" ZoomLevel="68">
+        <EntityTypeShape EntityType="BoutiqueModel.Category" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Color" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Customer" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Order" Width="1.5" PointX="5.25" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.OrderDetail" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.OrderStatu" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Size" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Staff" Width="1.5" PointX="3" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.Stock" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BoutiqueModel.sysdiagram" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="BoutiqueModel.FK__Product__Categor__267ABA7A" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__Stock__ColorId__19DFD96B" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__Order__CustomerI__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__Order__StaffId__2A164134" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__Order__Status__02FC7413" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__OrderDeta__Order__208CD6FA" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__OrderDeta__Stock__2180FB33" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__Stock__ProductId__18EBB532" ManuallyRouted="false" />
+        <AssociationConnector Association="BoutiqueModel.FK__Stock__SizeId__1AD3FDA4" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BoutiqueModel.Payment" Width="1.5" PointX="8.375" PointY="4.875" />
+        <AssociationConnector Association="BoutiqueModel.FK__Order__PaymentId__32AB8735" />
+        <EntityTypeShape EntityType="BoutiqueModel.Promotion" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="BoutiqueModel.Job_title" Width="1.5" PointX="0.75" PointY="16.875" />
+        <AssociationConnector Association="BoutiqueModel.FK_STAFF" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
