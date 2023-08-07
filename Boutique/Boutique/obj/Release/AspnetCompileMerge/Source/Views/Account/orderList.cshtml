@@ -77,7 +77,7 @@
                                                 }
                                             </td>
                                             <td>@(item.OrdTime?.ToString("dd-MM-yyyy"))</td>
-                                            <td><button type="button" class="btn btn--black btn-sm" data-bs-toggle="modal" data-bs-target="#orderModal1">Xem chi tiết</button></td>
+                                            <td><button onclick="getOrder(@item.Id)" type="button" class="btn btn--black btn-sm" data-bs-toggle="modal" data-bs-target="#orderModal1">Xem chi tiết</button></td>
                                         </tr>
                                     }
                                 }
@@ -92,23 +92,22 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="orderModal1Label">Chi tiết đơn hàng ORD12345</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <h5 class="modal-title" id="orderModal1Label">Chi tiết đơn hàng #<span id="ordId"></span></h5>
+                                <button  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <!-- Thông tin chi tiết đơn hàng ORD12345 -->
-                                <p>Tên khách hàng: John Doe</p>
-                                <p>Địa chỉ: 123 Main Street, City, Country</p>
-                                <p>Điện thoại: 123-456-7890</p>
-                                <p>Ngày đặt hàng: 2023-07-19</p>
-                                <p>Tình trạng: Đã giao hàng</p>
+                                <p>Tên khách hàng: <span id="cusName"></span></p>
+                                <p>Địa chỉ: <span id="cusAddress"></span></p>
+                                <p>Điện thoại: <span id="cusPhone"></span></p>
+                                <p>Ngày đặt hàng: <span id="ordDate"></span></p>
+                                <p>Tình trạng: <span id="ordStatus"></span></p>
                                 <hr>
                                 <h6>Sản phẩm trong đơn hàng:</h6>
-                                <ul>
-                                    <li>1 x Áo thun màu đen</li>
-                                    <li>2 x Quần jeans</li>
-                                    <!-- Thêm thông tin sản phẩm khác ở đây -->
+                                <ul id="show_detail">
                                 </ul>
+                                <hr />
+                                <h6><b>Tổng giá trị đơn hàng:</b> <span id="totalPrice"></span>VNĐ</h6>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -130,6 +129,38 @@
 </div>
 <!-- Bootstrap JS và Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
-
+<script>
+    $(document).ready(function () {
+      
+    })
+    function getOrder(Id) {
+        $.ajax({
+            url: '/Account/getOrder',
+            type: 'GET',
+            data: { Id: Id },
+            success: function (res) {
+                if (res.data != null) {
+                    $('#ordId').html(res.data.Id);
+                    $('#cusName').html(res.data.Customer.FullName);
+                    $('#cusAddress').html(res.data.Address);
+                    $('#cusEmail').html(res.data.Customer.Email);
+                    $('#cusPhone').html(res.data.Customer.Phone);
+                    $('#ordDate').html(res.data.OrdTime);
+                    $('#ordStatus').html(res.data.Status);
+                    var items = res.detailList;
+                    var html = "";
+                    for (let i = 0; i < res.totalDetail; i++) {
+                        html += "<li>" + items[i].Quantity + ' x '
+                            + items[i].Stock.Product + ' - '
+                            + items[i].Stock.Size + ' - '
+                            + items[i].Stock.Color + '  '
+                            + items[i].unitPrice + 'VNĐ'
+                            "</li>";
+                    }
+                    $('#show_detail').html(html);
+                    $('#totalPrice').html(res.data.TotalPrice);
+                }
+            }
+        });
+    }
+</script>

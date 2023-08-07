@@ -146,6 +146,48 @@ namespace Boutique.Controllers
             ViewBag.orders = orders;
             return View();
         }
+        public ActionResult getOrder(int Id)
+        {
+            Order item = _db.Orders.Find(Id);
+            if (item != null)
+            {
+                var customer = _db.Customers.Find(item.CustomerId);
+                if(customer != null)
+                {
+                    string formattedOrdTime = item.OrdTime?.ToString("dd-MM-yyyy");
+                    var data = new
+                    {
+                        Customer = new
+                        {
+                            customer.Id,
+                            customer.FullName,
+                            customer.Email,
+                            customer.Phone
+                        },
+                        item.Id,
+                        item.Address,
+                        item.Status,
+                        TotalPrice = string.Format("{0:#,0}", item.TotalPrice),
+                        OrdTime = formattedOrdTime
+                    };
+
+                    var detail = _db.OrderDetails.Where(i => i.OrderId == item.Id).ToList();
+                    var detailList = detail.Select(s => new 
+                    {  
+                        s.Quantity,
+                        unitPrice = string.Format("{0:#,0}", s.unitPrice),
+                        Stock = new
+                        {
+                            Product = s.Stock.Product.Name,
+                            Color = s.Stock.Color.Name,
+                            Size = s.Stock.Size.Name
+                        }
+                    });
+                    return Json(new { data = data, detailList = detailList, totalDetail = detailList.Count() }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        }
         
     }
 }

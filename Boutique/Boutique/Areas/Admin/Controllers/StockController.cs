@@ -31,12 +31,6 @@ namespace Boutique.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult GetStockData()
-        {
-            var result = _db.Stocks.ToList();
-            var jsonResult = JsonConvert.SerializeObject(result);
-            return Content(jsonResult, "application/json");
-        }
         //Color
 
         public ActionResult Color()
@@ -46,16 +40,10 @@ namespace Boutique.Areas.Admin.Controllers
         public ActionResult loadColor()
         {
             var colorList = _db.Colors.ToList();
-            var validColorList = colorList.Select(c => new
-            {
-                Id = c.Id,
-                Name = !string.IsNullOrEmpty(c.Name) ? c.Name : "Tên màu không hợp lệ",
-                Ghichu = !string.IsNullOrEmpty(c.Ghichu) ? c.Ghichu : "Chú thích không hợp lệ"
-            }).ToList();
             return Json(new
             {
-                Data = validColorList,
-                TotalItems = validColorList.Count,
+                Data = colorList.Select(c => new { c.Id, c.Name, c.Ghichu }),
+                TotalItems = colorList.Count,
             }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult getColor(int Id)

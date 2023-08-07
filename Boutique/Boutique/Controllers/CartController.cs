@@ -149,17 +149,17 @@ namespace Boutique.Controllers
             var address = f["address"];
             var note = f["note"];
             var payment = f["payment"];
-            var check = _db.Customers.FirstOrDefault(s => s.Email.Equals(model.Email) && s.Member == true);
             var maKM = f["promo_code"].ToString();
             var now = DateTime.Now;
+            var sessionTK = (Customer)Session["Taikhoan"];
             ModelState.Remove("Password");
             if (ModelState.IsValid)
             {
                 Customer customer;
-                if (check == null)
+                if (sessionTK == null)
                 {
                     customer = new Customer();
-                    customer.Password = "Nhan123?";
+                    customer.Password = "221jc2132abaqj@12!@!#";
                     customer.FullName = model.FullName;
                     customer.Phone = model.Phone;
                     customer.Email = model.Email;
@@ -170,11 +170,11 @@ namespace Boutique.Controllers
                 }
                 else
                 {
-                    customer = _db.Customers.SingleOrDefault(c => c.Email.Equals(model.Email) && c.Member == true);
+                    customer = _db.Customers.Find(sessionTK.Id);
                 }
                 Order order = new Order();
                 order.CustomerId = customer.Id;
-                order.OrdTime = DateTime.Now;
+                order.OrdTime = now;
                 order.DeliTime = order.OrdTime.Value.AddDays(3);
                 order.Status = "Chưa giao hàng";
                 order.PaymentId = int.Parse(payment);
@@ -202,7 +202,7 @@ namespace Boutique.Controllers
                     detailOrd.OrderId = order.Id;
                     detailOrd.StockId = item.IdStock;
                     detailOrd.Quantity = item.Quantity;
-                    detailOrd.unitPrice = item.unitPrice;
+                    detailOrd.unitPrice = item.unitPrice*item.Quantity;
                     _db.OrderDetails.Add(detailOrd);
                     Product product = _db.Products.SingleOrDefault(p => p.Id == item.IdProduct);
                     product.Sold++;
@@ -211,6 +211,7 @@ namespace Boutique.Controllers
                     _db.Entry(stock).State = EntityState.Modified;
                     _db.SaveChanges();
                 }
+                Session["OrderConfirmed"] = true;
                 switch (int.Parse(payment))
                 {
                     case 1:
@@ -224,19 +225,22 @@ namespace Boutique.Controllers
             }
             return View(model);
         }
-        public ActionResult confirmOrder(int Id)
+        public ActionResult confirmOrder(int? Id)
         {
+            if (Session["OrderConfirmed"] == null || (bool)Session["OrderConfirmed"] == false)
+            {
+                return RedirectToAction("Index");
+            }
             Order order = _db.Orders.SingleOrDefault(o => o.Id == Id);
             if (Id == null || order == null)
             {
                 return RedirectToAction("Index");
             }
             sendPass(order);
+            Session["OrderConfirmed"] = false;
             Session["Cart"] = null;
             var ordDetail = _db.OrderDetails.ToList();
             ViewBag.ordDetail = ordDetail;
-            var orderHubContext = GlobalHost.ConnectionManager.GetHubContext<NotifyHub>();
-            orderHubContext.Clients.All.NotifyOrderPlaced(order.Id.ToString());
             return View(order);
         }
         // Mail
@@ -324,7 +328,6 @@ namespace Boutique.Controllers
             pay.AddRequestData("vnp_TmnCode", tmnCode); //Mã website của merchant trên hệ thống của VNPAY (khi đăng ký tài khoản sẽ có trong mail VNPAY gửi về)
             pay.AddRequestData("vnp_Amount", (order.TotalPrice * 100).ToString()); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
             pay.AddRequestData("vnp_BankCode", ""); //Mã Ngân hàng thanh toán (tham khảo: https://sandbox.vnpayment.vn/apis/danh-sach-ngan-hang/), có thể để trống, người dùng có thể chọn trên cổng thanh toán VNPAY
-            /*  pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss"));*/ //ngày thanh toán theo định dạng yyyyMMddHHmmss
             pay.AddRequestData("vnp_CreateDate", expirationTime.ToString("yyyyMMddHHmmss"));
             pay.AddRequestData("vnp_CurrCode", "VND"); //Đơn vị tiền tệ sử dụng thanh toán. Hiện tại chỉ hỗ trợ VND
             pay.AddRequestData("vnp_IpAddr", Util.GetIpAddress()); //Địa chỉ IP của khách hàng thực hiện giao dịch
@@ -403,8 +406,8 @@ namespace Boutique.Controllers
             string accessKey = "iPXneGmrJH0G8FOP";
             string serectkey = "sFcbSGRSJjwGxwhhcEktCHWYUuTuPNDB";
             string orderInfo = "Thanh toán đơn hàng từ Nhân Boutique";
-            string returnUrl = "http://thanhnhan-001-site1.atempurl.com/Cart/PaymentConfirm";
-            string notifyurl = "http://thanhnhan-001-site1.atempurl.com/Cart/PaymentConfirm"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
+            string returnUrl = "http://thanhnhan-001-site1.atempurl.com/Cart/ConfirmPaymentClient/";
+            string notifyurl = "http://thanhnhan-001-site1.atempurl.com/Cart/ConfirmPaymentClient/"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
             DateTime expirationTime = DateTime.Now.AddDays(1);
             Order order = _db.Orders.Find(Id);
             string orderId = order.Id.ToString(); //mã đơn hàng
@@ -461,7 +464,14 @@ namespace Boutique.Controllers
             string rMessage = result.message;
             string rOrderId = result.orderId;
             string rErrorCode = result.errorCode; // = 0: thanh toán thành công
-            return RedirectToAction("confirmOrder", new { Id = int.Parse(result.orderId) });
+            if(rErrorCode == "0")
+            {
+                return RedirectToAction("confirmOrder", new { Id = int.Parse(result.orderId) });
+            }
+            else
+            {
+                return RedirectToAction("confirmOrder");
+            }
         }
 
         [HttpPost]

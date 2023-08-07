@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 
-<body>
+<body style="background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(0,0,0,1)); ">
     <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -64,6 +64,7 @@
                             <p><strong>Họ tên:</strong> @Model.Customer.FullName</p>
                             <p><strong>Email:</strong> @Model.Customer.Email</p>
                             <p><strong>Ngày đặt hàng:</strong> @(Model.OrdTime?.ToString("dd-MM-yyyy"))</p>
+                            <p><strong>Hình thức thanh toán:</strong> @Model.Payment.Ghichu</p>
                         </div>
                         <div class="col-md-6">
                             <p><strong>Số điện thoại:</strong> @Model.Customer.Phone</p>

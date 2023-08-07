@@ -10,7 +10,6 @@
 <div id="main" class=" container d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
     <!-- Vertical Navbar -->
     <!-- Main content -->
-
       
     <div class="h-screen flex-grow-1 overflow-y-lg-auto">
         @{
@@ -63,19 +62,18 @@
                                     <label class="form-label" for="email">Email</label>
                                     <span class="form-control">@Model.Email</span>
                                 </div>
-                              
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="phone_number">Phone number</label>
-                                        <span class="form-control">@Model.Phone</span>
-                                    </div>
 
+                                <div class="col-md-6">
+                                    <label class="form-label" for="phone_number">Phone number</label>
+                                    <span class="form-control">@Model.Phone</span>
+                                </div>
+                                @if (Model.Address != null)
+                                {
                                     <div class="col-12">
-                                        <div class="">
-                                            <label class="form-label" for="address">Address</label>
-                                            <span class="form-control">@Model.Address</span>
-                                        </div>
+                                        <label class="form-label" for="address">Address</label>
+                                        <span class="form-control">@Model.Address</span>
                                     </div>
-
+                                }
 
                             </div>
                         </form>
@@ -87,6 +85,5 @@
             </div>
         </main>
     </div>
-    
     </div>
     
