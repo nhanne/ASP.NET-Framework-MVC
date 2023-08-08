@@ -10,7 +10,7 @@ namespace Boutique.Areas.Admin.Controllers
 {
     public class StaffController : Controller
     {
-        BoutiqueEntities _db = new BoutiqueEntities();
+        private BoutiqueEntities _db = new BoutiqueEntities();
         // GET: Admin/Staff
         public ActionResult Index()
         {

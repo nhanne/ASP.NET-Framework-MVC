@@ -7,23 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="~/Images/logo.png">
     <title>Boutique - @ViewBag.title</title>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/Scripts/jquery-3.4.1.js")
+    @Scripts.Render("~/bundles/mainJS")
 
     @{
         BoutiqueEntities _db = new BoutiqueEntities();
         List<Cart> list = (List<Cart>)Session["Cart"] as List<Cart>;
-        Customer khsession = (Customer)Session["Taikhoan"];
-        var dsCate = from s in _db.Categories select s;
-        ViewBag.dsCate = dsCate.ToList();
     }
 </head>
 <body>
-    <!--=================================================== NAVBAR============================================================ -->
+    <!--=================================================== BACKTOP ============================================================ -->
+    <div id="backtop">
+        <i class="fa fa-arrow-up"></i>
+    </div>
+    <!--=================================================== NAVBAR ============================================================ -->
     <nav id="navbar" class="container">
         <a href="@Url.Action("Index","Home")" class="navbar-brand">boutique</a>
-        <button id="mobile-menu"><i class="far fa-align-justify"></i></button>
+        <button id="mobile-menu"><i class="fa fa-align-justify"></i></button>
         <ul id="navbar-center">
             <li><a class="nav-link" href="@Url.Action("Index","Home")">home</a></li>
             <li><a class="nav-link" href="@Url.Action("Store","Home")">store</a></li>
@@ -33,7 +33,7 @@
         <ul id="navbar-right">
             <li>
                 <button type="button" onclick="navSearch()" class="nav-search">
-                    <i class="fas fa-search"></i>
+                    <i class="fa fa-search"></i>
                 </button>
                 @using (Html.BeginForm("Store", "Home", FormMethod.Get, new { @class = "dropdown-search", @id = "dropdown-search" }))
                 {
@@ -45,7 +45,7 @@
             </li>
             <li>
                 <a class="nav-icon header-search__cart" href="@Url.Action("Index","Cart")">
-                    <i class="far fa-shopping-bag "></i>
+                    <i class="fa fa-shopping-bag "></i>
                     @if (list != null)
                     {
                         if (list.Count == 0)
@@ -91,22 +91,22 @@
                     }
                 </a>
             </li>
-            <li><a class="nav-icon" href="@Url.Action("Index","Account")"><i class="far fa-user "></i></a></li>
+            <li><a class="nav-icon" href="@Url.Action("Index","Account")"><i class="fa fa-user "></i></a></li>
         </ul>
     </nav>
 
-    <!--=================================================== TOATS============================================================ -->
+    <!--=================================================== TOATS ============================================================ -->
     <div id="toast" class="success">
         <div class="toast toast--success">
             <div class="toast-icon toast-icon--success">
-                <i class="fas fa-check-circle"></i>
+                <i class="fa fa-check-circle"></i>
             </div>
             <div class="toast-body">
                 <h3 class="toast-title">SUCCESS</h3>
                 <p class="toast-msg">đã thêm sản phẩm vào giỏ hàng.</p>
             </div>
             <div class="toast-close">
-                <i class="fas fa-times"></i>
+                <i class="fa fa-times"></i>
             </div>
         </div>
 
@@ -114,14 +114,14 @@
     <div id="toast" class="failed">
         <div class="toast toast--failed">
             <div class="toast-icon toast-icon--failed">
-                <i class="fas fa-exclamation"></i>
+                <i class="fa fa-exclamation"></i>
             </div>
             <div class="toast-body">
                 <h3 class="toast-title">FAILED</h3>
                 <p class="toast-msg">sản phẩm hiện đang hết hàng.</p>
             </div>
             <div class="toast-close">
-                <i class="fas fa-times"></i>
+                <i class="fa fa-times"></i>
             </div>
         </div>
     </div>
@@ -130,15 +130,15 @@
         @RenderBody()
 
     </div>
-    <!--=================================================== FOOTER============================================================ -->
+    <!--=================================================== FOOTER ============================================================ -->
     <footer class="footer">
         <div class="container">
             <div class="grid__row">
                 <div class="grid__column-2-4">
                     <div class="footer__about">
                         @*<div class="footer__logo">
-                            <a href="#"><img src="" alt=""></a>
-                        </div>*@
+                                <a href="#"><img src="" alt=""></a>
+                            </div>*@
                         <p style="line-height: 25px;">Khách hàng là trung tâm của mô hình kinh doanh độc đáo của chúng tôi, bao gồm cả thiết kế.</p>
                         <div class="footer__payment">
                             <a href="#"><img src="~/Images/momo.jpg" alt=""></a>
@@ -183,17 +183,8 @@
             </div>
         </div>
     </footer>
+    @Scripts.Render("~/bundles/mainJS")
 
-    <!--=================================================== Script============================================================ -->
-    @Scripts.Render("~/bundles/mainjs")
-    <script src="https://sp.zalo.me/plugins/sdk.js"></script>
-    <script>
-        function about() {
-            window.location = '/Home#about';
-        }
-        function contact() {
-            window.location = '/Home#contact';
-        }
-    </script>
+    <!--=================================================== Script ============================================================ -->
 </body>
 </html>

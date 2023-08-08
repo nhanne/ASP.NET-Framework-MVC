@@ -1,7 +1,7 @@
 ﻿@model Boutique.Models.Customer
 @{
     ViewBag.title = "Đặt hàng";
-    Layout = "~/Views/Shared/Layout_BS5.cshtml";
+    Layout = "~/Views/Shared/cart_Layout.cshtml";
     List<Boutique.Models.Cart> listCart = (List<Boutique.Models.Cart>)Session["Cart"] as List<Boutique.Models.Cart>;
     var totalPrice = ViewBag.totalPrice;
 }

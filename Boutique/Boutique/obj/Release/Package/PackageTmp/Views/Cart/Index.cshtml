@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Giỏ hàng";
-    Layout = "~/Views/Shared/Layout_BS5.cshtml";
+    Layout = "~/Views/Shared/cart_Layout.cshtml";
     double totalPrice = ViewBag.totalPrice;
 }
 
@@ -40,7 +40,7 @@
                                                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                                         <button class="btn btn-link px-2" type="submit"
                                                                 onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                            <i class="fas fa-minus"></i>
+                                                            <i class="fa fa-minus"></i>
                                                         </button>
 
                                                         <input id="form1" min="1" name="quantity" value="@item.Quantity" type="number"
@@ -48,14 +48,14 @@
 
                                                         <button class="btn btn-link px-2" type="submit"
                                                                 onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                            <i class="fas fa-plus"></i>
+                                                            <i class="fa fa-plus"></i>
                                                         </button>
                                                     </div>
                                                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                                         <h6 class="mb-0">@string.Format("{0:#,0}", item.totalPrice) ₫</h6>
                                                     </div>
                                                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                        <a href="@Url.Action("deletefromCart","Cart", new { @Idproduct = item.IdProduct, @IdColor = item.IdColor, @IdSize = item.IdSize})" class="text-muted"><i class="fas fa-times"></i></a>
+                                                        <a href="@Url.Action("deletefromCart","Cart", new { @Idproduct = item.IdProduct, @IdColor = item.IdColor, @IdSize = item.IdSize})" class="text-muted"><i class="fa fa-times"></i></a>
                                                     </div>
                                                 </div>
                                             }
@@ -122,17 +122,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Danh sách các khuyến mãi</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <div class="card-deck">
-
-                    <!-- Card 1 -->
                     <div class="card" id="loadData">
-                        
                     </div>
-
-
                 </div>
             </div>
             <div class="modal-footer">
@@ -164,19 +159,16 @@
         background-color: #eae8e8;
     }
 </style>
-
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
 <script>
-
-
     $(document).ready(function () {
         loadData();
         $('#submitCode').click(function () {
             var selectCode = document.querySelector('input[name="program"]:checked').value;
             $('#form3Examplea2').val(selectCode);
-           
+
         });
     });
     function checkout() {

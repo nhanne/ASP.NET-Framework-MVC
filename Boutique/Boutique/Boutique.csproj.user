@@ -9,7 +9,7 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <LastActiveSolutionConfig>Release|Any CPU</LastActiveSolutionConfig>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <_SelectedScaffolderID>MvcViewScaffolder</_SelectedScaffolderID>
     <_SelectedScaffolderCategoryPath>root/Common/MVC/View</_SelectedScaffolderCategoryPath>
     <WebStackScaffolding_AreaDialogWidth>600</WebStackScaffolding_AreaDialogWidth>

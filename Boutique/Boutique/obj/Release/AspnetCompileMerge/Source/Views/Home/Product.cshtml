@@ -232,15 +232,6 @@
 </style>
 
 <script>
-        $(".detail__info-size label").on('click', function () {
-            $(".detail__info-size label").removeClass('active');
-            $(this).addClass('active');
-        });
-        $(".detail__info-color label").on('click', function () {
-            $(".detail__info-color label").removeClass('active');
-            $(this).addClass('active');
-        });
-         
         function handleQty() {
             var selectedSize = document.querySelector('input[name="Size"]:checked').value;
             var selectedColor = document.querySelector('input[name="Color"]:checked').value;
@@ -266,7 +257,7 @@
                     }
                 })
             }
-    };
+     };
         function addToCart() {
         var selectedSize = document.querySelector('input[name="Size"]:checked').value;
         var selectedColor = document.querySelector('input[name="Color"]:checked').value;

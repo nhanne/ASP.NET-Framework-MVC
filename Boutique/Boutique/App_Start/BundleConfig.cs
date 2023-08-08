@@ -23,26 +23,39 @@ namespace Boutique
                       "~/Scripts/bootstrap.js"));
 
             //main
-            bundles.Add(new ScriptBundle("~/bundles/mainjs").Include(
-                      "~/Scripts/jquery-3.4.1.js",
-                      "~/Scripts/myscript.js",
-                      "~/Scripts/bootstrap.min.js"
+            bundles.Add(new ScriptBundle("~/bundles/mainJS").Include(
+                      "~/Scripts/Jquery/jquery-3.7.0.min.js",
+                      "~/Scripts/Jquery/bootstrap.min.js",
+                      "~/Scripts/MyJS/myScript.js",
+                       "~/Scripts/MyJS/homeScript.js"
                 ));
+           
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                       //"~/Content/bootstrap.css",
-                       //"~/Content/site.css"
-                       "~/Content/base.css",
-                      "~/Content/mystyle.css",
-                      "~/Content/responsive.css"
+                       "~/Content/myCSS/base.css",
+                      "~/Content/myCSS/mystyle.css",
+                      "~/Content/myCSS/responsive.css",
+                      "~/Content/Icon/font-awesome.css"
                       ));
-            //login
-            bundles.Add(new ScriptBundle("~/bundles/loginjs").Include(
-                    "~/Content/login/jquery.min.js",
-                    "~/Content/login/bootstrap.min.js",
-                    "~/Content/login/main.js"
+            // Login page
+            bundles.Add(new ScriptBundle("~/bundles/loginJS").Include(
+                    "~/Scripts/Jquery/jquery-3.7.0.min.js",
+                    "~/Scripts/Jquery/bootstrap.min.js",
+                    "~/Content/Login/main.js"
               ));
-       
-            //admin
+            bundles.Add(new StyleBundle("~/bundles/loginCSS").Include(
+                   "~/Content/Icon/font-awesome.min.css",
+                   "~/Content/Login/style.css"
+              ));
+            // Cart page
+            bundles.Add(new StyleBundle("~/bundles/cartCSS").Include(
+                      "~/Content/Bootstrap/bootstrap.min.css",
+                      "~/Content/Icon/font-awesome.css"
+                      ));
+            bundles.Add(new ScriptBundle("~/bundles/cartJS").Include(
+                  "~/Scripts/Jquery/jquery-3.7.0.min.js",
+                  "~/Scripts/MyJS/cartScript"
+            ));
+            //Admin page
             bundles.Add(new ScriptBundle("~/bundles/adminjs").Include(
                      "~/Areas/Admin/Assets/js/jquery-3.2.1.min.js",
                      "~/Areas/Admin/Assets/js/popper.min.js",
@@ -51,6 +64,11 @@ namespace Boutique
                      "~/Areas/Admin/Assets/js/plugins/pace.min.js",
                      "~/Areas/Admin/Assets/js/plugins/chart.js"
                ));
+            bundles.Add(new StyleBundle("~/bundles/adminCSS").Include(
+                    "~/Areas/Admin/Assets/css/main.css",
+                    "~/Areas/Admin/Assets/css/style.css",
+                    "~/Areas/Admin/Assets/css/util.css"
+                    ));
             BundleTable.EnableOptimizations = true;
         }
     }
