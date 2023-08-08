@@ -1,0 +1,172 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IEnumerable<Boutique.Models.Order>
+
+@{
+    ViewBag.Title = "Quản lí đơn hàng";
+    ViewBag.headTitle = "Danh sách đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
+    var pageIndex = ViewBag.CurrentPage;
+    var sort = ViewBag.Sort;
+    var currentSort = ViewBag.currentSort;
+    var search = ViewBag.search;
+    var totalPages = ViewBag.TotalPages;
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <div class="row element-button">
+                    <div class="col-sm-2">
+
+                        <a class="btn btn-warning btn-info btn-sm" href="@Url.Action("Index","Order",new {sort = "Wait" })">
+                            Chưa giao hàng
+                        </a>
+                    </div>
+                    <div class="col-sm-2">
+
+                        <a class="btn btn-info btn-sm" href="@Url.Action("Index","Order",new { sort = "Deli" })">
+                            Đang giao hàng
+                        </a>
+                    </div>
+                    <div class="col-sm-2">
+
+                        <a class="btn btn-success btn-sm" href="@Url.Action("Index","Order",new { sort = "Done" })">
+                            Hoàn thành
+                        </a>
+                    </div>
+                    <div class="col-sm-2">
+
+                        <a class="btn btn-danger btn-sm" href="@Url.Action("Index","Order",new { sort = "Cancel" })">
+                            Đã hủy
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row" style="align-items:center">
+                    <div class="col-sm-12 col-md-6">
+                        <span>Trang @pageIndex</span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        @using (Html.BeginForm("Index", "Order", FormMethod.Get, new { @class = "dataTables_filter d-flex justify-content-end" }))
+                        {
+                            <label>
+                                Tìm kiếm:
+
+                                @Html.TextBox("search", null, new { @class = "form-control form-control-sm", @placeholder = "ID or Phone" })
+
+                            </label>
+                        }
+                    </div>
+                </div>
+
+
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                ID đơn hàng
+                            </th>
+                            <th scope="col">
+                                Khách hàng
+                            </th>
+                            <th scope="col">
+                                Đơn hàng
+                            </th>
+                            <th scope="col">
+                                Số lượng
+                            </th>
+                            <th scope="col">
+                                Tổng tiền
+                            </th>
+                            <th scope="col">
+                                Tình trạng
+                            </th>
+                            <th scope="col">
+                                Tính năng
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.orderList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.Customer.FullName
+                                </td>
+                                <td>
+                                    @foreach (var product in ViewBag.orderDetail)
+                                    {
+
+                                        if (item.Id == product.OrderId)
+                                        {
+                                            <p>@product.Stock.Product.Name - @product.Stock.Color.Name - @product.Stock.Size.Name <span style="font-weight:bold">x @product.Quantity</span></p>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @item.TotalQuantity
+                                </td>
+                                <td>
+                                    @string.Format("{0:#,0}", item.TotalPrice)
+                                </td>
+                                <td>
+                                    @switch (item.Status)
+                                    {
+                                        case "Chưa giao hàng":
+                                            <span class="badge bg-warning">@item.Status</span>
+                                            break;
+                                        case "Hoàn thành":
+                                            <span class="badge bg-success">@item.Status</span>
+                                            break;
+                                        case "Đang giao hàng":
+                                            <span class="badge bg-info">@item.Status</span>
+                                            break;
+                                        case "Đã hủy":
+                                            <span class="badge bg-danger">@item.Status</span>
+                                            break;
+                                    }
+
+                                </td>
+                                <td class="table-td-center">
+
+                                    @if (item.Status == "Chưa giao hàng")
+                                    {
+                                        <button class="btn btn-block btn-warning btn-sm edit" type="button" title="Sửa"
+                                                onclick="location.href='@Url.Action("handleOrder", "Order",new { Id = item.Id })'">
+                                            Xử lí đơn hàng
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-block btn-success btn-sm user-btn" type="button" title="Xem chi tiết"
+                                                onclick="location.href='@Url.Action("Detail", "Order", new { Id = item.Id })'">
+                                            Chi tiết đơn hàng
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+                @* Tạo liên kết các trang *@
+                @if (totalPages > 1)
+                {
+                    <div class="MenuTrang pagination">
+                        @Html.PagedListPager((IPagedList<Boutique.Models.Order>)ViewBag.orderList, page => Url.Action("Index", new { sort = sort, pageIndex = page }),
+                            new PagedListRenderOptions()
+                            {
+                                LiElementClasses = new[] { "paginate_button page-item page-link" },
+                                UlElementClasses = new[] { "pagination" }
+                            })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

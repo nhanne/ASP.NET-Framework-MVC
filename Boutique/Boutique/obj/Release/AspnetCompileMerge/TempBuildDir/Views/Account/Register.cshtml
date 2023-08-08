@@ -1,0 +1,86 @@
+﻿@model Boutique.Models.Customer
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Account/account_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section">Boutique Store</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-10">
+                    <div class="wrap d-md-flex">
+                        <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+                            <div class="text w-100">
+                                <h2>Welcome to Registery</h2>
+                                <p>Already have an account?</p>
+                                <a href="@Url.Action("Login", "Account")" class="btn btn-white btn-outline-white">Sign In</a>
+                                <a href="@Url.Action("Index", "Home")" class="btn btn-white btn-outline-white">Back</a>
+                            </div>
+                        </div>
+                        <div class="login-wrap p-4 p-lg-5">
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <h3 class="mb-4">Sign Up</h3>
+                                </div>
+                                <div class="w-100">
+                                    <p class="social-media d-flex justify-content-end">
+                                        <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
+                                        <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
+                                    </p>
+                                </div>
+                            </div>
+                            <form action="#" class="signin-form">
+                                <div class="form-group mb-3">
+                                    <label class="label" for="email">Email</label>
+                                    @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "*****@example.com" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "validate" })
+                                    @if (ViewBag.error != null)
+                                    {
+                                        <span style="color: #ff0000; display:block; margin:4px">@ViewBag.error</span>
+                                    }
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="label" for="password">Password</label>
+                                    @Html.TextBoxFor(m => m.Password, "", new { @class = "form-control", @type = "Password", @placeholder = " ******" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "validate" })
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="label" for="fullname">FullName</label>
+                                    @Html.TextBoxFor(m => m.FullName, "", new { @class = "form-control", @placeholder = "Sophia Wembley" })
+                                    @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "validate" })
+                                </div>
+                            
+                                    <div class="form-group mb-3">
+                                        <label class="label" for="phone">Phone</label>
+                                        @Html.TextBoxFor(m => m.Phone, "", new { @class = "form-control", @placeholder = "+84 ### ### ###" })
+                                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "validate" })
+                                    </div>
+                           
+
+                                <div class="form-group">
+                                    <button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<style>
+    .validate {
+        color: #f35588 !important
+    }
+</style>

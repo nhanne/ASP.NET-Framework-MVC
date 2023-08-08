@@ -1,0 +1,124 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@{
+    ViewBag.Title = "Trang sản phẩm";
+    ViewBag.headTitle = "Danh sách sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
+    var search = ViewBag.search;
+    var totalPages = ViewBag.TotalPages;
+    var pageIndex = ViewBag.CurrentPage;
+    List<Boutique.Models.Product> dsProduct = ViewBag.dsProduct as List<Boutique.Models.Product>;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <div class="row element-button">
+                    <div class="col-sm-2">
+
+                        <a class="btn btn-add btn-sm" href="@Url.Action("Create","Product")">
+                            <i class="fas fa-plus"></i>
+                            Tạo mới sản phẩm
+                        </a>
+                    </div>
+
+                 
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        @using (Html.BeginForm("Index", "Product", FormMethod.Get, new { @class = "dataTables_filter d-flex justify-content-end" }))
+                        {
+                            <label>
+                                Tìm kiếm:
+
+                                @Html.TextBox("searchString", null, new { @class = "form-control form-control-sm" })
+
+                            </label>
+                        }
+                    </div>
+                </div>
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+
+                            <th>Mã sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Ảnh</th>
+                            <th>Giá tiền</th>
+                            <th>Danh mục</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.dsProduct)
+                        {
+                            <tr>
+
+                                <td>@item.Code</td>
+                                <td>@item.Name</td>
+                                <td> <img src="~/Images/sp/@Url.Content(@item.Picture)" alt="Image" width="100" height="100" /></td>
+
+
+                                <td>@string.Format("{0:#,0}", item.unitPrice)</td>
+                                <td>@item.Category.Name</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                            onclick="location.href='@Url.Action("PhanLoaiSP", "Product",new { id = item.Id })'">
+                                        Phân loại
+                                    </button>
+                                    <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
+                                            onclick="location.href='@Url.Action("Edit", "Product",new { id = item.Id })'">
+                                        Chỉnh sửa
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                @* Tạo liên kết các trang *@
+                <div class="MenuTrang pagination">
+                    @Html.PagedListPager((IPagedList<Boutique.Models.Product>)ViewBag.dsProduct, page => Url.Action("Index","Product", new { searchString = search , pageIndex = page}),
+                        new PagedListRenderOptions()
+                        {
+                            LiElementClasses = new[] { "paginate_button page-item page-link" },
+                            UlElementClasses = new[] { "pagination" }
+                        })
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '#phanloai1', function () {
+            var Id = $(this).data('id');
+            getProductbyId(Id);
+        });
+    });
+    getProductbyId = function (Id) {
+        $.ajax({
+            url: '/Product/listIteminStock',
+            type: 'GET',
+            data: { Id: Id },
+            success: function (res) {
+                if (res.data != null) {
+                    $('#sizeId').val(res.data.Id);
+                    $('#sizeName').val(res.data.Name);
+                    $('#sizeNote').val(res.data.Ghichu);
+                    $('#modalCreateUpdate').modal('show');
+                }
+            }
+        });
+    }
+
+</script>
