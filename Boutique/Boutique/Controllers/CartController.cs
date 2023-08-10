@@ -142,45 +142,36 @@ namespace Boutique.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult CheckOut(Customer model, FormCollection f)
+        public ActionResult CheckOut(Customer model, Order orderModel, string promoCode)
         {
             getCart();
             var products = _db.Products.ToList();
-            var address = f["address"];
-            var note = f["note"];
-            var payment = f["payment"];
-            var maKM = f["promo_code"].ToString();
             var now = DateTime.Now;
-            var sessionTK = (Customer)Session["Taikhoan"];
-            ModelState.Remove("Password");
-            if (ModelState.IsValid)
-            {
-                Customer customer;
-                if (sessionTK == null)
+                Order order = new Order();
+                if (model.Id != 0)
                 {
-                    customer = new Customer();
-                    customer.Password = "221jc2132abaqj@12!@!#";
-                    customer.FullName = model.FullName;
-                    customer.Phone = model.Phone;
-                    customer.Email = model.Email;
-                    customer.Member = false;
-                    _db.Customers.Add(customer);
-                    _db.SaveChanges();
-                    customer = _db.Customers.OrderByDescending(c => c.Id).FirstOrDefault(c => c.Email == model.Email);
+                    order.CustomerId = model.Id;
                 }
                 else
                 {
-                    customer = _db.Customers.Find(sessionTK.Id);
+                    Customer kh = new Customer();
+                    kh.Password = "Nhan123?";
+                    kh.FullName = model.FullName;
+                    kh.Phone = model.Phone;
+                    kh.Email = model.Email;
+                    kh.Address = model.Address;
+                    kh.Member = false;
+                    _db.Customers.Add(kh);
+                    _db.SaveChanges();
+                    order.CustomerId = kh.Id;
                 }
-                Order order = new Order();
-                order.CustomerId = customer.Id;
                 order.OrdTime = now;
                 order.DeliTime = order.OrdTime.Value.AddDays(3);
                 order.Status = "Chưa giao hàng";
-                order.PaymentId = int.Parse(payment);
-                order.Address = address.ToString();
+                order.PaymentId = orderModel.PaymentId;
+                order.Address = model.Address;
                 double totalPrice = TongTien();
-                Promotion codeKM = _db.Promotions.SingleOrDefault(m => m.promotion_name == maKM && m.end_date > DateTime.Now);
+                Promotion codeKM = _db.Promotions.SingleOrDefault(m => m.promotion_name == promoCode && m.end_date > DateTime.Now);
                 if (codeKM == null)
                 {
                     order.TotalPrice =  totalPrice;
@@ -192,7 +183,7 @@ namespace Boutique.Controllers
                     order.TotalPrice -= var;
                 }
                 order.TotalQuantity = totalQuantity();
-                order.Note = note.ToString();
+                order.Note = orderModel.Note;
                 _db.Orders.Add(order);
                 _db.SaveChanges();
                 List<Cart> listCart = getCart();
@@ -212,18 +203,16 @@ namespace Boutique.Controllers
                     _db.SaveChanges();
                 }
                 Session["OrderConfirmed"] = true;
-                switch (int.Parse(payment))
+                switch (orderModel.PaymentId)
                 {
                     case 1:
-                        return RedirectToAction("PaymentMomo", new { Id = order.Id });
+                    return Json(new { redirectToUrl = Url.Action("PaymentMomo", new { Id = order.Id }) });
                     case 2:
-                        return RedirectToAction("Payment", new { orderId = order.Id });
+                    return Json(new { redirectToUrl = Url.Action("Payment", new { orderId = order.Id }) });
                     case 3:
-                        return RedirectToAction("confirmOrder", new { Id = order.Id });
+                    return Json(new { redirectToUrl = Url.Action("confirmOrder", new { Id = order.Id }) });
                 }
-               
-            }
-            return View(model);
+            return Json(new { something = "Có lỗi xảy ra" });
         }
         public ActionResult confirmOrder(int? Id)
         {

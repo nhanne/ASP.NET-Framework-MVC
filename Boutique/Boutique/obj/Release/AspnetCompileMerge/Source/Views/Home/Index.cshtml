@@ -8,32 +8,27 @@
 </div>
 
 
-<!--=================================================== BANNER ============================================================ -->
 
-<div id="banner">
-    <div id="logo"></div>
-    <div id="slideshow">
-    </div>
-</div>
 
 <!--=================================================== MAIN ============================================================ -->
 
 <section id="main">
-    <div id="release" class="container" style="margin:50px 0">
-        <div id="headline">
-            <h3>BEST SELLER</h3>
+    <div id="release" class="release container">
+        <div class="release__circle"></div>
+        <div class="release__content">
+            <div class="textBox">
+                <h2>It's not just clothing<br>It's <span>Fashion</span></h2>
+                <p>Thời trang luôn là yếu tố giúp bạn tự tin hơn, chúng tôi mang đến một thời đại mới dành cho những người yêu thích trang phục đơn giản.</p>
+                <a href="@Url.Action("Store")">Learn more</a>
+            </div>
+            <div class="imgBox">
+                <img src="~/Images/sp/model.png" class="fashion">
+            </div>
         </div>
-        <ul id="products" class="row">
-            @foreach (var product in ViewBag.dsProduct)
-            {
-                <li class="product-item">
-                    <div class="product-top">
-                        <a href="@Url.Action("Product","Home", new { Id = product.Id })" class="product-thumb"><img src="/Images/sp/@Url.Content(@product.Picture)"></a>
-                        @*<a href="#" class="buynow">xem ngay</a>*@
-                    </div>
-
-                </li>
-            }
+        <ul class="release__thumb">
+            <li><img src="~/Images/sp/model.png" onclick="imgSlider('/Images/sp/model.png');changeCircle('rgb(101 104 99)')"></li>
+            <li><img src="~/Images/sp/model2.png" onclick="imgSlider('/Images/sp/model2.png');changeCircle('#968f8f')"></li>
+            <li><img src="~/Images/sp/model3.png" onclick="imgSlider('/Images/sp/model3.png');changeCircle('rgb(132 180 202)')"></li>
         </ul>
     </div>
 
@@ -104,7 +99,6 @@
             </li>
         </ul>
     </div>
-
     <div id="contact" class="contact spad">
         <div class="container">
             <div class="grid__row">
@@ -153,7 +147,17 @@
             </div>
         </div>
     </div>
+
 </section>
+
+<!--=================================================== BANNER ============================================================ -->
+
+<div id="banner">
+    <div id="logo"></div>
+    <div id="slideshow">
+    </div>
+</div>
+
 <section class="counter spad">
     <div class="container">
         <div class="grid__row">
@@ -193,7 +197,6 @@
         </div>
     </div>
 </section>
-
 <div class="zalo-chat-widget" data-oaid="2314494191542853152"
      data-welcome-message="Rất vui khi được hỗ trợ bạn!"
      data-autopopup="0" data-width="300" data-height="300">
@@ -201,6 +204,13 @@
 <script src="https://sp.zalo.me/plugins/sdk.js"></script>
 
 <script>
+    function imgSlider(anything) {
+        document.querySelector('.fashion').src = anything;
+    }
+    function changeCircle(color) {
+        const circle = document.querySelector('.release__circle');
+        circle.style.background = color;
+    }
     $('#sendmail').click(function () {
         if (Validate()) {
             var name = $('#name').val();

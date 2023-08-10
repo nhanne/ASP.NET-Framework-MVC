@@ -10,7 +10,8 @@ body {
     font-family: 'Open Sans', sans-serif;
     background-color: #ffffff;
     color: var(--color-text);
-    overflow-x: hidden
+    overflow-x: hidden;
+    width: 100vw;
 }
 
 :root {
@@ -810,6 +811,111 @@ ul.social_media {
     background-color: black;
     color: white
 }
+
+
+.release {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 100px;
+    padding: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff
+}
+
+.release__content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .release__content .textBox {
+        position: relative;
+        max-width: 600px;
+    }
+
+        .release__content .textBox h2 {
+            color: var(--release-text);
+            font-size: 4em;
+            line-height: 1.4em;
+            font-weight: 500;
+        }
+
+            .release__content .textBox h2 span {
+                color: var(--release-text);
+                font-size: 1.2em;
+                font-weight: 900;
+            }
+
+        .release__content .textBox p {
+            color: var(--release-text);
+        }
+
+        .release__content .textBox a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 16px 40px;
+            background: #161616;
+            color: #fff;
+            border-radius: 40px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+    .release__content .imgBox {
+        width: 600px;
+        display: flex;
+        justify-content: flex-start;
+        padding-right: 50px;
+        margin-top: 50px;
+    }
+
+        .release__content .imgBox img {
+            max-width: 540px;
+            max-height: 500px;
+        }
+
+.release__thumb {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    display: flex;
+}
+
+    .release__thumb li {
+        list-style: none;
+        display: inline-block;
+        margin: 0 20px;
+        cursor: pointer;
+        transition: 0.5s;
+    }
+
+        .release__thumb li:hover {
+            transform: translateY(-15px);
+        }
+
+        .release__thumb li img {
+            max-width: 60px;
+        }
+
+.release__circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(101 104 99);
+    clip-path: circle(600px at right 800px);
+}
+
+
+
 /*=========================== TOATS ==============================*/
 
 #toast {

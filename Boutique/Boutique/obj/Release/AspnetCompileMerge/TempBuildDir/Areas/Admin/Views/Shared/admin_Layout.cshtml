@@ -52,7 +52,7 @@
                 alt="User Image">*@
             <div>
 
-                <p class="app-sidebar__user-name"><b>Trần Thanh Nhân</b></p>
+                <p class="app-sidebar__user-name"><b>@*@{var qtv=  (Boutique.Models.Staff)Session["NV"]} @qtv.FullName.ToString()*@</b></p>
                 <p class="app-sidebar__user-designation">Quản trị viên</p>
             </div>
         </div>
@@ -141,7 +141,7 @@
  
 
     @Scripts.Render("~/bundles/adminjs")
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/Scripts/Jquery/jquery.signalR-2.4.3.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
         $(document).ready(function () {

@@ -437,9 +437,7 @@
     <Content Include="Content\Bootstrap\bootstrap.min.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
-    <Content Include="Content\Login\bootstrap.min.css" />
-    <Content Include="Content\Login\main.js" />
-    <Content Include="Content\Login\style.css" />
+    <Content Include="Content\myCSS\login.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\myCSS\responsive.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -499,6 +497,9 @@
     <Content Include="Images\sp\7.jpg" />
     <Content Include="Images\sp\8.jpg" />
     <Content Include="Images\sp\9.jpg" />
+    <Content Include="Images\sp\model.png" />
+    <Content Include="Images\sp\model2.png" />
+    <Content Include="Images\sp\model3.png" />
     <Content Include="Images\vnpay.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -555,7 +556,6 @@
     <Content Include="Scripts\Jquery\jquery.validate.min.js" />
     <Content Include="Scripts\Jquery\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\Jquery\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\MyJS\cartScript.js" />
     <Content Include="Scripts\MyJS\homeScript.js" />
     <Content Include="Scripts\MyJS\myScript.js" />
     <Content Include="Content\myCSS\mystyle.css" />
@@ -614,19 +614,21 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\cart_Layout.cshtml" />
+    <Content Include="Views\Shared\Layout\cart_Layout.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\Store.cshtml" />
-    <Content Include="Views\Account\account_Layout.cshtml" />
+    <Content Include="Views\Shared\Layout\login_Layout.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\edit.cshtml" />
-    <Content Include="Views\Account\Partial_Account.cshtml" />
     <Content Include="Views\Cart\CheckOut.cshtml" />
     <Content Include="Views\Home\Product.cshtml" />
     <Content Include="Views\Cart\confirmOrder.cshtml" />
     <Content Include="Views\Account\orderList.cshtml" />
+    <Content Include="Views\Shared\Layout\profile_Layout.cshtml" />
+    <Content Include="Views\Shared\Partial\navbar_Partial.cshtml" />
+    <Content Include="Views\Shared\Partial\footer_Partial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

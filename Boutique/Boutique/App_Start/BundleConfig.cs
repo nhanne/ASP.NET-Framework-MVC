@@ -37,22 +37,16 @@ namespace Boutique
                       "~/Content/Icon/font-awesome.css"
                       ));
             // Login page
-            bundles.Add(new ScriptBundle("~/bundles/loginJS").Include(
-                    "~/Scripts/Jquery/jquery-3.7.0.min.js",
-                    "~/Scripts/Jquery/bootstrap.min.js",
-                    "~/Content/Login/main.js"
-              ));
             bundles.Add(new StyleBundle("~/bundles/loginCSS").Include(
-                   "~/Content/Icon/font-awesome.min.css",
-                   "~/Content/Login/style.css"
-              ));
+                "~/Content/Icon/font-awesome.min.css",
+                "~/Content/myCSS/login.css"
+           ));
             // Cart page
             bundles.Add(new StyleBundle("~/bundles/cartCSS").Include(
                       "~/Content/Bootstrap/bootstrap.min.css",
                       "~/Content/Icon/font-awesome.css"
                       ));
             bundles.Add(new ScriptBundle("~/bundles/cartJS").Include(
-                  "~/Scripts/Jquery/jquery-3.7.0.min.js",
                   "~/Scripts/MyJS/cartScript"
             ));
             //Admin page

@@ -29,28 +29,23 @@ namespace Boutique.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login(Customer model)
         {
+            ModelState.Remove("FullName");
+            ModelState.Remove("Phone");
             if (ModelState.IsValid)
             {
-                var data = _db.Customers.Where(s => s.Email.Equals(email) && s.Password.Equals(password)).ToList();
-                Customer kh = _db.Customers.SingleOrDefault(s => s.Email.Equals(email) && s.Password.Equals(password) && s.Member == true);
+                string email = model.Email.ToString();
+                string password = model.Password.ToString();
+                Customer kh = _db.Customers.FirstOrDefault(s => s.Email.Equals(email) && s.Password.Equals(password) && s.Member == true);
                 if (kh != null)
                 {
                     Session["Taikhoan"] = kh;
+                    return RedirectToAction("Index");
                 }
-                if (data.Count() > 0)
-                {
-                    //add session
-                    Session["FullNamekh"] = data.FirstOrDefault().FullName;
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Sai email hoặc mật khẩu");
-                }
+                return View(model);
             }
-            return View();
+            return View(model);
         }
         public ActionResult Logout()
         {
@@ -70,7 +65,7 @@ namespace Boutique.Controllers
             if (ModelState.IsValid)
             {
                 var check = _db.Customers.FirstOrDefault(s => s.Email == khachhang.Email && khachhang.Member == true);
-                if (check == null)
+                if (check != null)
                 {
                     khachhang.Member = true;
                     _db.Configuration.ValidateOnSaveEnabled = false;
@@ -87,7 +82,7 @@ namespace Boutique.Controllers
                     customer.FullName = khachhang.FullName;
                     _db.Entry(customer).State = EntityState.Modified;
                     _db.SaveChanges();
-                    //ViewBag.error = "Email đã được đăng ký ở tài khoản khác";
+                    ViewBag.error = "Email đã được đăng ký ở tài khoản khác";
                 }
                 return RedirectToAction("Login");
             }

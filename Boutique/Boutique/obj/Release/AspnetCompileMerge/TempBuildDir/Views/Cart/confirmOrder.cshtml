@@ -1,7 +1,7 @@
 ﻿@model Boutique.Models.Order
 @{
     ViewBag.Title = "Xác nhận đơn hàng";
-    Layout = "~/Views/Shared/cart_Layout.cshtml";
+    Layout = "~/Views/Shared/Layout/cart_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -82,10 +82,9 @@
         </div>
     </div>
     <!-- Link Bootstrap JS -->
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="/signalr/hubs"></script>
+    <script src="~/Scripts/Jquery/jquery.signalR-2.4.3.js"></script>
+    <script src="~/signalr/hubs"></script>
     <script>
         $(document).ready(function () {
             var orderHub = $.connection.notifyHub;
