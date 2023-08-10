@@ -225,6 +225,8 @@
                     messenger: messenger
                 },
                 success: function (res) {
+                    alert("Đã gửi yêu cầu thành công");
+                    resetInput();
                     $('#content').html(res.content);
                 }
             });
@@ -261,5 +263,10 @@
             check = true;
         }
         return check;
+    }
+    function resetInput() {
+        $('#name').val('');
+        $('#email').val('');
+        $('#messenger').val('');
     }
 </script>
