@@ -203,16 +203,13 @@ ul#navbar-right {
 
 
 .counter {
-    padding-bottom: 0;
     background: #f3f2ee;
     overflow: hidden;
-    padding-top: 150px;
     padding-bottom: 125px;
 }
 
     .counter .container {
-        border-bottom: 1px solid #e5e5e5;
-        padding-bottom: 70px;
+        padding-top: 40px;
     }
 
 .counter__item {
@@ -300,7 +297,6 @@ ul#navbar-right {
     height: 100vh;
     width: 100%;
     background-color: #f3f2ee;
-    margin-top: 50px;
     transform: translate(0, -150%);
     animation: showcontent 1s ease-in-out 0.6s 1 forwards
 }
@@ -322,23 +318,23 @@ ul#navbar-right {
 
 @keyframes slide {
     0% {
-        background-image: url('../Images/anh1.jpg');
+        background-image: url('../Images/slideshow/anh1.jpg');
     }
 
     25% {
-        background-image: url('../Images/anh2.jpg');
+        background-image: url('../Images/slideshow/anh2.jpg');
     }
 
     50% {
-        background-image: url('../Images/anh3.jpg');
+        background-image: url('../Images/slideshow/anh3.jpg');
     }
 
     75% {
-        background-image: url('../Images/anh4.jpg');
+        background-image: url('../Images/slideshow/anh4.jpg');
     }
 
     100% {
-        background-image: url('../Images/anh5.jpg');
+        background-image: url('../Images/slideshow/anh5.jpg');
     }
 }
 
@@ -569,6 +565,7 @@ ul.social_media {
     }
 
     .item button {
+        cursor: pointer;
         display: inline-block;
         font-size: 13px;
         font-weight: 700;
@@ -835,7 +832,7 @@ ul.social_media {
 
     .release__content .textBox {
         position: relative;
-        max-width: 600px;
+        max-width: 450px;
     }
 
         .release__content .textBox h2 {

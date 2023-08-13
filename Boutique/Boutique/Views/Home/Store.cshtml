@@ -95,7 +95,7 @@
                         <li class="product-item">
                             <div class="product-top">
                                 <a href="@Url.Action("Product","Home", new { @Id = product.Id })" class="product-thumb"><img src="/Images/sp/@Url.Content(@product.Picture)"></a>
-                                <a class="buynow" type="button" title="Order" id="openModal" onclick="@Url.Action("Product","Home",new { @Id = product.Id })">
+                                <a class="buynow"  title="Order" href="@Url.Action("Product","Home",new { @Id = product.Id })">
                                     Xem ngay
                                 </a>
                                 @*@if (product.Quantity == 0)

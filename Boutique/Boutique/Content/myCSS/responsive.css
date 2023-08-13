@@ -284,15 +284,18 @@
         font-size: 2rem !important
     }
 
-    .detail__info-price--cost {
-        font-size: 0.1rem !important;
-    }
-
     .detail__info-price--unit {
         font-size: 1.4rem !important;
     }
-
     .grid__column-6.detail__picture, .grid__column-6.detail__info {
         width: 100%
+    }
+
+    /*=========================== Counter ==============================*/
+    .counter__item .counter__item__number h2, .counter__item .counter__item__number strong {
+        font-size: 40px;
+    }
+    .counter__item span {
+        font-size: 14px;
     }
 }
