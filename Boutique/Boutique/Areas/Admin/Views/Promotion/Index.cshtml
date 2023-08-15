@@ -4,7 +4,6 @@
     ViewBag.headTitle = "Danh sách mã khuyến mãi";
     Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
 }
-<div class="container mt-5">
     <a href="#" data-toggle="modal" data-target="#modalCreateUpdate" class="btn btn-info">Thêm mới</a>
     <table class="table table-bordered">
         <thead>
@@ -21,7 +20,6 @@
         <tbody id="show_data">
         </tbody>
     </table>
-</div>
 
 <div class="modal fade" id="modalCreateUpdate" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
      data-keyboard="false">
@@ -105,7 +103,6 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
     $(document).ready(function () {
         loadData();

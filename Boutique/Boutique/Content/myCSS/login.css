@@ -329,16 +329,37 @@ input:-webkit-autofill:active {
         text-decoration: underline;
     }
 @media (max-width: 740px) {
-    .header{
-        justify-content:center
+    .header {
+        justify-content: center
     }
+
     .search-bar {
         display: none
     }
+
     .container .content {
         display: none
     }
+
     .container .logreg-box {
         width: 100%
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        width: 650px;
+    }
+
+        .container .logreg-box {
+            width: 50%
+        }
+
+    form {
+        width: 260px
+    }
+
+    .form-box .input-box {
+        width: 260px
     }
 }

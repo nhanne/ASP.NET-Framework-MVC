@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title | Admin</title>
@@ -27,9 +25,14 @@
         if (Session["NV"] == null)
         {
             Response.Redirect("~/Admin/Admin/Login");
-        }
+        };
     }
-
+    @using Boutique.Models;
+    @{
+        BoutiqueEntities _db = new BoutiqueEntities();
+        Staff session = (Staff)Session["NV"];
+        Staff nv = _db.Staffs.Find(session.Id);
+    }
     <!-- Navbar-->
     <header class="app-header">
         <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar"
@@ -38,7 +41,7 @@
         <ul class="app-nav">
             <!-- User Menu-->
             <li>
-                <a class="app-nav__item" href="@Url.Action("Logout","Admin")"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+                <a class="app-nav__item" href="@Url.Action("Logout", "Admin")"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 
             </li>
         </ul>
@@ -51,9 +54,11 @@
             @*<img class="app-sidebar__user-avatar" src="~/Hinh/NhanVien/@Session["Avatar"].ToString()" width="50"
                 alt="User Image">*@
             <div>
-
-                <p class="app-sidebar__user-name"><b>@*@{var qtv=  (Boutique.Models.Staff)Session["NV"]} @qtv.FullName.ToString()*@</b></p>
-                <p class="app-sidebar__user-designation">Quản trị viên</p>
+                @if (Session["NV"] != null)
+                {
+                    <p class="app-sidebar__user-name"><b>@nv.FullName</b></p>
+                    <p class="app-sidebar__user-designation">@nv.Job_title1.Name</p>
+                }
             </div>
         </div>
         <hr>
@@ -93,9 +98,8 @@
                     <i class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Quản lý khách hàng</span>
                 </a>
             </li>
-
             <li>
-                <a class="app-menu__item" href="@Url.Action("Index","Sales")">
+                <a class="app-menu__item" href="@Url.Action("Index","ThongKe")">
                     <i class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span>
                 </a>
             </li>
@@ -138,7 +142,7 @@
             </div>
         </div>
     </div>
- 
+
 
     @Scripts.Render("~/bundles/adminjs")
     <script src="~/Scripts/Jquery/jquery.signalR-2.4.3.js"></script>
@@ -169,13 +173,13 @@
 
         // Thêm active class vào category
         const currentUrl = window.location.href
-        const getNameCate = currentUrl.split('Admin')?.[1]
-        console.log(getNameCate)
+        const getNameCate = currentUrl.split('Admin') ?.[1]
+                console.log(getNameCate)
         if (getNameCate) {
             const allCate = document.querySelectorAll('.app-menu__item')
             let activeCate
             for (var i = 0; i < allCate.length; i++) {
-                if (allCate[i].getAttribute('href').split('Admin')?.[1] === getNameCate) {
+                if (allCate[i].getAttribute('href').split('Admin') ?.[1] === getNameCate) {
                     activeCate = allCate[i]
                     break
                 }

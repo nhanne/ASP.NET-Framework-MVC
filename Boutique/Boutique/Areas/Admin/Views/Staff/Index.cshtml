@@ -5,10 +5,16 @@
     Layout = "~/Areas/Admin/Views/Shared/admin_Layout.cshtml";
 
 }
-
-<div class="row md-10">
-    <div class="col-md-12">
+<div class="row">
+    <div class="col-md-2">
         <a href="#" data-toggle="modal" data-target="#modalCreateUpdate" class="btn btn-info">Thêm mới</a>
+    </div>
+    <div class="col-md-12">
+        <div>
+            <label for="txtSearch">
+                <input type="search" id="txtSearch" placeholder="Tìm kiếm..." class="form-control form-control-sm" />
+            </label>
+        </div>
     </div>
 </div>
 <table class="table table-bordered">
@@ -23,9 +29,7 @@
 
         </tr>
     </thead>
-    <tbody id="show_data">
-    </tbody>
-
+    <tbody id="show_data"></tbody>
 </table>
 
 <div class="modal fade" id="modalCreateUpdate" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
@@ -42,52 +46,52 @@
                     </div>
                 </div>
                 <div class="row">
-                   
-                        <input type="hidden" id="exampleId" value="0" disabled />
 
-                        <div class="form-group col-md-6">
-                            <label class="control-label" for="inputName">Họ và tên</label>
-                            <input class="form-control" type="text" required value="" id="inputName">
-                            <span class="error text-danger"></span>
-                        </div>
-                        <div class="form-group  col-md-6">
-                            <label class="control-label" for="inputPhone">Số điện thoại</label>
-                            <input class="form-control" type="number" required value="" id="inputPhone">
-                            <span class="error text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label" for="inputEmail">Địa chỉ email</label>
-                            <input class="form-control" type="text" required value="" id="inputEmail">
-                            <span class="error text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label" for="inputDate">Ngày sinh</label>
-                            <input class="form-control" type="date" value="" id="inputDate" placeholder="dd-mm-yyyy">
+                    <input type="hidden" id="exampleId" value="0" disabled />
 
-                            <span class="error text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label" for="inputAddress">Địa chỉ</label>
-                            <input class="form-control" type="text" value="" id="inputAddress">
-                            <span class="error text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label" for="inputCMT">Chứng minh thư</label>
-                            <input class="form-control" type="text" value="" id="inputCMT">
-                            <span class="error text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label" for="inputPass">Mật khẩu</label>
-                            <input class="form-control" type="text" value="" id="inputPass">
-                            <span class="error text-danger"></span>
-                        </div>
-                        <div class="form-group  col-md-6">
-                            <label for="exampleSelect1" class="control-label">Chức vụ</label>
-                            @Html.DropDownList("Job_title", null, htmlAttributes: new { @id="job_title", @class = "form-control" })
-                        </div>
-
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputName">Họ và tên</label>
+                        <input class="form-control" type="text" required value="" id="inputName">
+                        <span class="error text-danger"></span>
                     </div>
-                    
+                    <div class="form-group  col-md-6">
+                        <label class="control-label" for="inputPhone">Số điện thoại</label>
+                        <input class="form-control" type="number" required value="" id="inputPhone">
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputEmail">Địa chỉ email</label>
+                        <input class="form-control" type="text" required value="" id="inputEmail">
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputDate">Ngày sinh</label>
+                        <input class="form-control" type="date" value="" id="inputDate" placeholder="dd-mm-yyyy">
+
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputAddress">Địa chỉ</label>
+                        <input class="form-control" type="text" value="" id="inputAddress">
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputCMT">Chứng minh thư</label>
+                        <input class="form-control" type="text" value="" id="inputCMT">
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label" for="inputPass">Mật khẩu</label>
+                        <input class="form-control" type="text" value="" id="inputPass">
+                        <span class="error text-danger"></span>
+                    </div>
+                    <div class="form-group  col-md-6">
+                        <label for="exampleSelect1" class="control-label">Chức vụ</label>
+                        @Html.DropDownList("Job_title", null, htmlAttributes: new { @id = "job_title", @class = "form-control" })
+                    </div>
+
+                </div>
+
                 <BR>
 
                 <BR>
@@ -102,8 +106,6 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
         loadData();
@@ -144,13 +146,11 @@
                     }
                 });
             }
-            
+
         });
         $('#btnHuy').click(function () {
             resetInput();
         });
-
-       
         $('body').on('click', '.btn--edit', function () {
             var Id = $(this).data('id');
             GetDataById(Id);
@@ -164,14 +164,17 @@
                 }
             }
         });
-
+        $('body').on('input', '#txtSearch', function () {
+            var txt = $('#txtSearch').val();
+            loadData(txt);
+        });
     });
-  
     // Read
-    function loadData() {
+    function loadData(_searchName) {
         $.ajax({
             url: '/Staff/GetData',
             type: 'GET',
+            data: { searchName: _searchName },
             success: function (res) {
                 if (res.TotalItems > 0) {
                     var items = res.Data;
@@ -228,7 +231,7 @@
             console.log(err);
         });
     }
-     //validate
+    //validate
     function Validate() {
         var check = false;
         var name = $('#inputName').val();
@@ -255,6 +258,7 @@
         return check;
     }
     function resetInput() {
+        $('#exampleId').val(0);
         $('#inputName').val('');
         $('#inputEmail').val('');
         $('#inputPhone').val('');

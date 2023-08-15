@@ -10,10 +10,192 @@
     }
 }
 
-
 /*=========================== TABLET ==============================*/
 
-@media (min-width: 740px) and (max-width: 1023px) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    .grid__column-2-4 {
+        width: 50%;
+        float: none;
+        padding: 50px;
+    }
+
+    .toast {
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    .release__content {
+        flex-direction: column;
+    }
+
+    .release__thumb {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+        .release__thumb li {
+            margin: 5px;
+        }
+
+    #about ul.social_media {
+        top: 40px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+    }
+
+    #about .item .content {
+        left: 15px;
+        width: 350px
+    }
+
+    #banner {
+        height: 40vh;
+        width: 100vw;
+    }
+
+        #banner #logo {
+            left: 15px;
+            width: 350px;
+            height: 350px
+        }
+
+        #banner #slideshow {
+            height: 100%;
+            width: 50%
+        }
+
+    #contact .grid__row {
+        display: block;
+    }
+
+    #contact .grid__column-6 {
+        width: 100%
+    }
+
+    #contact .contact__form button {
+        margin-top: 20px
+    }
+
+    .footer .grid__column-2-4 {
+        width: 50%
+    }
+
+    .home-filter {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .home-filter__page, .home-filter__label {
+        display: none
+    }
+
+    .select-input {
+        width: 100%;
+    }
+
+    .store__body .grid__column-10 {
+        width: 100%;
+    }
+
+    .product-info .product-price {
+        display: block;
+    }
+
+    .product-info .product--unitPrice {
+        font-weight: 600;
+        padding: 2px 0;
+    }
+
+    .product--currentPrice {
+        position: relative
+    }
+
+
+
+    .mobile-searchForm {
+        display: block;
+    }
+
+    #mobile-searchInput {
+        display: block;
+        width: 100%;
+        padding: .375rem 1.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+    }
+
+    .category-list {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        margin-left: 0;
+    }
+
+    .openbtn {
+        display: block;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #111;
+        color: white;
+        padding: 10px 15px;
+        width: 100%;
+        border: none;
+    }
+
+    .category-list a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+        .category-list a:hover {
+            color: #f1f1f1;
+        }
+
+    .category-list .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    .openbtn:hover {
+        background-color: #444;
+    }
+
+    .release__content .imgbox {
+        display: block;
+        width: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .release__thumb li img {
+        max-width: 80px;
+    }
 }
 
 
@@ -125,7 +307,12 @@
     #products li {
         flex-basis: 50%;
     }
-
+    #about .about__container{
+        z-index: 1;
+    }
+    #about ul.social_media {
+        z-index: 0;
+    }
     /*=========================== STORE ==============================*/
     .home-filter {
         display: flex;
