@@ -374,7 +374,6 @@ ul.social_media {
     bottom: 20%;
     margin: 0 auto;
     padding: 10px;
-    z-index: 0;
 }
 
     ul.social_media li {
@@ -477,7 +476,6 @@ ul.social_media {
     overflow: hidden;
     padding: 50px;
     background-color: #f5f5f5;
-    z-index: 1;
 }
 
 #slide {
