@@ -154,18 +154,7 @@ namespace Boutique.Controllers
                 order.Status = "Chưa giao hàng";
                 order.PaymentId = orderModel.PaymentId;
                 order.Address = model.Address;
-                double totalPrice = TongTien();
-                Promotion codeKM = _db.Promotions.SingleOrDefault(m => m.promotion_name == promoCode && m.end_date > DateTime.Now);
-                if (codeKM == null)
-                {
-                    order.TotalPrice =  totalPrice;
-                }
-                else
-                {
-                    order.TotalPrice = totalPrice;
-                    double var = ((double)((double)TongTien() * (double)codeKM.discount_percentage)) / 100;
-                    order.TotalPrice -= var;
-                }
+                order.TotalPrice = orderPrice(promoCode);                
                 order.TotalQuantity = totalQuantity();
                 order.Note = orderModel.Note;
                 _db.Orders.Add(order);
@@ -218,9 +207,19 @@ namespace Boutique.Controllers
                     return kh.Id;
                 }
         }
-
-        public ActionResult confirmOrder(int? Id)
-        {
+        
+        public double orderPrice(string promoCode){
+                double totalPrice = TongTien();
+                Promotion codeKM = _db.Promotions.SingleOrDefault(m => 
+                m.promotion_name == promoCode && m.end_date > DateTime.Now);
+                if (codeKM != null){
+                    double var = ((double)(totalPrice * (double)codeKM.discount_percentage)) / 100;
+                    totalPrice -= var;
+                }    
+                return totalPrice;                
+        }
+        // Xác nhận đơn hàng
+        public ActionResult confirmOrder(int? Id){
             if (Session["OrderConfirmed"] == null || (bool)Session["OrderConfirmed"] == false)
             {
                 return RedirectToAction("Index");
@@ -238,22 +237,19 @@ namespace Boutique.Controllers
             return View(order);
         }
         // Mail
-        public void sendPass(Order order)
-
-        {
+        public void sendPass(Order order){
             var orderDetail = _db.OrderDetails.Where(p => p.OrderId == order.Id).ToList();
             StringBuilder htmlBuilder = new StringBuilder();
-            foreach (var item in orderDetail)
-            {
-                htmlBuilder.AppendLine(item.Stock.Product.Name + "-" + item.Stock.Color.Name + "-" + item.Stock.Size.Name + " x" + item.Quantity + "</p>\n" + "</br>");
+            foreach (var item in orderDetail){
+                htmlBuilder.AppendLine(item.Stock.Product.Name 
+                + "-" + item.Stock.Color.Name 
+                + "-" + item.Stock.Size.Name 
+                + " x" + item.Quantity 
+                + "</p>\n" + "</br>");
             }
-
             MailAddress fromAddress = new MailAddress("nhancmvn12@gmail.com", "Nhân Boutique");
-
             MailAddress toAddress = new MailAddress("nhancmvn12@gmail.com");
-
             const string fromPassword = "jznrdhzrgpnsxswp";
-
             string subject = "Đơn hàng mới #" + order.Id.ToString();
             string body = @"
             <!DOCTYPE html>
@@ -341,7 +337,6 @@ namespace Boutique.Controllers
                 string hashSecret = ConfigurationManager.AppSettings["HashSecret"]; //Chuỗi bí mật
                 var vnpayData = Request.QueryString;
                 PayLib pay = new PayLib();
-
                 //lấy toàn bộ dữ liệu được trả về
                 foreach (string s in vnpayData)
                 {
@@ -351,7 +346,6 @@ namespace Boutique.Controllers
                     }
                 }
                 long orderId = Convert.ToInt64(pay.GetResponseData("vnp_TxnRef")); //mã hóa đơn
-
                 long vnpayTranId = Convert.ToInt64(pay.GetResponseData("vnp_TransactionNo")); //mã giao dịch tại hệ thống VNPAY
                 string vnp_ResponseCode = pay.GetResponseData("vnp_ResponseCode"); //response code: 00 - thành công, khác 00 - xem thêm https://sandbox.vnpayment.vn/apis/docs/bang-ma-loi/
                 string vnp_SecureHash = Request.QueryString["vnp_SecureHash"]; //hash của dữ liệu trả về
@@ -363,7 +357,6 @@ namespace Boutique.Controllers
                     if (vnp_ResponseCode == "00")
                     {
                         //Thanh toán thành công
-                        Session["Cart"] = null;
                         ViewBag.Message = "Thanh toán thành công hóa đơn " + order.Id.ToString() + " | Mã giao dịch: " + vnpayTranId;
                     }
                     else
