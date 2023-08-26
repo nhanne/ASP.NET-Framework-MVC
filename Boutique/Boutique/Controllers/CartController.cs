@@ -1,4 +1,4 @@
-﻿using Boutique.Models;
+using Boutique.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace Boutique.Controllers
 {
     public class CartController  : Controller 
     {
-        BoutiqueEntities _db = new BoutiqueEntities();
+        private BoutiqueEntities _db = new BoutiqueEntities();
         // GET: Cart
         public ActionResult Index()
         {
@@ -126,7 +126,7 @@ namespace Boutique.Controllers
             var item = _db.Promotions.SingleOrDefault(i => i.promotion_name.Equals(Code) && i.end_date > now);
             return Json(new { data = item }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult CheckOut(string promo_code)
+        public ActionResult CheckOut()
         {
             List<Cart> listCart = getCart();
             if (Session["Cart"] == null || listCart.Count == 0)
