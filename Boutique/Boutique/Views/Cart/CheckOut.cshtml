@@ -1,4 +1,4 @@
-﻿@model Boutique.Models.Customer
+@model Boutique.Models.Customer
 @{
     ViewBag.title = "Đặt hàng";
     Layout = "~/Views/Shared/Layout/cart_Layout.cshtml";
@@ -251,6 +251,7 @@
             TotalPrice: totalPrice,
             PaymentId: payment,
             Note: note,
+						Address: diachi,
         };
         if(Validate()){
             $.ajax({
