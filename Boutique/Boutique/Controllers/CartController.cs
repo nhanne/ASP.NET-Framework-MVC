@@ -143,41 +143,20 @@ namespace Boutique.Controllers
         }
         [HttpPost]
         public ActionResult CheckOut(Customer model, Order orderModel, string promoCode)
-        {
-                var products = _db.Products.ToList();
-                var now = DateTime.Now;
+        {                            
                 Order order = new Order();
                 order.CustomerId = CustomerId(model);
-                order.OrdTime = now;
+                order.OrdTime = DateTime.Now;
                 order.DeliTime = order.OrdTime.Value.AddDays(3);
                 order.Status = "Chưa giao hàng";
                 order.PaymentId = orderModel.PaymentId;
-                order.Address = model.Address;
-                order.TotalPrice = orderPrice(promoCode);                
-                order.TotalQuantity = totalQuantity();
+                order.Address = orderModel.Address;
                 order.Note = orderModel.Note;
+                order.TotalPrice = orderPrice(promoCode);                
+                order.TotalQuantity = totalQuantity();                
                 _db.Orders.Add(order);
                 _db.SaveChanges();
-                List<Cart> listCart = getCart();
-                foreach (var item in listCart)
-                {
-                    OrderDetail detailOrd = new OrderDetail();
-                    detailOrd.OrderId = order.Id;
-                    detailOrd.StockId = item.IdStock;
-                    detailOrd.Quantity = item.Quantity;
-                    detailOrd.unitPrice = item.unitPrice*item.Quantity;
-                    _db.OrderDetails.Add(detailOrd);
-                    Product product = _db.Products.SingleOrDefault(p => 
-                    p.Id == item.IdProduct);
-                    product.Sold++;
-                    Stock stock = _db.Stocks.SingleOrDefault(s => 
-                    s.ProductId == item.IdProduct 
-                    && s.ColorId == item.IdColor 
-                    && s.SizeId == item.IdSize);
-                    stock.Stock1--;
-                    _db.Entry(stock).State = EntityState.Modified;
-                    _db.SaveChanges();
-                }
+                orderDetail(order.Id);                
                 Session["OrderConfirmed"] = true;
                 switch (orderModel.PaymentId)
                 {
@@ -223,6 +202,30 @@ namespace Boutique.Controllers
                     totalPrice -= var;
                 }    
                 return totalPrice;                
+        }
+
+        public void orderDetail(int orderId)
+        {
+                List<Cart> listCart = getCart();
+                foreach (var item in listCart)
+                {
+                    OrderDetail detailOrd = new OrderDetail();
+                    detailOrd.OrderId = order.Id;
+                    detailOrd.StockId = item.IdStock;
+                    detailOrd.Quantity = item.Quantity;
+                    detailOrd.unitPrice = item.unitPrice*item.Quantity;
+                    _db.OrderDetails.Add(detailOrd);
+                    Product product = _db.Products.SingleOrDefault(p => 
+                    p.Id == item.IdProduct);
+                    product.Sold++;
+                    Stock stock = _db.Stocks.SingleOrDefault(s => 
+                    s.ProductId == item.IdProduct 
+                    && s.ColorId == item.IdColor 
+                    && s.SizeId == item.IdSize);
+                    stock.Stock1--;
+                    _db.Entry(stock).State = EntityState.Modified;
+                    _db.SaveChanges();
+                }
         }
         // Xác nhận đơn hàng
         public ActionResult confirmOrder(int? Id)
