@@ -188,7 +188,8 @@ namespace Boutique.Controllers
             return Json(new { something = "Có lỗi xảy ra" });
         }
 
-        public int CustomerId(Customer model){
+        public int CustomerId(Customer model)
+        {
                if (model.Id != 0)
                 {
                     return model.Id;
@@ -208,18 +209,21 @@ namespace Boutique.Controllers
                 }
         }
         
-        public double orderPrice(string promoCode){
+        public double orderPrice(string promoCode)
+        {
                 double totalPrice = TongTien();
                 Promotion codeKM = _db.Promotions.SingleOrDefault(m => 
                 m.promotion_name == promoCode && m.end_date > DateTime.Now);
-                if (codeKM != null){
+                if (codeKM != null)
+                {
                     double var = ((double)(totalPrice * (double)codeKM.discount_percentage)) / 100;
                     totalPrice -= var;
                 }    
                 return totalPrice;                
         }
         // Xác nhận đơn hàng
-        public ActionResult confirmOrder(int? Id){
+        public ActionResult confirmOrder(int? Id)
+        {
             if (Session["OrderConfirmed"] == null || (bool)Session["OrderConfirmed"] == false)
             {
                 return RedirectToAction("Index");
@@ -237,10 +241,12 @@ namespace Boutique.Controllers
             return View(order);
         }
         // Mail
-        public void sendPass(Order order){
+        public void sendPass(Order order)
+        {
             var orderDetail = _db.OrderDetails.Where(p => p.OrderId == order.Id).ToList();
             StringBuilder htmlBuilder = new StringBuilder();
-            foreach (var item in orderDetail){
+            foreach (var item in orderDetail)
+            {
                 htmlBuilder.AppendLine(item.Stock.Product.Name 
                 + "-" + item.Stock.Color.Name 
                 + "-" + item.Stock.Size.Name 
