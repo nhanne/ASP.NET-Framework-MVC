@@ -144,27 +144,11 @@ namespace Boutique.Controllers
         [HttpPost]
         public ActionResult CheckOut(Customer model, Order orderModel, string promoCode)
         {
-            getCart();
-            var products = _db.Products.ToList();
-            var now = DateTime.Now;
+                getCart();
+                var products = _db.Products.ToList();
+                var now = DateTime.Now;
                 Order order = new Order();
-                if (model.Id != 0)
-                {
-                    order.CustomerId = model.Id;
-                }
-                else
-                {
-                    Customer kh = new Customer();
-                    kh.Password = "Nhan123?";
-                    kh.FullName = model.FullName;
-                    kh.Phone = model.Phone;
-                    kh.Email = model.Email;
-                    kh.Address = model.Address;
-                    kh.Member = false;
-                    _db.Customers.Add(kh);
-                    _db.SaveChanges();
-                    order.CustomerId = kh.Id;
-                }
+                order.CustomerId = CustomerId(model);
                 order.OrdTime = now;
                 order.DeliTime = order.OrdTime.Value.AddDays(3);
                 order.Status = "Chưa giao hàng";
@@ -214,6 +198,27 @@ namespace Boutique.Controllers
                 }
             return Json(new { something = "Có lỗi xảy ra" });
         }
+
+        public int CustomerId(Customer model){
+               if (model.Id != 0)
+                {
+                    return model.Id;
+                }
+                else
+                {
+                    Customer kh = new Customer();
+                    kh.Password = "Nhan123?";
+                    kh.FullName = model.FullName;
+                    kh.Phone = model.Phone;
+                    kh.Email = model.Email;
+                    kh.Address = model.Address;
+                    kh.Member = false;
+                    _db.Customers.Add(kh);
+                    _db.SaveChanges();
+                    return kh.Id;
+                }
+        }
+
         public ActionResult confirmOrder(int? Id)
         {
             if (Session["OrderConfirmed"] == null || (bool)Session["OrderConfirmed"] == false)
@@ -326,10 +331,7 @@ namespace Boutique.Controllers
             pay.AddRequestData("vnp_ReturnUrl", returnUrl); //URL thông báo kết quả giao dịch khi Khách hàng kết thúc thanh toán
             pay.AddRequestData("vnp_TxnRef", orderId.ToString());  //mã hóa đơn
             //pay.AddRequestData("vnp_payment", order.Payment.ToString()); //mã hóa đơn
-
-
             string paymentUrl = pay.CreateRequestUrl(url, hashSecret);
-
             return Redirect(paymentUrl);
         }
         public ActionResult PaymentConfirm()
@@ -438,7 +440,6 @@ namespace Boutique.Controllers
             };
 
             string responseFromMomo = PaymentRequest.sendPaymentRequest(endpoint, message.ToString());
-
             JObject jmessage = JObject.Parse(responseFromMomo);
 
             return Redirect(jmessage.GetValue("payUrl").ToString());
@@ -462,7 +463,6 @@ namespace Boutique.Controllers
                 return RedirectToAction("confirmOrder");
             }
         }
-
         [HttpPost]
         public void SavePayment()
         {
