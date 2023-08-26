@@ -144,7 +144,6 @@ namespace Boutique.Controllers
         [HttpPost]
         public ActionResult CheckOut(Customer model, Order orderModel, string promoCode)
         {
-                getCart();
                 var products = _db.Products.ToList();
                 var now = DateTime.Now;
                 Order order = new Order();
@@ -168,9 +167,13 @@ namespace Boutique.Controllers
                     detailOrd.Quantity = item.Quantity;
                     detailOrd.unitPrice = item.unitPrice*item.Quantity;
                     _db.OrderDetails.Add(detailOrd);
-                    Product product = _db.Products.SingleOrDefault(p => p.Id == item.IdProduct);
+                    Product product = _db.Products.SingleOrDefault(p => 
+                    p.Id == item.IdProduct);
                     product.Sold++;
-                    Stock stock = _db.Stocks.SingleOrDefault(s => s.ProductId == item.IdProduct && s.ColorId == item.IdColor && s.SizeId == item.IdSize);
+                    Stock stock = _db.Stocks.SingleOrDefault(s => 
+                    s.ProductId == item.IdProduct 
+                    && s.ColorId == item.IdColor 
+                    && s.SizeId == item.IdSize);
                     stock.Stock1--;
                     _db.Entry(stock).State = EntityState.Modified;
                     _db.SaveChanges();
