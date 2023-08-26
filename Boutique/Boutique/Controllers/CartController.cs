@@ -144,19 +144,13 @@ namespace Boutique.Controllers
         [HttpPost]
         public ActionResult CheckOut(Customer model, Order orderModel, string promoCode)
         {                            
-                Order order = new Order();
+                Order order = new Order();               
+                info_Order(order, orderModel);
                 order.CustomerId = CustomerId(model);
-                order.OrdTime = DateTime.Now;
-                order.DeliTime = order.OrdTime.Value.AddDays(3);
-                order.Status = "Chưa giao hàng";
-                order.PaymentId = orderModel.PaymentId;
-                order.Address = orderModel.Address;
-                order.Note = orderModel.Note;
-                order.TotalPrice = orderPrice(promoCode);                
-                order.TotalQuantity = totalQuantity();                
+                order.TotalPrice = orderPrice(promoCode);                                         
                 _db.Orders.Add(order);
                 _db.SaveChanges();
-                orderDetail(order.Id);                
+                info_Detail(order.Id);                
                 Session["OrderConfirmed"] = true;
                 switch (orderModel.PaymentId)
                 {
@@ -167,7 +161,7 @@ namespace Boutique.Controllers
                     case 3:
                     return Json(new { redirectToUrl = Url.Action("confirmOrder", new { Id = order.Id }) });
                 }
-            return Json(new { something = "Có lỗi xảy ra" });
+                return Json(new { something = "Có lỗi xảy ra" });
         }
 
         public int CustomerId(Customer model)
@@ -203,8 +197,19 @@ namespace Boutique.Controllers
                 }    
                 return totalPrice;                
         }
+        
+        public void info_Order(Order order, Order orderModel)
+        {
+                order.OrdTime = DateTime.Now;
+                order.DeliTime = order.OrdTime.Value.AddDays(3);
+                order.Status = "Chưa giao hàng";
+                order.PaymentId = orderModel.PaymentId;
+                order.Address = orderModel.Address;
+                order.Note = orderModel.Note;
+                order.TotalQuantity = totalQuantity();       
+        }
 
-        public void orderDetail(int orderId)
+        public void info_Detail(int orderId)
         {
                 List<Cart> listCart = getCart();
                 foreach (var item in listCart)
