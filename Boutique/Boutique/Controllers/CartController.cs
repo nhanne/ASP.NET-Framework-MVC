@@ -215,7 +215,7 @@ namespace Boutique.Controllers
                 foreach (var item in listCart)
                 {
                     OrderDetail detailOrd = new OrderDetail();
-                    detailOrd.OrderId = order.Id;
+                    detailOrd.OrderId = orderId;
                     detailOrd.StockId = item.IdStock;
                     detailOrd.Quantity = item.Quantity;
                     detailOrd.unitPrice = item.unitPrice*item.Quantity;
