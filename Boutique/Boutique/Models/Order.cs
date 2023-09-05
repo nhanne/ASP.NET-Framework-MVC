@@ -35,7 +35,6 @@ namespace Boutique.Models
         public virtual Customer Customer { get; set; }
         public virtual Staff Staff { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual Payment Payment { get; set; }
     }
