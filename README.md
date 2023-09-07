@@ -1,1 +1,5 @@
-This project uses an architectural pattern: framework ASP.NET MVC, model mapping databases from SQL Server with a modern ORM, which is Entity Framework, UX/UI designed by Figma, and done with HTML, CSS, and Bootstrap. Utilize programming languages such as C# OOP to retrieve and handle data by LINQ-to-entities or entity-SQL, then return ViewResult or JsonResult on functions such as CRUD (Restful APIs). Call AJAX JQuery after using JavaScripts DOM to request the server for some functions that don’t require reloading the page. In addition, there is an integrated SignalR for real-time communication between the client and server. Write APIs from Momo and VnPay for the online payment.
+### Clothing Store
+Dự án shop bán quần áo online được thực hiện bởi Trần Thanh Nhân sử dụng công nghệ ASP.NET Framework MVC, sử dụng cơ sở dữ liệu MSSQL để lưu trữ thông tin về sản phẩm, cửa hàng, khách hàng và dựa trên ORM Entity Framework để kết nối database đến ứng dụng.
+
+**Technology:** C#, HTML, CSS, JavaScript, Jquery, JSON, AJAX, MSSQL, LinQ, Entity Framework 6,
+Bootstrap, SignalR, RESTFul API, Web APIs, Git
