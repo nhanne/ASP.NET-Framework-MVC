@@ -23,9 +23,9 @@
             </div>
         </div>
         <ul class="release__thumb">
-            <li><img src="~/Images/sp/model.png" onclick="imgSlider('/Images/sp/model.png');changeCircle('rgb(101 104 99)')"></li>
-            <li><img src="~/Images/sp/model2.png" onclick="imgSlider('/Images/sp/model2.png');changeCircle('#968f8f')"></li>
-            <li><img src="~/Images/sp/model3.png" onclick="imgSlider('/Images/sp/model3.png');changeCircle('rgb(132 180 202)')"></li>
+            <li><img src="~/Images/sp/model.png"></li>
+            <li><img src="~/Images/sp/model2.png"></li>
+            <li><img src="~/Images/sp/model3.png"></li>
         </ul>
     </div>
 
@@ -199,6 +199,17 @@
 <script src="https://sp.zalo.me/plugins/sdk.js"></script>
 
 <script>
+    var imgSliders = document.querySelectorAll('.release__thumb li img');
+    var colors = ['rgb(101 104 99)', '#968f8f', 'rgb(132 180 202)'];
+    for (var i = 0; i < imgSliders.length; ++i) {
+        (function (index) { // Sử dụng closure để lưu trữ giá trị của i
+            imgSliders[index].onclick = function (e) {
+                imgSlider(e.target.src);
+                changeCircle(colors[index]);
+            }
+        })(i); // Truyền giá trị của i vào hàm closure
+    }
+
     function imgSlider(anything) {
         document.querySelector('.fashion').src = anything;
     }

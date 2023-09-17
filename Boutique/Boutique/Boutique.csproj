@@ -602,6 +602,7 @@
     <Content Include="Scripts\Jquery\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\Jquery\jquery-3.7.0.min.map" />
     <Content Include="Scripts\Jquery\modernizr-2.8.3.js" />
+    <Content Include="Scripts\MyJS\store.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
