@@ -11,10 +11,11 @@ using System.Text;
 using System.Web.Mvc;
 using Microsoft.AspNet.SignalR;
 using Boutique.Models.Hubs;
+using Boutique.Patterns.Strategy;
 
 namespace Boutique.Controllers
 {
-    public class CartController  : Controller 
+    public class CartController : Controller
     {
         private BoutiqueEntities _db = new BoutiqueEntities();
         // GET: Cart
@@ -84,11 +85,8 @@ namespace Boutique.Controllers
         //Xóa sản phẩm khỏi giỏ hàng
         public ActionResult deletefromCart(int IdProduct, int IdColor, int IdSize)
         {
-            // Lấy giỏ hàng từ session
             List<Cart> listCart = getCart();
-            // Kiểm tra sản phẩm có trong giỏ hàng hay không
             Cart product = listCart.SingleOrDefault(n => n.IdProduct == IdProduct && n.IdColor == IdColor && n.IdSize == IdSize);
-            //nếu tồn tại thì sửa số lượng
             if (product != null)
             {
                 listCart.RemoveAll(n => n.IdProduct == IdProduct && n.IdColor == IdColor && n.IdSize == IdSize);
@@ -143,94 +141,100 @@ namespace Boutique.Controllers
         }
         [HttpPost]
         public ActionResult CheckOut(Customer model, Order orderModel, string promoCode)
-        {                            
-                Order order = new Order();               
-                info_Order(order, orderModel);
-                order.CustomerId = CustomerId(model);
-                order.TotalPrice = orderPrice(promoCode);                                         
-                _db.Orders.Add(order);
-                _db.SaveChanges();
-                info_Detail(order.Id);                
-                Session["OrderConfirmed"] = true;
-                switch (orderModel.PaymentId)
-                {
-                    case 1:
+        {
+            Order order = new Order();
+            info_Order(order, orderModel);
+            order.CustomerId = CustomerId(model);
+            order.TotalPrice = orderPrice(promoCode);
+            _db.Orders.Add(order);
+            _db.SaveChanges();
+            info_Detail(order.Id);
+            Session["OrderConfirmed"] = true;
+            switch (orderModel.PaymentId)
+            {
+                case 1:
                     return Json(new { redirectToUrl = Url.Action("PaymentMomo", new { Id = order.Id }) });
-                    case 2:
+                case 2:
                     return Json(new { redirectToUrl = Url.Action("Payment", new { orderId = order.Id }) });
-                    case 3:
+                case 3:
                     return Json(new { redirectToUrl = Url.Action("confirmOrder", new { Id = order.Id }) });
-                }
-                return Json(new { something = "Có lỗi xảy ra" });
+            }
+            return Json(new { something = "Có lỗi xảy ra" });
         }
 
         public int CustomerId(Customer model)
         {
-               if (model.Id != 0)
-                {
-                    return model.Id;
-                }
-                else
-                {
-                    Customer kh = new Customer();
-                    kh.Password = "Nhan123?";
-                    kh.FullName = model.FullName;
-                    kh.Phone = model.Phone;
-                    kh.Email = model.Email;
-                    kh.Address = model.Address;
-                    kh.Member = false;
-                    _db.Customers.Add(kh);
-                    _db.SaveChanges();
-                    return kh.Id;
-                }
+            if (model.Id != 0)
+            {
+                return model.Id;
+            }
+
+            Customer kh = new Customer();
+            kh.Password = "Nhan123?";
+            kh.FullName = model.FullName;
+            kh.Phone = model.Phone;
+            kh.Email = model.Email;
+            kh.Address = model.Address;
+            kh.Member = false;
+            _db.Customers.Add(kh);
+            _db.SaveChanges();
+            return kh.Id;
         }
-        
+
         public double orderPrice(string promoCode)
         {
-                double totalPrice = TongTien();
-                Promotion codeKM = _db.Promotions.SingleOrDefault(m => 
-                m.promotion_name == promoCode && m.end_date > DateTime.Now);
-                if (codeKM != null)
-                {
-                    double var = ((double)(totalPrice * (double)codeKM.discount_percentage)) / 100;
-                    totalPrice -= var;
-                }    
-                return totalPrice;                
+            double totalPrice = TongTien();
+
+            DateTime now = DateTime.Now;
+            Promotion codeKM = _db.Promotions.SingleOrDefault(m =>
+                                  m.promotion_name == promoCode && 
+                                  m.end_date > now);
+
+            double percent = (codeKM != null) ? 
+            (double)codeKM.discount_percentage :
+            100;
+
+            var CustomerBill = (now.Month == 10) ? 
+                new CustomerBill(new HappyMonthStrategy()) : 
+                new CustomerBill(new NormalStrategy());
+
+            if(now.Hour == 19) CustomerBill = new CustomerBill(new HappyHourStrategy());
+            return CustomerBill.LastPrice(totalPrice, percent);
         }
-        
+
         public void info_Order(Order order, Order orderModel)
         {
-                order.OrdTime = DateTime.Now;
-                order.DeliTime = order.OrdTime.Value.AddDays(3);
-                order.Status = "Chưa giao hàng";
-                order.PaymentId = orderModel.PaymentId;
-                order.Address = orderModel.Address;
-                order.Note = orderModel.Note;
-                order.TotalQuantity = totalQuantity();       
+            order.OrdTime = DateTime.Now;
+            order.DeliTime = order.OrdTime.Value.AddDays(3);
+            order.Status = "Chưa giao hàng";
+            order.PaymentId = orderModel.PaymentId;
+            order.Address = orderModel.Address;
+            order.Note = orderModel.Note;
+            order.TotalQuantity = totalQuantity();
         }
 
         public void info_Detail(int orderId)
         {
-                List<Cart> listCart = getCart();
-                foreach (var item in listCart)
-                {
-                    OrderDetail detailOrd = new OrderDetail();
-                    detailOrd.OrderId = orderId;
-                    detailOrd.StockId = item.IdStock;
-                    detailOrd.Quantity = item.Quantity;
-                    detailOrd.unitPrice = item.unitPrice*item.Quantity;
-                    _db.OrderDetails.Add(detailOrd);
-                    Product product = _db.Products.SingleOrDefault(p => 
-                    p.Id == item.IdProduct);
-                    product.Sold++;
-                    Stock stock = _db.Stocks.SingleOrDefault(s => 
-                    s.ProductId == item.IdProduct 
-                    && s.ColorId == item.IdColor 
-                    && s.SizeId == item.IdSize);
-                    stock.Stock1--;
-                    _db.Entry(stock).State = EntityState.Modified;
-                    _db.SaveChanges();
-                }
+            List<Cart> listCart = getCart();
+            foreach (var item in listCart)
+            {
+                OrderDetail detailOrd = new OrderDetail();
+                detailOrd.OrderId = orderId;
+                detailOrd.StockId = item.IdStock;
+                detailOrd.Quantity = item.Quantity;
+                detailOrd.unitPrice = item.unitPrice * item.Quantity;
+                _db.OrderDetails.Add(detailOrd);
+                Product product = _db.Products.SingleOrDefault(p =>
+                p.Id == item.IdProduct);
+                product.Sold++;
+                Stock stock = _db.Stocks.SingleOrDefault(s =>
+                s.ProductId == item.IdProduct
+                && s.ColorId == item.IdColor
+                && s.SizeId == item.IdSize);
+                stock.Stock1--;
+                _db.Entry(stock).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
         }
         // Xác nhận đơn hàng
         public ActionResult confirmOrder(int? Id)
@@ -244,7 +248,7 @@ namespace Boutique.Controllers
             {
                 return RedirectToAction("Index");
             }
-            sendPass(order);
+            //sendPass(order);
             Session["OrderConfirmed"] = false;
             Session["Cart"] = null;
             var ordDetail = _db.OrderDetails.ToList();
@@ -258,10 +262,10 @@ namespace Boutique.Controllers
             StringBuilder htmlBuilder = new StringBuilder();
             foreach (var item in orderDetail)
             {
-                htmlBuilder.AppendLine(item.Stock.Product.Name 
-                + "-" + item.Stock.Color.Name 
-                + "-" + item.Stock.Size.Name 
-                + " x" + item.Quantity 
+                htmlBuilder.AppendLine(item.Stock.Product.Name
+                + "-" + item.Stock.Color.Name
+                + "-" + item.Stock.Size.Name
+                + " x" + item.Quantity
                 + "</p>\n" + "</br>");
             }
             MailAddress fromAddress = new MailAddress("nhancmvn12@gmail.com", "Nhân Boutique");
@@ -464,7 +468,7 @@ namespace Boutique.Controllers
             string rMessage = result.message;
             string rOrderId = result.orderId;
             string rErrorCode = result.errorCode; // = 0: thanh toán thành công
-            if(rErrorCode == "0")
+            if (rErrorCode == "0")
             {
                 return RedirectToAction("confirmOrder", new { Id = int.Parse(result.orderId) });
             }
@@ -477,7 +481,7 @@ namespace Boutique.Controllers
         public void SavePayment()
         {
             //cập nhật dữ liệu vào db
-            String a = "";
+            
         }
     }
 }
