@@ -251,9 +251,9 @@
             TotalPrice: totalPrice,
             PaymentId: payment,
             Note: note,
-						Address: diachi,
+            Address: diachi,
         };
-        if(Validate()){
+        if (Validate()) {
             $.ajax({
                 url: '/Cart/CheckOut',
                 type: 'POST',

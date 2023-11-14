@@ -9,8 +9,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web.Mvc;
-using Microsoft.AspNet.SignalR;
-using Boutique.Models.Hubs;
 using Boutique.Patterns.Strategy;
 
 namespace Boutique.Controllers
@@ -411,8 +409,8 @@ namespace Boutique.Controllers
             string accessKey = "iPXneGmrJH0G8FOP";
             string serectkey = "sFcbSGRSJjwGxwhhcEktCHWYUuTuPNDB";
             string orderInfo = "Thanh toán đơn hàng từ Nhân Boutique";
-            string returnUrl = "http://thanhnhan-001-site1.atempurl.com/Cart/ConfirmPaymentClient/";
-            string notifyurl = "http://thanhnhan-001-site1.atempurl.com/Cart/ConfirmPaymentClient/"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
+            string returnUrl = "http://thanhnhanne-001-site1.atempurl.com/Cart/ConfirmPaymentClient/";
+            string notifyurl = "http://thanhnhanne-001-site1.atempurl.com/Cart/ConfirmPaymentClient/"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
             DateTime expirationTime = DateTime.Now.AddDays(1);
             Order order = _db.Orders.Find(Id);
             string orderId = order.Id.ToString(); //mã đơn hàng
