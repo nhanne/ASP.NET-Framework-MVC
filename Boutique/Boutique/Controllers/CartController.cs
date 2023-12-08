@@ -188,9 +188,7 @@ namespace Boutique.Controllers
                                   m.promotion_name == promoCode && 
                                   m.end_date > now);
 
-            double percent = (codeKM != null) ? 
-            (double)codeKM.discount_percentage :
-            100;
+            double percent = (codeKM != null) ? (double)codeKM.discount_percentage : 100;
 
             var CustomerBill = (now.Month == 10) ? 
                 new CustomerBill(new HappyMonthStrategy()) : 
@@ -453,8 +451,8 @@ namespace Boutique.Controllers
 
             string responseFromMomo = PaymentRequest.sendPaymentRequest(endpoint, message.ToString());
             JObject jmessage = JObject.Parse(responseFromMomo);
-
-            return Redirect(jmessage.GetValue("payUrl").ToString());
+            string momoUrl = jmessage.GetValue("payUrl").ToString();
+            return Redirect(momoUrl);
         }
 
         //Khi thanh toán xong ở cổng thanh toán Momo, Momo sẽ trả về một số thông tin, trong đó có errorCode để check thông tin thanh toán
